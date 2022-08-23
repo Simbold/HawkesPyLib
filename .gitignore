@@ -20,3 +20,6 @@ ipython_config.py
 .coverage
 htmlcov/
 .pytest_cache/
+
+# tox
+.tox/
