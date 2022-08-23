@@ -1,0 +1,10 @@
+[build-system]
+requires = ["setuptools>=61.2.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+addopts = "--cov=HawkesPyLib"
+testpaths = [
+    "tests",
+]
+

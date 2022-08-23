@@ -1,0 +1,22 @@
+# private testing folder
+_Testing/
+_old/
+
+# Caching / generated files
+__pycache__/
+
+# vscode stuff
+.vscode
+
+# Jupyter Notebook
+.ipynb_checkpoints
+.ipynb 
+
+# IPython
+profile_default/
+ipython_config.py
+
+# Unit Test
+.coverage
+htmlcov/
+.pytest_cache/
