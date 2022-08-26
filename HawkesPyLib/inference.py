@@ -179,21 +179,18 @@ class HawkesProcessEstimation():
 class ApproxPowlawHawkesProcessEstimation():
     """Class for inference of unvivariate Hawkes processes with approximate powerlaw memory kernel. The conditional intensity
     function for the kernel without cutoff is defined as:
-    .. math::
-        \lambda^*(t) = \mu + \sum_{t_i < t}  \dfrac{\\eta}{Z} \\bigg[ \sum_{k=0}^{M-1} \\alpha_k^{-(1+\\alpha)} \exp(-(t - t_i)/\\alpha_k) \\bigg],
-    where :math:`\mu` ("mu") is a constant background intensity, :math:`\\eta` ("eta")
-    is the branching ratio and :math:\\alpha_k = \\tau_0 m^k the k'th powerlaw weight. S and Z are scaling factors and computed automatically. 
-    M and m define the accuracy of the power-law approximation.
+    $$ \lambda(t) = \mu + \sum_{t_i < t}  \dfrac{\eta}{Z} \Bigg( \sum_{k=0}^{M-1} a_{k}^{-(1 + \\alpha)} e^{(-(t - t_i)/ a_{k})} \Bigg),$$
     The intensity for the kernel with cutoff is given by:
-        .. math::
-        \lambda^*(t) = \mu + \sum_{t_i < t}  \dfrac{\\eta}{Z} \\bigg[ \sum_{k=0}^{M-1} \\alpha_k^{-(1+\\alpha)} \exp(-(t - t_i)/\\alpha_k) - S \exp(-(t - t_i)/\\talpha_{-1}) \\bigg],
-   
+    $$ \lambda(t) = \mu + \sum_{t_i < t}  \dfrac{\eta}{Z} \Bigg( \sum_{k=0}^{M-1} a_{k}^{-(1 + \\alpha)} e^{(-(t - t_i)/ a_{k})} - S e^{(-(t - t_i)/ a_{-1})} \Bigg), $$
+    where `mu` " \( \mu \) " is the constant background intensity, `$\eta$` ("eta") is the branching ratio and $a_k = \tau_0 m^k$ is the k'th powerlaw weight.
+    S and Z are scaling factors and computed automatically. M and m define the accuracy of the power-law approximation.
+    
    The estimation is done by numerically maximizing the corresponding log-likelihood function.
 
    Attributes:
         success_flag (bool): True if process successfully estimated and the following attributes set.
-        mu (float): The estimated background intensity :math:`\mu`.
-        eta (float): The estimated branching ratio :math:`\\eta`.
+        mu (float): The estimated background intensity `$\mu$`.
+        eta (float): The estimated branching ratio `$\mu$`.
         alpha (float): The estimated power-law coeficient, influencing the decay speed.
         tau0 (float): The estimated kernel paramter influencing decay speed and the location of the cutoff
         logL (Float): The log-likelihood value of the estimated process

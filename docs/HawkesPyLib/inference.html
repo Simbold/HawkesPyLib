@@ -1,0 +1,2958 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>HawkesPyLib.inference API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML" integrity="sha256-kZafAc6mZvK3W3v1pHOcUix30OHQN6pU/NO2oFkqZVw=" crossorigin></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>HawkesPyLib.inference</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import numpy as np
+from scipy.optimize import fmin_l_bfgs_b
+import matplotlib.pyplot as plt
+from HawkesPyLib.num.logll import (uvhp_approx_powl_logL,
+                                    uvhp_approx_powl_cut_logL,
+                                    uvhp_expo_logL,
+                                    uvhp_expo_logL_grad,
+                                    uvhp_sum_expo_logL,
+                                    uvhp_sum_expo_logL_grad)
+from HawkesPyLib.num.comp import (uvhp_approx_powl_compensator,
+                                    uvhp_approx_powl_cut_compensator,
+                                    uvhp_expo_compensator,
+                                    uvhp_sum_expo_compensator)
+from HawkesPyLib.util import (OneOf,
+                FloatInExRange,
+                IntInExRange,
+                PositiveOrderedFloatNdarray)
+
+
+rng = np.random.default_rng()
+
+def uvhp_expo_mle(timestamps: np.ndarray, T: float, param_vec0: np.ndarray):
+    &#34;&#34;&#34; Minimizes the negative log-likelihood of a univariate Hawkes process with single normalised exponential kernel
+
+    Args:
+        timestamps (np.ndarray): 1 dimensional Array of timestamps. All timestamps must be positive and sorted in ascending order.
+        T (float): End time of the process. Must be equal or larger than the largest/last timestamps in &#39;timestamps&#39;
+        param_vec0 (np.ndarray): Array of initial parameter values for the optimization routine
+
+    Returns:
+        list: A list of values: list[0] optimal paramters, list[1] min function value, list[2] optim info 
+            (also see scipy.optimize.fmin_l_bfgs_b for more info) 
+    &#34;&#34;&#34;
+    bnds = [(1e-8, np.inf), (1e-8, 1.0), (1e-8, np.inf)]
+    opt_result = fmin_l_bfgs_b(func=uvhp_expo_logL, x0=param_vec0, fprime=uvhp_expo_logL_grad,
+                        args=(timestamps, T), approx_grad=False, bounds=bnds,
+                        m=10, factr=100, pgtol=1e-05, iprint=-1, maxfun=15000,
+                        maxiter=15000, disp=None, callback=None, maxls=20) 
+    return opt_result
+
+
+def uvhp_sum_expo_mle(timestamps: np.ndarray, T: float, P: int, param_vec0: np.ndarray):
+    &#34;&#34;&#34;Minimizes the negative log-likelihood of a univariate Hawkes process with sum of P exponential kernels&#34;
+
+    Args:
+        timestamps (np.ndarray): 1 dimensional Array of timestamps. All timestamps must be positive and sorted in ascending order.
+        T (float): End time of the process. Must be equal or larger than the largest/last timestamps in &#39;timestamps&#39;
+        P (int): Number of normalised exponential kernels that specify the Hawkes kernel
+        param_vec0 (np.ndarray): Array of initial parameter values for the optimization routine
+
+    Returns:
+        list: A list of values: list[0] optimal paramters, list[1] min function value, list[2] optim info 
+            (also see scipy.optimize.fmin_l_bfgs_b for more info) 
+    &#34;&#34;&#34;
+    bnds = [(1e-8, np.inf), (1e-8, 1)]
+    for k in range(0, P):
+        bnds.append((1e-8, np.inf))
+    opt_result = fmin_l_bfgs_b(func=uvhp_sum_expo_logL, x0=param_vec0, fprime=uvhp_sum_expo_logL_grad,
+                            args=(timestamps, T), approx_grad=False, bounds=bnds,
+                            m=10, factr=100, pgtol=1e-05, iprint=- 1, maxfun=15000,
+                            maxiter=15000, disp=None, callback=None, maxls=20)
+    return opt_result
+
+
+def uvhp_powlaw_mle(timestamps: np.ndarray, T: float, m: float, M: int, param_vec0: np.ndarray):
+    &#34;&#34;&#34;Minimizes the negative log-likelihood of a univariate Hawkes process with approximate power-law kernel without cutoff
+
+    Args:
+        timestamps (np.ndarray): 1 dimensional Array of timestamps. All timestamps must be positive and sorted in ascending order.
+        T (float): End time of the process. Must be equal or larger than the largest/last timestamps in &#39;timestamps&#39;
+        m (float): Fixed paramter of the Hawkes kernel. Specifies the approximation of the true power-law. Must be positive.
+        M (int): Fixed paramter of the Hawkes kernel. Specifies the approximation of the true power-law. Must be positive
+        param_vec0 (np.ndarray): Array of initial parameter values for the optimization routine
+
+    Returns:
+        list: A list of values: list[0] optimal paramters, list[1] min function value, list[2] optim info 
+            (also see scipy.optimize.fmin_l_bfgs_b for more info) 
+    &#34;&#34;&#34;
+    bnds = [(1e-8, np.inf), (1e-8, 1.0), (1e-8, 10), (1e-8, np.inf)]
+    opt_result = fmin_l_bfgs_b(func=uvhp_approx_powl_logL, x0=param_vec0, fprime=None,
+                            args=(timestamps, T, m, M), approx_grad=True, bounds=bnds,
+                            m=10, factr=100, epsilon=1e-07, pgtol=1e-05, iprint=- 1,
+                            maxfun=15000, maxiter=15000, disp=None, callback=None, maxls=20)
+    return opt_result
+
+
+def uvhp_powlaw_cut_mle(timestamps: np.ndarray, T: float, m: float, M: int, param_vec0: np.ndarray):
+    &#34;&#34;&#34; Minimizes the negative log-likelihood of a univariate Hawkes process with approximate power-law kernel with cutoff
+
+    Args:
+        timestamps (np.ndarray): 1 dimensional Array of timestamps. All timestamps must be positive and sorted in ascending order.
+        T (float): End time of the process. Must be equal or larger than the largest/last timestamps in &#39;timestamps&#39;
+        m (float): Fixed paramter of the Hawkes kernel. Specifies the approximation of the true power-law. Must be positive.
+        M (int): Fixed paramter of the Hawkes kernel. Specifies the approximation of the true power-law. Must be positive
+        param_vec0 (np.ndarray): Array of initial parameter values for the optimization routine
+
+    Returns:
+        list: A list of values: list[0] optimal paramters, list[1] min function value, list[2] optim info 
+            (also see scipy.optimize.fmin_l_bfgs_b for more info) 
+    &#34;&#34;&#34;
+    bnds = [(1e-8, np.inf), (1e-8, 1.0), (1e-8, 10), (1e-8, np.inf)]
+    opt_result = fmin_l_bfgs_b(func=uvhp_approx_powl_cut_logL, x0=param_vec0, fprime=None,
+                            args=(timestamps, T, m, M), approx_grad=True, bounds=bnds,
+                            m=10, factr=100, epsilon=1e-07, pgtol=1e-05, iprint=- 1,
+                            maxfun=15000, maxiter=15000, disp=None, callback=None, maxls=20)
+    return opt_result
+
+
+def compute_ic(logL_value: float, num_par: int) -&gt; tuple:
+    &#34;&#34;&#34; Computes AIC, BIC and HQ information criteria 
+
+    Args:
+        logL_value (float): The log-likelihood value of an estimated model
+        num_par (int): The number of free paramters in the estimated model
+
+    Returns:
+        tuple: aic, bic, hq
+    &#34;&#34;&#34;
+    aic = -2 * logL_value + 2 * num_par
+    bic = -2 * logL_value + num_par * np.log(num_par)
+    hq = -2 * logL_value + 2 * num_par * np.log(np.log(num_par))
+    return aic, bic, hq
+    
+
+def qq_plot(x: np.ndarray, F_inv) -&gt; np.ndarray:
+    &#34;&#34;&#34; Plots a QQ-plot
+
+    Args:
+        x (np.ndarray): Array of values for which to plot the QQ-plot
+        F_inv function: Quantile function of the theoretical distribution. Calls like: F_inv(x: np.ndarray)
+
+    Returns:
+        _type_: Plots the QQ-plot
+    &#34;&#34;&#34;
+    n = len(x)
+    x_sorted = np.flip(np.sort(x))
+    F_th = F_inv((n-np.arange(1, n+1)+1)/(n+1))  # np.linspace(n/(n+1), 1/(n+1), num= n)
+    plt.plot(F_th, x_sorted, &#39;ob&#39;)
+    plt.ylabel(&#34;empirical quantile&#34;)
+    plt.xlabel(&#34;theoretical quantile&#34;)
+
+    plt.plot(x_sorted, x_sorted)
+    plt.show()
+    return F_th
+
+
+def exp1_inv(x: np.ndarray) -&gt; float:
+    &#34;&#34;&#34; Quantile function of the unit exponential distribution
+
+    Args:
+        x (np.ndarray): array of in ascending order sorted values 
+
+    Returns:
+        np.ndarray: Quantile function evaluated at each value of x
+    &#34;&#34;&#34;
+    return -np.log(1-x)
+
+
+# TODO: add option to have log scale qq-plot
+def qq_plot_unit_exponential(inter_arrival_times: np.ndarray):
+    &#34;&#34;&#34; Convenience function to plot a QQ-plot for inter-arrival / duration times
+        If a sample of temporal point process is a realization of a unit Poisson process.
+        It&#39;s inter-arrival or also duration times are exponentially distributed.  
+
+    Args:
+        inter_arrival_times (np.ndarray): Array of inter-arrival times 
+
+    Returns:
+        Plot: Plots a QQ-plot
+    &#34;&#34;&#34;
+    qq_plot(inter_arrival_times, exp1_inv)
+    return None
+
+class HawkesProcessEstimation():
+    &#34;&#34;&#34;
+    Abstract Hawkes process estimation class defining method common to all estimation classes.
+    &#34;&#34;&#34;
+
+class ApproxPowlawHawkesProcessEstimation():
+    &#34;&#34;&#34;Class for inference of unvivariate Hawkes processes with approximate powerlaw memory kernel. The conditional intensity
+    function for the kernel without cutoff is defined as:
+    $$ \lambda(t) = \mu + \sum_{t_i &lt; t}  \dfrac{\eta}{Z} \Bigg( \sum_{k=0}^{M-1} a_{k}^{-(1 + \\alpha)} e^{(-(t - t_i)/ a_{k})} \Bigg),$$
+    The intensity for the kernel with cutoff is given by:
+    $$ \lambda(t) = \mu + \sum_{t_i &lt; t}  \dfrac{\eta}{Z} \Bigg( \sum_{k=0}^{M-1} a_{k}^{-(1 + \\alpha)} e^{(-(t - t_i)/ a_{k})} - S e^{(-(t - t_i)/ a_{-1})} \Bigg), $$
+    where `mu` &#34; \( \mu \) &#34; is the constant background intensity, `$\eta$` (&#34;eta&#34;) is the branching ratio and $a_k = \tau_0 m^k$ is the k&#39;th powerlaw weight.
+    S and Z are scaling factors and computed automatically. M and m define the accuracy of the power-law approximation.
+    
+   The estimation is done by numerically maximizing the corresponding log-likelihood function.
+
+   Attributes:
+        success_flag (bool): True if process successfully estimated and the following attributes set.
+        mu (float): The estimated background intensity `$\mu$`.
+        eta (float): The estimated branching ratio `$\mu$`.
+        alpha (float): The estimated power-law coeficient, influencing the decay speed.
+        tau0 (float): The estimated kernel paramter influencing decay speed and the location of the cutoff
+        logL (Float): The log-likelihood value of the estimated process
+    &#34;&#34;&#34;
+    _m = FloatInExRange(&#34;m&#34;, lower_bound=0)
+    _M = IntInExRange(&#34;M&#34;, lower_bound=0)
+    _kernel = OneOf(&#34;powlaw&#34;, &#34;powlaw-cutoff&#34;)
+    _grid_type = OneOf(&#34;random&#34;, &#34;equidistant&#34;, &#34;custom&#34;, &#34;no-grid&#34;)
+    _timestamps = PositiveOrderedFloatNdarray(&#34;timestamps&#34;)
+    _grid_size = IntInExRange(&#34;grid_size&#34;, lower_bound=0)
+
+    def __init__(self, kernel: str, m: float, M: int, rng=rng) -&gt; None:
+        &#34;&#34;&#34; Initlizes the ApproxPowlawHawkesProcessEstimation class
+
+        Args:
+            kernel (str): Must be one of: &#39;powlaw&#39;, &#39;powlaw-cutoff&#39;. Specifies the shape of the approximate power-law kernel
+            m (float): Specifies the approximation of the true power-law. Must be positive 
+            M (int): The number of weighted exponential kernels that specifies the approximation of the true power-law. Must be positive.
+            rng (optional): numpy numba generator. For reproducible results use: np.random.default_rng(seed)
+        &#34;&#34;&#34;
+        self._m = m
+        self._M = M
+        self._kernel = kernel
+        self._rng = rng
+        self.success_flag = False
+        self._num_par = 4
+
+    def _check_valid_T(self, T: float, min_value) -&gt; float:
+        &#34;&#34;&#34;Checks if input &#39;T&#39; is valid
+
+        Args:
+            T (float): End time of the process
+            min_value (float): The minimum value for the end time of the process. i.e. the largest/last timestamps in &#39;timestamps&#39;
+
+        Raises:
+            ValueError: If T is invalid
+
+        Returns:
+            float: process end time &#39;T&#39; 
+        &#34;&#34;&#34;
+        if (T &lt; min_value):
+            raise ValueError(f&#34;The process end time &#39;T&#39; must be a number larger or equal to the last value in the sorted array &#39;timestamps&#39;&#34;)
+        else:
+            return float(T)
+    
+    def aic(self) -&gt; float:
+        &#34;&#34;&#34;Returns the Akaike information criteria of the estimated model
+
+        Raises:
+            Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+        Returns:
+            float: The AIC value
+        &#34;&#34;&#34;
+        if self.success_flag == True:
+            return -2 * self.logL + 2 * self._num_par
+        else:
+            raise Exception(&#34;ERROR: Cannot compute AIC, model has not been succesfully estimated!&#34;)
+
+    def bic(self) -&gt; float:
+        &#34;&#34;&#34;Returns the Baysian information criteria of the estimated model
+
+        Raises:
+            Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+        Returns:
+            float: The BIC value
+        &#34;&#34;&#34;
+        if self.success_flag == True:
+            return -2 * self.logL + self._num_par * np.log(self._num_par)
+        else:
+            raise Exception(&#34;ERROR: Cannot compute BIC, model has not been succesfully estimated!&#34;)
+
+    def hq(self) -&gt; float:
+        &#34;&#34;&#34;Returns the Hannan-Quinn  information criteria of the estimated model
+
+        Raises:
+            Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+        Returns:
+            float: The HQ value
+        &#34;&#34;&#34;
+        if self.success_flag == True:
+            return -2 * self.logL + 2 * self._num_par * np.log(np.log(self._num_par))
+        else:
+            raise Exception(&#34;ERROR: Cannot compute HQ, model has not been succesfully estimated!&#34;)
+        
+    def estimate(self, timestamps: np.ndarray, T: float, max_attempts: int=5, custom_param_vec0: bool=False, **kwargs) -&gt; None: 
+        &#34;&#34;&#34; Method for estimating the Hawkes process parameters using maximum likelihood estimation.
+
+        Args:
+            timestamps (np.ndarray): 1d numpy array containing the timestamp observations. 
+                                     Must be sorted and only positive timestamps are allowed
+            T (float): The end time of the Hawkes process.
+            max_attempts (int, optional): If the optimization routine does not exit successfully. Number of times the optimization repeats with new starting values. Defaults to 5.
+            custom_param_vec0 (bool, optional): If custom initial values should be used. Defaults to False. 
+                                                If true you must supply an addtional variable &#39;custom_grid&#39; containing a npumpy array of correct dimensions and bound.
+        &#34;&#34;&#34;
+        self._timestamps = timestamps
+        self._T = self._check_valid_T(T, timestamps[-1])
+
+        succ_flag = None
+
+        if custom_param_vec0 == False:
+            attempt = 0
+            while (succ_flag != 0) &amp; (attempt &lt;= max_attempts):
+                attempt += 1
+                # TODO: Improve the standard starting values: eta0 using the model-free branching ratio estimator, alpha0/tau00 ????
+                eta0 = rng.uniform(1e-3, 0.999)
+                mu0 = len(timestamps) * (1 - eta0) / self._T
+                alpha0 = rng.uniform(1e-3, 3)
+                tau00 = rng.uniform(1e-7, 3)
+                param_vec0 = np.array([mu0, eta0, alpha0, tau00], dtype=np.float64)
+                
+                if self._kernel == &#34;powlaw&#34;:
+                    opt_result = uvhp_powlaw_mle(self._timestamps, self._T, self._m, self._M, param_vec0)
+                elif self._kernel == &#34;powlaw-cutoff&#34;:
+                    opt_result = uvhp_powlaw_cut_mle(self._timestamps, self._T, self._m, self._M, param_vec0)
+
+                succ_flag = opt_result[2][&#34;warnflag&#34;] # 0 if convergence, 1 if too many func evals or iters, 2 other reason see [&#34;task&#34;]
+        else:
+            if self._kernel == &#34;powlaw&#34;:
+                opt_result = uvhp_powlaw_mle(self._timestamps, self._T, self._m, self._M, kwargs.get(&#34;param_vec0&#34;))
+            elif self._kernel == &#34;powlaw-cutoff&#34;:
+                opt_result = uvhp_powlaw_cut_mle(self._timestamps, self._T, self._m, self._M, kwargs.get(&#34;param_vec0&#34;))
+            succ_flag = opt_result[2][&#34;warnflag&#34;]
+
+        self._opt_result = opt_result
+        self._grid_type = &#34;no-grid&#34;    
+        if succ_flag == 0:
+            self.success_flag = True
+            result_param_vec = opt_result[0]
+            self.logL = -opt_result[1]
+            self.mu, self.eta, self.alpha, self.tau0 = result_param_vec[0], result_param_vec[1], result_param_vec[2], result_param_vec[3]
+
+        else:
+            print(f&#34;WARNING: Optimization not successful: {opt_result[2][&#39;task&#39;]}&#34;)
+        
+        
+    def estimate_grid(self, timestamps: np.ndarray, T: float, grid_type: str, grid_size: int=20, **kwargs):
+        &#34;&#34;&#34; Method for performing multiple optimizations using different initial values
+            The estimated model is chosen to be the one with the largest log-likelihood value.
+
+        Args:
+            timestamps (np.ndarray): 1d numpy array containing the timestamp observations. 
+                                     Must be sorted and only positive timestamps are allowed
+            T (float): The end time of the Hawkes process.
+            grid_type (str): One of: (&#39;random&#39;) starting values for eta0 are chosen randomly.
+                                     (&#39;equidistant&#39;) starting values for eta0 are equidistant between 0 and 1
+                                     (&#39;custom&#39;) A custom eta0 grid of starting value is supplied to &#39;custom-grid&#39; variable
+            grid_size (int, optional): The number of optimizations from which the best model is chosen. Defaults to 20.
+        &#34;&#34;&#34;
+        self._timestamps = timestamps
+        T = self._check_valid_T(T, timestamps[-1])
+        self._grid_type = grid_type
+        self._grid_size = grid_size
+
+        if grid_type == &#34;random&#34;:
+            eta0_grid = rng.uniform(0.001, 0.999, grid_size)
+        elif grid_type == &#34;equidistant&#34;:
+            eta0_grid = np.linspace(0.001, 0.999, grid_size)
+        elif grid_type == &#34;custom&#34;:
+            eta0_grid = kwargs.get(&#34;custom_grid&#34;)
+        
+        # TODO: Allow parrallel optimization over the different starting values
+        opt_res_ls = [] 
+        logL_res_ls = []
+        for eta0 in eta0_grid:
+            mu0 = len(timestamps) * (1 - eta0) / T
+            alpha0 = rng.uniform(1e-3, 3)
+            tau00 = rng.uniform(1e-7, 3)
+            param_vec0 = np.array([mu0, eta0, alpha0, tau00], dtype=np.float64)
+            
+            if self._kernel == &#34;powlaw&#34;:
+                opt_result = uvhp_powlaw_mle(self._timestamps, T, self._m, self._M, param_vec0)
+            elif self._kernel == &#34;powlaw-cutoff&#34;:
+                opt_result = uvhp_powlaw_cut_mle(self._timestamps, T, self._m, self._M, param_vec0)
+
+            if opt_result[2][&#34;warnflag&#34;] == 0: # if optimization exits successfully: append result
+                opt_res_ls.append(opt_result)
+                logL_res_ls.append(-opt_result[1])
+
+        self._opt_result = opt_result   
+        if len(opt_res_ls) &gt; 0:
+            # choose model with largest logL
+            idx = logL_res_ls.index(max(logL_res_ls))
+            opt_result = opt_res_ls[idx]   
+        
+            self.success_flag = True
+            result_param_vec = opt_result[0]
+            self.logL = -opt_result[1]
+            self.mu, self.eta, self.alpha, self.tau0 = result_param_vec[0], result_param_vec[1], result_param_vec[2], result_param_vec[3]
+
+        else:
+            print(f&#34;WARNING: Grid Optimization not successful, none of the {grid_size} attempts exited succesfully&#34;)  
+
+    def compensator(self) -&gt; np.ndarray:
+        &#34;&#34;&#34; Computes the compensator corresponding to the estimated process. 
+            The compensator of a point process is defined as:
+
+        Raises:
+            Exception: If model has not yet been successfully estimated yet
+
+        Returns:
+            np.ndarray: numpy array of timestamps (the compensator)
+        &#34;&#34;&#34;
+        if self.success_flag == False:
+            raise Exception(&#34;ERROR: Cannot compute compensator, model has not been succesfully estimated!&#34;)
+
+        if self._kernel == &#34;powlaw&#34;:
+            compensator = uvhp_approx_powl_compensator(self._timestamps, self.mu, self.eta, self.alpha, self.tau0, self._m, self._M)
+        elif self._kernel == &#34;powlaw-cutoff&#34;:
+            compensator = uvhp_approx_powl_cut_compensator(self._timestamps, self.mu, self.eta, self.alpha, self.tau0, self._m, self._M)
+
+        return compensator
+    
+    # TODO: Method for evaluating estimated intensity with option of plotting the intensity
+    # TODO: Method for evaluating log-likelihood given timestamps and paramters??
+
+
+
+class SumExpHawkesProcessEstimation():
+    &#34;&#34;&#34;
+    Class for inference of unvivariate Hawkes processes with sum of P exponentials memory kernel. The conditional intensity
+    function for the kernel without cutoff is defined as:
+    TODO: Intensity formulas 
+   
+    The estiation is done by numerically maximizing the corresponding log-likelihood function.
+
+    Attributes:
+        success_flag (bool): True if process successfully estimated and the following attributes set.
+        mu (float): The estimated background intensity :math:`\mu`.
+        eta (float): The estimated branching ratio :math:`\\eta`.
+        theta_vec (np.ndarray): Array of P estimated decay speeds 
+        logL (Float): The log-likelihood value of the estimated process
+
+
+    &#34;&#34;&#34;
+
+    _P = IntInExRange(&#34;P&#34;, lower_bound=0)
+    _timestamps = PositiveOrderedFloatNdarray(&#34;timestamps&#34;)
+    _grid_type = OneOf(&#34;random&#34;, &#34;equidistant&#34;, &#34;custom&#34;, &#34;no-grid&#34;)
+    _grid_size = IntInExRange(&#34;grid_size&#34;, lower_bound=0)
+
+
+    def __init__(self, P: int, rng=rng) -&gt; None:
+        &#34;&#34;&#34;Initilize the SumExpHawkesProcessEstimation class.
+
+        Args:
+            P (int): The number of exponential kernels that make up the memory kernel.
+            rng (optional): numpy numba generator. For reproducible results use: np.random.default_rng(seed)
+        &#34;&#34;&#34;
+        self._P = P
+        self._kernel = &#34;sum-expo&#34;
+        self._rng = rng
+        self.success_flag = False
+        self._ic = False
+
+    def _check_valid_T(self, T: float, min_value) -&gt; float:
+        &#34;&#34;&#34;Checks if input &#39;T&#39; is valid
+
+        Args:
+            T (float): End time of the process
+            min_value (float): The minimum value for the end time of the process. i.e. the largest/last timestamps in &#39;timestamps&#39;
+
+        Raises:
+            ValueError: If T is invalid
+
+        Returns:
+            float: process end time &#39;T&#39; 
+        &#34;&#34;&#34;
+        if (T &lt; min_value):
+            raise ValueError(f&#34;The process end time &#39;T&#39; must be a number larger or equal to the last value in the sorted array &#39;timestamps&#39;&#34;)
+        else:
+            return float(T)
+    
+    def aic(self) -&gt; float:
+        &#34;&#34;&#34;Returns the Akaike information criteria of the estimated model
+
+        Raises:
+            Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+        Returns:
+            float: The AIC value
+        &#34;&#34;&#34;
+        if self.success_flag == True:
+            return -2 * self.logL + 2 * self._num_par
+        else:
+            raise Exception(&#34;ERROR: Cannot compute AIC, model has not been succesfully estimated!&#34;)
+
+    def bic(self) -&gt; float:
+        &#34;&#34;&#34;Returns the Baysian information criteria of the estimated model
+
+        Raises:
+            Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+        Returns:
+            float: The BIC value
+        &#34;&#34;&#34;
+        if self.success_flag == True:
+            return -2 * self.logL + self._num_par * np.log(self._num_par)
+        else:
+            raise Exception(&#34;ERROR: Cannot compute BIC, model has not been succesfully estimated!&#34;)
+
+    def hq(self) -&gt; float:
+        &#34;&#34;&#34;Returns the Hannan-Quinn  information criteria of the estimated model
+
+        Raises:
+            Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+        Returns:
+            float: The HQ value
+        &#34;&#34;&#34;
+        if self.success_flag == True:
+            return -2 * self.logL + 2 * self._num_par * np.log(np.log(self._num_par))
+        else:
+            raise Exception(&#34;ERROR: Cannot compute HQ, model has not been succesfully estimated!&#34;)
+
+        
+    def estimate(self, timestamps: np.ndarray, T: float, max_attempts: int=5, custom_param_vec0: bool=False, **kwargs): 
+        &#34;&#34;&#34; Method for estimating the Hawkes process parameters using maximum likelihood estimation.
+
+        Args:
+            timestamps (np.ndarray): 1d numpy array containing the timestamp observations. 
+                                     Must be sorted and only positive timestamps are allowed
+            T (float): The end time of the Hawkes process.
+            max_attempts (int, optional): If the optimization routine does not exit successfully. Number of times the optimization repeats with new starting values. Defaults to 5.
+            custom_param_vec0 (bool, optional): If custom initial values should be used. Defaults to False. 
+                                                If true you must supply an addtional variable &#39;custom_grid&#39; containing a npumpy array of correct dimensions and bound.
+        &#34;&#34;&#34;
+        self._timestamps = timestamps
+        T = self._check_valid_T(T, timestamps[-1])
+
+        succ_flag = None
+        if custom_param_vec0 == False:
+            attempt = 0
+            while (succ_flag != 0) &amp; (attempt &lt;= max_attempts):
+                attempt += 1
+                # TODO: Improve the standard starting values: eta0 using the model-free branching ratio estimator, theta0 ????
+                eta0 = rng.uniform(1e-3, 0.999)
+                mu0 = len(timestamps) * (1 - eta0) / T
+                theta0_vec = rng.uniform(1e-5, 5, self._P) 
+                param_vec0 = np.append(np.append(mu0, eta0), theta0_vec)
+            
+                opt_result = uvhp_sum_expo_mle(self._timestamps, T, self._P, param_vec0)
+                succ_flag = opt_result[2][&#34;warnflag&#34;] # 0 if convergence, 1 if too many func evals or iters, 2 other reason see [&#34;task&#34;]
+        else:
+            opt_result = uvhp_sum_expo_mle(self._timestamps, T, self._P, kwargs.get(&#34;param_vec0&#34;))
+            succ_flag = opt_result[2][&#34;warnflag&#34;] 
+                
+        self._opt_result = opt_result
+        self._grid_type = &#34;no-grid&#34;    
+        if succ_flag == 0:
+            self.success_flag = True
+            result_param_vec = opt_result[0]
+            self.logL = -opt_result[1]
+            self.mu, self.eta, self.theta_vec = result_param_vec[0], result_param_vec[1], np.sort(result_param_vec[2::])
+
+        else:
+            print(f&#34;WARNING: Optimization not successful: {opt_result[2][&#39;task&#39;]}&#34;)
+
+        
+    def estimate_grid(self, timestamps: np.ndarray, T: float, grid_type: str, grid_size: int=20, rng=rng, **kwargs):
+        &#34;&#34;&#34; Method for performing multiple optimizations using different initial values
+            The estimated model is chosen to be the one with the largest log-likelihood value.
+
+        Args:
+            timestamps (np.ndarray): 1d numpy array containing the timestamp observations. 
+                                     Must be sorted and only positive timestamps are allowed
+            T (float): The end time of the Hawkes process.
+            grid_type (str): One of: (&#39;random&#39;) starting values for eta0 are chosen randomly.
+                                     (&#39;equidistant&#39;) starting values for eta0 are equidistant between 0 and 1
+                                     (&#39;custom&#39;) A custom eta0 grid of starting value is supplied to &#39;custom-grid&#39; variable
+            grid_size (int, optional): The number of optimizations from which the best model is chosen. Defaults to 20.
+        &#34;&#34;&#34;        
+        self._timestamps = timestamps
+        T = self._check_valid_T(T, timestamps[-1])
+        self._grid_type = grid_type
+        self._grid_size = grid_size
+
+
+        if grid_type == &#34;random&#34;:
+            eta0_grid = rng.uniform(0.001, 0.999, grid_size)
+        elif grid_type == &#34;equidistant&#34;:
+            eta0_grid = np.linspace(0.001, 0.999, grid_size)
+        elif grid_type == &#34;custom&#34;:
+            eta0_grid = kwargs.get(&#34;custom_grid&#34;)
+        
+        # store the optimization results
+        opt_res_ls = [] 
+        logL_res_ls = []
+        for eta0 in eta0_grid:
+            # TODO: Improve the standard starting values: eta0 using the model-free branching ratio estimator, theta0 ????
+            mu0 = len(timestamps) * (1 - eta0) / T
+            theta0_vec = rng.uniform(1e-5, 5, self._P) 
+            param_vec0 = np.append(np.append(mu0, eta0), theta0_vec)
+            opt_result = uvhp_sum_expo_mle(self._timestamps, T, self._P, param_vec0)
+            
+            if opt_result[2][&#34;warnflag&#34;] == 0: # if optimization exits successfully: append result
+                opt_res_ls.append(opt_result)
+                logL_res_ls.append(-opt_result[1])
+
+        self._opt_result = opt_result   
+        if len(opt_res_ls) &gt; 0:
+            # choose model with largest logL
+            idx = logL_res_ls.index(max(logL_res_ls))
+            opt_result = opt_res_ls[idx]   
+        
+            self.success_flag = True
+            result_param_vec = opt_result[0]
+            self.logL = -opt_result[1]
+            self.mu, self.eta, self.theta_vec = result_param_vec[0], result_param_vec[1], np.sort(result_param_vec[2::])
+
+        else:
+            print(f&#34;WARNING: Grid Optimization not successful, none of the {grid_size} attempts exited succesfully&#34;)  
+
+
+    def compensator(self):
+        &#34;&#34;&#34; Computes the compensator corresponding to the estimated process. 
+            The compensator of a point process is defined as:
+
+        Raises:
+            Exception: If model has not yet been successfully estimated yet
+
+        Returns:
+            np.ndarray: numpy array of timestamps (the compensator)
+        &#34;&#34;&#34;
+        if self.success_flag == False:
+            raise Exception(&#34;ERROR: Cannot compute compensator, model has not been succesfully estimated!&#34;)
+
+        compensator = uvhp_sum_expo_compensator(self._timestamps, self.mu, self.eta, self.theta_vec)
+
+        return compensator
+
+
+    
+class ExpHawkesProcessEstimation():
+    &#34;&#34;&#34;
+    Class for inference of unvivariate Hawkes processes with normalized single exponentials memory kernel. The conditional intensity
+    function for the kernel without cutoff is defined as:
+    TODO: Intensity formulas 
+
+    The estiation is done by numerically maximizing the corresponding log-likelihood function.
+
+
+    Attributes:
+        success_flag (bool): True if process successfully estimated and the following attributes set.
+        mu (float): The estimated background intensity :math:`\mu`.
+        eta (float): The estimated branching ratio :math:`\\eta`.
+        theta_vec (np.ndarray): Array of P estimated decay speeds 
+        logL (Float): The log-likelihood value of the estimated process
+
+    &#34;&#34;&#34;
+
+    _timestamps = PositiveOrderedFloatNdarray(&#34;timestamps&#34;)
+    _grid_type = OneOf(&#34;random&#34;, &#34;equidistant&#34;, &#34;custom&#34;, &#34;no-grid&#34;)
+    _grid_size = IntInExRange(&#34;grid_size&#34;, lower_bound=0)
+
+
+    def __init__(self, rng=rng) -&gt; None:
+        &#34;&#34;&#34;Initilize ExpHawkesProcessEstimation class
+
+        Args:
+            rng (optional): numpy numba generator. For reproducible results use: np.random.default_rng(seed)
+        &#34;&#34;&#34;
+        self._rng = rng
+        self.success_flag = False
+
+    def _check_valid_T(self, T: float, min_value) -&gt; float:
+        &#34;&#34;&#34;Checks if input &#39;T&#39; is valid
+
+        Args:
+            T (float): End time of the process
+            min_value (float): The minimum value for the end time of the process. i.e. the largest/last timestamps in &#39;timestamps&#39;
+
+        Raises:
+            ValueError: If T is invalid
+
+        Returns:
+            float: process end time &#39;T&#39; 
+        &#34;&#34;&#34;
+        if (T &lt; min_value):
+            raise ValueError(f&#34;The process end time &#39;T&#39; must be a number larger or equal to the last value in the sorted array &#39;timestamps&#39;&#34;)
+        else:
+            return float(T)
+    
+    def aic(self) -&gt; float:
+        &#34;&#34;&#34;Returns the Akaike information criteria of the estimated model
+
+        Raises:
+            Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+        Returns:
+            float: The AIC value
+        &#34;&#34;&#34;
+        if self.success_flag == True:
+            return -2 * self.logL + 2 * self._num_par
+        else:
+            raise Exception(&#34;ERROR: Cannot compute AIC, model has not been succesfully estimated!&#34;)
+
+    def bic(self) -&gt; float:
+        &#34;&#34;&#34;Returns the Baysian information criteria of the estimated model
+
+        Raises:
+            Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+        Returns:
+            float: The BIC value
+        &#34;&#34;&#34;
+        if self.success_flag == True:
+            return -2 * self.logL + self._num_par * np.log(self._num_par)
+        else:
+            raise Exception(&#34;ERROR: Cannot compute BIC, model has not been succesfully estimated!&#34;)
+
+    def hq(self) -&gt; float:
+        &#34;&#34;&#34;Returns the Hannan-Quinn  information criteria of the estimated model
+
+        Raises:
+            Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+        Returns:
+            float: The HQ value
+        &#34;&#34;&#34;
+        if self.success_flag == True:
+            return -2 * self.logL + 2 * self._num_par * np.log(np.log(self._num_par))
+        else:
+            raise Exception(&#34;ERROR: Cannot compute HQ, model has not been succesfully estimated!&#34;)
+        
+    def estimate(self, timestamps: np.ndarray, T: float, max_attempts: int=5,  custom_param_vec0: bool=False, **kwargs) -&gt; None: 
+        &#34;&#34;&#34; Method for estimating the Hawkes process parameters using maximum likelihood estimation.
+
+        Args:
+            timestamps (np.ndarray): 1d numpy array containing the timestamp observations. 
+                                     Must be sorted and only positive timestamps are allowed
+            T (float): The end time of the Hawkes process.
+            max_attempts (int, optional): If the optimization routine does not exit successfully. Number of times the optimization repeats with new starting values. Defaults to 5.
+            custom_param_vec0 (bool, optional): If custom initial values should be used. Defaults to False. 
+                                                If true you must supply an addtional variable &#39;custom_grid&#39; containing a npumpy array of correct dimensions and bound.
+        &#34;&#34;&#34;
+        self._timestamps = timestamps
+        T = self._check_valid_T(T, timestamps[-1])
+
+        succ_flag = None
+        if custom_param_vec0 == False:
+            attempt = 0
+            while (succ_flag != 0) &amp; (attempt &lt;= max_attempts):
+                attempt += 1
+                # TODO: Improve the standard starting values: eta0 using the model-free branching ratio estimator, theta0 ????
+                eta0 = rng.uniform(1e-3, 0.999)
+                mu0 = len(timestamps) * (1 - eta0) / T
+                theta0 = rng.uniform(1e-5, 5) 
+                param_vec0 = np.array([mu0, eta0, theta0], dtype=np.float64)
+            
+                opt_result = uvhp_expo_mle(self._timestamps, T, param_vec0)
+                succ_flag = opt_result[2][&#34;warnflag&#34;] # 0 if convergence, 1 if too many func evals or iters, 2 other reason see [&#34;task&#34;]
+        else:
+            opt_result = uvhp_expo_mle(self._timestamps, T, kwargs.get(&#34;param_vec0&#34;))
+            succ_flag = opt_result[2][&#34;warnflag&#34;] # 0 if convergence, 1 if too many func evals or iters, 2 other reason see [&#34;task&#34;]
+                
+        self._opt_result = opt_result
+        self._grid_type = &#34;no-grid&#34;    
+        if succ_flag == 0:
+            self.success_flag = True
+            result_param_vec = opt_result[0]
+            self.logL = -opt_result[1]
+            self.mu, self.eta, self.theta = result_param_vec[0], result_param_vec[1], result_param_vec[2]
+
+        else:
+            print(f&#34;WARNING: Optimization not successful: {opt_result[2][&#39;task&#39;]}&#34;)
+        
+        
+    def estimate_grid(self, timestamps: np.ndarray, T: float, grid_type: str, grid_size: int=20, rng=rng, **kwargs):
+        &#34;&#34;&#34; Method for performing multiple optimizations using different initial values
+            The estimated model is chosen to be the one with the largest log-likelihood value.
+
+        Args:
+            timestamps (np.ndarray): 1d numpy array containing the timestamp observations. 
+                                     Must be sorted and only positive timestamps are allowed
+            T (float): The end time of the Hawkes process.
+            grid_type (str): One of: (&#39;random&#39;) starting values for eta0 are chosen randomly.
+                                     (&#39;equidistant&#39;) starting values for eta0 are equidistant between 0 and 1
+                                     (&#39;custom&#39;) A custom eta0 grid of starting value is supplied to &#39;custom-grid&#39; variable
+            grid_size (int, optional): The number of optimizations from which the best model is chosen. Defaults to 20.
+        &#34;&#34;&#34;
+        self._timestamps = timestamps
+        T = self._check_valid_T(T, timestamps[-1])
+        self._grid_type = grid_type
+        self._grid_size = grid_size
+
+
+        if grid_type == &#34;random&#34;:
+            eta0_grid = rng.uniform(0.001, 0.999, grid_size)
+        elif grid_type == &#34;equidistant&#34;:
+            eta0_grid = np.linspace(0.001, 0.999, grid_size)
+        elif grid_type == &#34;custom&#34;:
+            eta0_grid = kwargs.get(&#34;custom_grid&#34;)
+        
+        # store the optimization results
+        opt_res_ls = [] 
+        logL_res_ls = []
+        for eta0 in eta0_grid:
+            # TODO: Improve the standard starting values: eta0 using the model-free branching ratio estimator, theta0 ????
+            mu0 = len(timestamps) * (1 - eta0) / T
+            theta0 = rng.uniform(1e-5, 5) 
+            param_vec0 = np.array([mu0, eta0, theta0], dtype=np.float64)
+            opt_result = uvhp_expo_mle(self._timestamps, T, param_vec0)
+            
+            if opt_result[2][&#34;warnflag&#34;] == 0: # if optimization exits successfully: append result
+                opt_res_ls.append(opt_result)
+                logL_res_ls.append(-opt_result[1])
+
+        self._opt_result = opt_result   
+        if len(opt_res_ls) &gt; 0:
+            # choose model with largest logL
+            idx = logL_res_ls.index(max(logL_res_ls))
+            opt_result = opt_res_ls[idx]   
+        
+            self.success_flag = True
+            result_param_vec = opt_result[0]
+            self.logL = -opt_result[1]
+            self.mu, self.eta, self.theta = result_param_vec[0], result_param_vec[1], result_param_vec[2]
+
+        else:
+            print(f&#34;WARNING: Grid Optimization not successful, none of the {grid_size} attempts exited succesfully&#34;)  
+        
+
+    def compensator(self):
+        &#34;&#34;&#34; Computes the compensator corresponding to the estimated process. 
+            The compensator of a point process is defined as:
+
+        Raises:
+            Exception: If model has not yet been successfully estimated yet
+
+        Returns:
+            np.ndarray: numpy array of timestamps (the compensator)
+        &#34;&#34;&#34;
+        if self.success_flag == False:
+            raise Exception(&#34;Cannot compute compensator, model has not been succesfully estimated!&#34;)
+
+        compensator = uvhp_expo_compensator(self._timestamps, self.mu, self.eta, self.theta)
+
+        return compensator</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="HawkesPyLib.inference.compute_ic"><code class="name flex">
+<span>def <span class="ident">compute_ic</span></span>(<span>logL_value: float, num_par: int) ‑> tuple</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Computes AIC, BIC and HQ information criteria </p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>logL_value</code></strong> :&ensp;<code>float</code></dt>
+<dd>The log-likelihood value of an estimated model</dd>
+<dt><strong><code>num_par</code></strong> :&ensp;<code>int</code></dt>
+<dd>The number of free paramters in the estimated model</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tuple</code></dt>
+<dd>aic, bic, hq</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def compute_ic(logL_value: float, num_par: int) -&gt; tuple:
+    &#34;&#34;&#34; Computes AIC, BIC and HQ information criteria 
+
+    Args:
+        logL_value (float): The log-likelihood value of an estimated model
+        num_par (int): The number of free paramters in the estimated model
+
+    Returns:
+        tuple: aic, bic, hq
+    &#34;&#34;&#34;
+    aic = -2 * logL_value + 2 * num_par
+    bic = -2 * logL_value + num_par * np.log(num_par)
+    hq = -2 * logL_value + 2 * num_par * np.log(np.log(num_par))
+    return aic, bic, hq</code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.exp1_inv"><code class="name flex">
+<span>def <span class="ident">exp1_inv</span></span>(<span>x: numpy.ndarray) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Quantile function of the unit exponential distribution</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>x</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>array of in ascending order sorted values </dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>Quantile function evaluated at each value of x</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def exp1_inv(x: np.ndarray) -&gt; float:
+    &#34;&#34;&#34; Quantile function of the unit exponential distribution
+
+    Args:
+        x (np.ndarray): array of in ascending order sorted values 
+
+    Returns:
+        np.ndarray: Quantile function evaluated at each value of x
+    &#34;&#34;&#34;
+    return -np.log(1-x)</code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.qq_plot"><code class="name flex">
+<span>def <span class="ident">qq_plot</span></span>(<span>x: numpy.ndarray, F_inv) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Plots a QQ-plot</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>x</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>Array of values for which to plot the QQ-plot</dd>
+</dl>
+<p>F_inv function: Quantile function of the theoretical distribution. Calls like: F_inv(x: np.ndarray)</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>_type_</code></dt>
+<dd>Plots the QQ-plot</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def qq_plot(x: np.ndarray, F_inv) -&gt; np.ndarray:
+    &#34;&#34;&#34; Plots a QQ-plot
+
+    Args:
+        x (np.ndarray): Array of values for which to plot the QQ-plot
+        F_inv function: Quantile function of the theoretical distribution. Calls like: F_inv(x: np.ndarray)
+
+    Returns:
+        _type_: Plots the QQ-plot
+    &#34;&#34;&#34;
+    n = len(x)
+    x_sorted = np.flip(np.sort(x))
+    F_th = F_inv((n-np.arange(1, n+1)+1)/(n+1))  # np.linspace(n/(n+1), 1/(n+1), num= n)
+    plt.plot(F_th, x_sorted, &#39;ob&#39;)
+    plt.ylabel(&#34;empirical quantile&#34;)
+    plt.xlabel(&#34;theoretical quantile&#34;)
+
+    plt.plot(x_sorted, x_sorted)
+    plt.show()
+    return F_th</code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.qq_plot_unit_exponential"><code class="name flex">
+<span>def <span class="ident">qq_plot_unit_exponential</span></span>(<span>inter_arrival_times: numpy.ndarray)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convenience function to plot a QQ-plot for inter-arrival / duration times
+If a sample of temporal point process is a realization of a unit Poisson process.
+It's inter-arrival or also duration times are exponentially distributed.
+</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>inter_arrival_times</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>Array of inter-arrival times </dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Plot</code></dt>
+<dd>Plots a QQ-plot</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def qq_plot_unit_exponential(inter_arrival_times: np.ndarray):
+    &#34;&#34;&#34; Convenience function to plot a QQ-plot for inter-arrival / duration times
+        If a sample of temporal point process is a realization of a unit Poisson process.
+        It&#39;s inter-arrival or also duration times are exponentially distributed.  
+
+    Args:
+        inter_arrival_times (np.ndarray): Array of inter-arrival times 
+
+    Returns:
+        Plot: Plots a QQ-plot
+    &#34;&#34;&#34;
+    qq_plot(inter_arrival_times, exp1_inv)
+    return None</code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.uvhp_expo_mle"><code class="name flex">
+<span>def <span class="ident">uvhp_expo_mle</span></span>(<span>timestamps: numpy.ndarray, T: float, param_vec0: numpy.ndarray)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Minimizes the negative log-likelihood of a univariate Hawkes process with single normalised exponential kernel</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>timestamps</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>1 dimensional Array of timestamps. All timestamps must be positive and sorted in ascending order.</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
+<dd>End time of the process. Must be equal or larger than the largest/last timestamps in 'timestamps'</dd>
+<dt><strong><code>param_vec0</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>Array of initial parameter values for the optimization routine</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list</code></dt>
+<dd>A list of values: list[0] optimal paramters, list[1] min function value, list[2] optim info
+(also see scipy.optimize.fmin_l_bfgs_b for more info)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def uvhp_expo_mle(timestamps: np.ndarray, T: float, param_vec0: np.ndarray):
+    &#34;&#34;&#34; Minimizes the negative log-likelihood of a univariate Hawkes process with single normalised exponential kernel
+
+    Args:
+        timestamps (np.ndarray): 1 dimensional Array of timestamps. All timestamps must be positive and sorted in ascending order.
+        T (float): End time of the process. Must be equal or larger than the largest/last timestamps in &#39;timestamps&#39;
+        param_vec0 (np.ndarray): Array of initial parameter values for the optimization routine
+
+    Returns:
+        list: A list of values: list[0] optimal paramters, list[1] min function value, list[2] optim info 
+            (also see scipy.optimize.fmin_l_bfgs_b for more info) 
+    &#34;&#34;&#34;
+    bnds = [(1e-8, np.inf), (1e-8, 1.0), (1e-8, np.inf)]
+    opt_result = fmin_l_bfgs_b(func=uvhp_expo_logL, x0=param_vec0, fprime=uvhp_expo_logL_grad,
+                        args=(timestamps, T), approx_grad=False, bounds=bnds,
+                        m=10, factr=100, pgtol=1e-05, iprint=-1, maxfun=15000,
+                        maxiter=15000, disp=None, callback=None, maxls=20) 
+    return opt_result</code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.uvhp_powlaw_cut_mle"><code class="name flex">
+<span>def <span class="ident">uvhp_powlaw_cut_mle</span></span>(<span>timestamps: numpy.ndarray, T: float, m: float, M: int, param_vec0: numpy.ndarray)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Minimizes the negative log-likelihood of a univariate Hawkes process with approximate power-law kernel with cutoff</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>timestamps</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>1 dimensional Array of timestamps. All timestamps must be positive and sorted in ascending order.</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
+<dd>End time of the process. Must be equal or larger than the largest/last timestamps in 'timestamps'</dd>
+<dt><strong><code>m</code></strong> :&ensp;<code>float</code></dt>
+<dd>Fixed paramter of the Hawkes kernel. Specifies the approximation of the true power-law. Must be positive.</dd>
+<dt><strong><code>M</code></strong> :&ensp;<code>int</code></dt>
+<dd>Fixed paramter of the Hawkes kernel. Specifies the approximation of the true power-law. Must be positive</dd>
+<dt><strong><code>param_vec0</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>Array of initial parameter values for the optimization routine</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list</code></dt>
+<dd>A list of values: list[0] optimal paramters, list[1] min function value, list[2] optim info
+(also see scipy.optimize.fmin_l_bfgs_b for more info)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def uvhp_powlaw_cut_mle(timestamps: np.ndarray, T: float, m: float, M: int, param_vec0: np.ndarray):
+    &#34;&#34;&#34; Minimizes the negative log-likelihood of a univariate Hawkes process with approximate power-law kernel with cutoff
+
+    Args:
+        timestamps (np.ndarray): 1 dimensional Array of timestamps. All timestamps must be positive and sorted in ascending order.
+        T (float): End time of the process. Must be equal or larger than the largest/last timestamps in &#39;timestamps&#39;
+        m (float): Fixed paramter of the Hawkes kernel. Specifies the approximation of the true power-law. Must be positive.
+        M (int): Fixed paramter of the Hawkes kernel. Specifies the approximation of the true power-law. Must be positive
+        param_vec0 (np.ndarray): Array of initial parameter values for the optimization routine
+
+    Returns:
+        list: A list of values: list[0] optimal paramters, list[1] min function value, list[2] optim info 
+            (also see scipy.optimize.fmin_l_bfgs_b for more info) 
+    &#34;&#34;&#34;
+    bnds = [(1e-8, np.inf), (1e-8, 1.0), (1e-8, 10), (1e-8, np.inf)]
+    opt_result = fmin_l_bfgs_b(func=uvhp_approx_powl_cut_logL, x0=param_vec0, fprime=None,
+                            args=(timestamps, T, m, M), approx_grad=True, bounds=bnds,
+                            m=10, factr=100, epsilon=1e-07, pgtol=1e-05, iprint=- 1,
+                            maxfun=15000, maxiter=15000, disp=None, callback=None, maxls=20)
+    return opt_result</code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.uvhp_powlaw_mle"><code class="name flex">
+<span>def <span class="ident">uvhp_powlaw_mle</span></span>(<span>timestamps: numpy.ndarray, T: float, m: float, M: int, param_vec0: numpy.ndarray)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Minimizes the negative log-likelihood of a univariate Hawkes process with approximate power-law kernel without cutoff</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>timestamps</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>1 dimensional Array of timestamps. All timestamps must be positive and sorted in ascending order.</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
+<dd>End time of the process. Must be equal or larger than the largest/last timestamps in 'timestamps'</dd>
+<dt><strong><code>m</code></strong> :&ensp;<code>float</code></dt>
+<dd>Fixed paramter of the Hawkes kernel. Specifies the approximation of the true power-law. Must be positive.</dd>
+<dt><strong><code>M</code></strong> :&ensp;<code>int</code></dt>
+<dd>Fixed paramter of the Hawkes kernel. Specifies the approximation of the true power-law. Must be positive</dd>
+<dt><strong><code>param_vec0</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>Array of initial parameter values for the optimization routine</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list</code></dt>
+<dd>A list of values: list[0] optimal paramters, list[1] min function value, list[2] optim info
+(also see scipy.optimize.fmin_l_bfgs_b for more info)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def uvhp_powlaw_mle(timestamps: np.ndarray, T: float, m: float, M: int, param_vec0: np.ndarray):
+    &#34;&#34;&#34;Minimizes the negative log-likelihood of a univariate Hawkes process with approximate power-law kernel without cutoff
+
+    Args:
+        timestamps (np.ndarray): 1 dimensional Array of timestamps. All timestamps must be positive and sorted in ascending order.
+        T (float): End time of the process. Must be equal or larger than the largest/last timestamps in &#39;timestamps&#39;
+        m (float): Fixed paramter of the Hawkes kernel. Specifies the approximation of the true power-law. Must be positive.
+        M (int): Fixed paramter of the Hawkes kernel. Specifies the approximation of the true power-law. Must be positive
+        param_vec0 (np.ndarray): Array of initial parameter values for the optimization routine
+
+    Returns:
+        list: A list of values: list[0] optimal paramters, list[1] min function value, list[2] optim info 
+            (also see scipy.optimize.fmin_l_bfgs_b for more info) 
+    &#34;&#34;&#34;
+    bnds = [(1e-8, np.inf), (1e-8, 1.0), (1e-8, 10), (1e-8, np.inf)]
+    opt_result = fmin_l_bfgs_b(func=uvhp_approx_powl_logL, x0=param_vec0, fprime=None,
+                            args=(timestamps, T, m, M), approx_grad=True, bounds=bnds,
+                            m=10, factr=100, epsilon=1e-07, pgtol=1e-05, iprint=- 1,
+                            maxfun=15000, maxiter=15000, disp=None, callback=None, maxls=20)
+    return opt_result</code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.uvhp_sum_expo_mle"><code class="name flex">
+<span>def <span class="ident">uvhp_sum_expo_mle</span></span>(<span>timestamps: numpy.ndarray, T: float, P: int, param_vec0: numpy.ndarray)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Minimizes the negative log-likelihood of a univariate Hawkes process with sum of P exponential kernels"</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>timestamps</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>1 dimensional Array of timestamps. All timestamps must be positive and sorted in ascending order.</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
+<dd>End time of the process. Must be equal or larger than the largest/last timestamps in 'timestamps'</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>int</code></dt>
+<dd>Number of normalised exponential kernels that specify the Hawkes kernel</dd>
+<dt><strong><code>param_vec0</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>Array of initial parameter values for the optimization routine</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list</code></dt>
+<dd>A list of values: list[0] optimal paramters, list[1] min function value, list[2] optim info
+(also see scipy.optimize.fmin_l_bfgs_b for more info)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def uvhp_sum_expo_mle(timestamps: np.ndarray, T: float, P: int, param_vec0: np.ndarray):
+    &#34;&#34;&#34;Minimizes the negative log-likelihood of a univariate Hawkes process with sum of P exponential kernels&#34;
+
+    Args:
+        timestamps (np.ndarray): 1 dimensional Array of timestamps. All timestamps must be positive and sorted in ascending order.
+        T (float): End time of the process. Must be equal or larger than the largest/last timestamps in &#39;timestamps&#39;
+        P (int): Number of normalised exponential kernels that specify the Hawkes kernel
+        param_vec0 (np.ndarray): Array of initial parameter values for the optimization routine
+
+    Returns:
+        list: A list of values: list[0] optimal paramters, list[1] min function value, list[2] optim info 
+            (also see scipy.optimize.fmin_l_bfgs_b for more info) 
+    &#34;&#34;&#34;
+    bnds = [(1e-8, np.inf), (1e-8, 1)]
+    for k in range(0, P):
+        bnds.append((1e-8, np.inf))
+    opt_result = fmin_l_bfgs_b(func=uvhp_sum_expo_logL, x0=param_vec0, fprime=uvhp_sum_expo_logL_grad,
+                            args=(timestamps, T), approx_grad=False, bounds=bnds,
+                            m=10, factr=100, pgtol=1e-05, iprint=- 1, maxfun=15000,
+                            maxiter=15000, disp=None, callback=None, maxls=20)
+    return opt_result</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="HawkesPyLib.inference.ApproxPowlawHawkesProcessEstimation"><code class="flex name class">
+<span>class <span class="ident">ApproxPowlawHawkesProcessEstimation</span></span>
+<span>(</span><span>kernel: str, m: float, M: int, rng=Generator(PCG64))</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class for inference of unvivariate Hawkes processes with approximate powerlaw memory kernel. The conditional intensity
+function for the kernel without cutoff is defined as:
+<span><span class="MathJax_Preview"> \lambda(t) = \mu + \sum_{t_i &lt; t}
+\dfrac{\eta}{Z} \Bigg( \sum_{k=0}^{M-1} a_{k}^{-(1 + \alpha)} e^{(-(t - t_i)/ a_{k})} \Bigg),</span><script type="math/tex; mode=display"> \lambda(t) = \mu + \sum_{t_i < t}
+\dfrac{\eta}{Z} \Bigg( \sum_{k=0}^{M-1} a_{k}^{-(1 + \alpha)} e^{(-(t - t_i)/ a_{k})} \Bigg),</script></span>
+The intensity for the kernel with cutoff is given by:
+<span><span class="MathJax_Preview"> \lambda(t) = \mu + \sum_{t_i &lt; t}
+\dfrac{\eta}{Z} \Bigg( \sum_{k=0}^{M-1} a_{k}^{-(1 + \alpha)} e^{(-(t - t_i)/ a_{k})} - S e^{(-(t - t_i)/ a_{-1})} \Bigg), </span><script type="math/tex; mode=display"> \lambda(t) = \mu + \sum_{t_i < t}
+\dfrac{\eta}{Z} \Bigg( \sum_{k=0}^{M-1} a_{k}^{-(1 + \alpha)} e^{(-(t - t_i)/ a_{k})} - S e^{(-(t - t_i)/ a_{-1})} \Bigg), </script></span>
+where <code>mu</code> " <span><span class="MathJax_Preview"> \mu </span><script type="math/tex"> \mu </script></span> " is the constant background intensity, <code>$\eta$</code> ("eta") is the branching ratio and $a_k =
+au_0 m^k$ is the k'th powerlaw weight.
+S and Z are scaling factors and computed automatically. M and m define the accuracy of the power-law approximation.</p>
+<p>The estimation is done by numerically maximizing the corresponding log-likelihood function.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>success_flag</code></strong> :&ensp;<code>bool</code></dt>
+<dd>True if process successfully estimated and the following attributes set.</dd>
+<dt><strong><code>mu</code></strong> :&ensp;<code>float</code></dt>
+<dd>The estimated background intensity <code>$\mu$</code>.</dd>
+<dt><strong><code>eta</code></strong> :&ensp;<code>float</code></dt>
+<dd>The estimated branching ratio <code>$\mu$</code>.</dd>
+<dt><strong><code>alpha</code></strong> :&ensp;<code>float</code></dt>
+<dd>The estimated power-law coeficient, influencing the decay speed.</dd>
+<dt><strong><code>tau0</code></strong> :&ensp;<code>float</code></dt>
+<dd>The estimated kernel paramter influencing decay speed and the location of the cutoff</dd>
+<dt><strong><code>logL</code></strong> :&ensp;<code>Float</code></dt>
+<dd>The log-likelihood value of the estimated process</dd>
+</dl>
+<p>Initlizes the ApproxPowlawHawkesProcessEstimation class</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>kernel</code></strong> :&ensp;<code>str</code></dt>
+<dd>Must be one of: 'powlaw', 'powlaw-cutoff'. Specifies the shape of the approximate power-law kernel</dd>
+<dt><strong><code>m</code></strong> :&ensp;<code>float</code></dt>
+<dd>Specifies the approximation of the true power-law. Must be positive </dd>
+<dt><strong><code>M</code></strong> :&ensp;<code>int</code></dt>
+<dd>The number of weighted exponential kernels that specifies the approximation of the true power-law. Must be positive.</dd>
+<dt><strong><code>rng</code></strong> :&ensp;<code>optional</code></dt>
+<dd>numpy numba generator. For reproducible results use: np.random.default_rng(seed)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ApproxPowlawHawkesProcessEstimation():
+    &#34;&#34;&#34;Class for inference of unvivariate Hawkes processes with approximate powerlaw memory kernel. The conditional intensity
+    function for the kernel without cutoff is defined as:
+    $$ \lambda(t) = \mu + \sum_{t_i &lt; t}  \dfrac{\eta}{Z} \Bigg( \sum_{k=0}^{M-1} a_{k}^{-(1 + \\alpha)} e^{(-(t - t_i)/ a_{k})} \Bigg),$$
+    The intensity for the kernel with cutoff is given by:
+    $$ \lambda(t) = \mu + \sum_{t_i &lt; t}  \dfrac{\eta}{Z} \Bigg( \sum_{k=0}^{M-1} a_{k}^{-(1 + \\alpha)} e^{(-(t - t_i)/ a_{k})} - S e^{(-(t - t_i)/ a_{-1})} \Bigg), $$
+    where `mu` &#34; \( \mu \) &#34; is the constant background intensity, `$\eta$` (&#34;eta&#34;) is the branching ratio and $a_k = \tau_0 m^k$ is the k&#39;th powerlaw weight.
+    S and Z are scaling factors and computed automatically. M and m define the accuracy of the power-law approximation.
+    
+   The estimation is done by numerically maximizing the corresponding log-likelihood function.
+
+   Attributes:
+        success_flag (bool): True if process successfully estimated and the following attributes set.
+        mu (float): The estimated background intensity `$\mu$`.
+        eta (float): The estimated branching ratio `$\mu$`.
+        alpha (float): The estimated power-law coeficient, influencing the decay speed.
+        tau0 (float): The estimated kernel paramter influencing decay speed and the location of the cutoff
+        logL (Float): The log-likelihood value of the estimated process
+    &#34;&#34;&#34;
+    _m = FloatInExRange(&#34;m&#34;, lower_bound=0)
+    _M = IntInExRange(&#34;M&#34;, lower_bound=0)
+    _kernel = OneOf(&#34;powlaw&#34;, &#34;powlaw-cutoff&#34;)
+    _grid_type = OneOf(&#34;random&#34;, &#34;equidistant&#34;, &#34;custom&#34;, &#34;no-grid&#34;)
+    _timestamps = PositiveOrderedFloatNdarray(&#34;timestamps&#34;)
+    _grid_size = IntInExRange(&#34;grid_size&#34;, lower_bound=0)
+
+    def __init__(self, kernel: str, m: float, M: int, rng=rng) -&gt; None:
+        &#34;&#34;&#34; Initlizes the ApproxPowlawHawkesProcessEstimation class
+
+        Args:
+            kernel (str): Must be one of: &#39;powlaw&#39;, &#39;powlaw-cutoff&#39;. Specifies the shape of the approximate power-law kernel
+            m (float): Specifies the approximation of the true power-law. Must be positive 
+            M (int): The number of weighted exponential kernels that specifies the approximation of the true power-law. Must be positive.
+            rng (optional): numpy numba generator. For reproducible results use: np.random.default_rng(seed)
+        &#34;&#34;&#34;
+        self._m = m
+        self._M = M
+        self._kernel = kernel
+        self._rng = rng
+        self.success_flag = False
+        self._num_par = 4
+
+    def _check_valid_T(self, T: float, min_value) -&gt; float:
+        &#34;&#34;&#34;Checks if input &#39;T&#39; is valid
+
+        Args:
+            T (float): End time of the process
+            min_value (float): The minimum value for the end time of the process. i.e. the largest/last timestamps in &#39;timestamps&#39;
+
+        Raises:
+            ValueError: If T is invalid
+
+        Returns:
+            float: process end time &#39;T&#39; 
+        &#34;&#34;&#34;
+        if (T &lt; min_value):
+            raise ValueError(f&#34;The process end time &#39;T&#39; must be a number larger or equal to the last value in the sorted array &#39;timestamps&#39;&#34;)
+        else:
+            return float(T)
+    
+    def aic(self) -&gt; float:
+        &#34;&#34;&#34;Returns the Akaike information criteria of the estimated model
+
+        Raises:
+            Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+        Returns:
+            float: The AIC value
+        &#34;&#34;&#34;
+        if self.success_flag == True:
+            return -2 * self.logL + 2 * self._num_par
+        else:
+            raise Exception(&#34;ERROR: Cannot compute AIC, model has not been succesfully estimated!&#34;)
+
+    def bic(self) -&gt; float:
+        &#34;&#34;&#34;Returns the Baysian information criteria of the estimated model
+
+        Raises:
+            Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+        Returns:
+            float: The BIC value
+        &#34;&#34;&#34;
+        if self.success_flag == True:
+            return -2 * self.logL + self._num_par * np.log(self._num_par)
+        else:
+            raise Exception(&#34;ERROR: Cannot compute BIC, model has not been succesfully estimated!&#34;)
+
+    def hq(self) -&gt; float:
+        &#34;&#34;&#34;Returns the Hannan-Quinn  information criteria of the estimated model
+
+        Raises:
+            Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+        Returns:
+            float: The HQ value
+        &#34;&#34;&#34;
+        if self.success_flag == True:
+            return -2 * self.logL + 2 * self._num_par * np.log(np.log(self._num_par))
+        else:
+            raise Exception(&#34;ERROR: Cannot compute HQ, model has not been succesfully estimated!&#34;)
+        
+    def estimate(self, timestamps: np.ndarray, T: float, max_attempts: int=5, custom_param_vec0: bool=False, **kwargs) -&gt; None: 
+        &#34;&#34;&#34; Method for estimating the Hawkes process parameters using maximum likelihood estimation.
+
+        Args:
+            timestamps (np.ndarray): 1d numpy array containing the timestamp observations. 
+                                     Must be sorted and only positive timestamps are allowed
+            T (float): The end time of the Hawkes process.
+            max_attempts (int, optional): If the optimization routine does not exit successfully. Number of times the optimization repeats with new starting values. Defaults to 5.
+            custom_param_vec0 (bool, optional): If custom initial values should be used. Defaults to False. 
+                                                If true you must supply an addtional variable &#39;custom_grid&#39; containing a npumpy array of correct dimensions and bound.
+        &#34;&#34;&#34;
+        self._timestamps = timestamps
+        self._T = self._check_valid_T(T, timestamps[-1])
+
+        succ_flag = None
+
+        if custom_param_vec0 == False:
+            attempt = 0
+            while (succ_flag != 0) &amp; (attempt &lt;= max_attempts):
+                attempt += 1
+                # TODO: Improve the standard starting values: eta0 using the model-free branching ratio estimator, alpha0/tau00 ????
+                eta0 = rng.uniform(1e-3, 0.999)
+                mu0 = len(timestamps) * (1 - eta0) / self._T
+                alpha0 = rng.uniform(1e-3, 3)
+                tau00 = rng.uniform(1e-7, 3)
+                param_vec0 = np.array([mu0, eta0, alpha0, tau00], dtype=np.float64)
+                
+                if self._kernel == &#34;powlaw&#34;:
+                    opt_result = uvhp_powlaw_mle(self._timestamps, self._T, self._m, self._M, param_vec0)
+                elif self._kernel == &#34;powlaw-cutoff&#34;:
+                    opt_result = uvhp_powlaw_cut_mle(self._timestamps, self._T, self._m, self._M, param_vec0)
+
+                succ_flag = opt_result[2][&#34;warnflag&#34;] # 0 if convergence, 1 if too many func evals or iters, 2 other reason see [&#34;task&#34;]
+        else:
+            if self._kernel == &#34;powlaw&#34;:
+                opt_result = uvhp_powlaw_mle(self._timestamps, self._T, self._m, self._M, kwargs.get(&#34;param_vec0&#34;))
+            elif self._kernel == &#34;powlaw-cutoff&#34;:
+                opt_result = uvhp_powlaw_cut_mle(self._timestamps, self._T, self._m, self._M, kwargs.get(&#34;param_vec0&#34;))
+            succ_flag = opt_result[2][&#34;warnflag&#34;]
+
+        self._opt_result = opt_result
+        self._grid_type = &#34;no-grid&#34;    
+        if succ_flag == 0:
+            self.success_flag = True
+            result_param_vec = opt_result[0]
+            self.logL = -opt_result[1]
+            self.mu, self.eta, self.alpha, self.tau0 = result_param_vec[0], result_param_vec[1], result_param_vec[2], result_param_vec[3]
+
+        else:
+            print(f&#34;WARNING: Optimization not successful: {opt_result[2][&#39;task&#39;]}&#34;)
+        
+        
+    def estimate_grid(self, timestamps: np.ndarray, T: float, grid_type: str, grid_size: int=20, **kwargs):
+        &#34;&#34;&#34; Method for performing multiple optimizations using different initial values
+            The estimated model is chosen to be the one with the largest log-likelihood value.
+
+        Args:
+            timestamps (np.ndarray): 1d numpy array containing the timestamp observations. 
+                                     Must be sorted and only positive timestamps are allowed
+            T (float): The end time of the Hawkes process.
+            grid_type (str): One of: (&#39;random&#39;) starting values for eta0 are chosen randomly.
+                                     (&#39;equidistant&#39;) starting values for eta0 are equidistant between 0 and 1
+                                     (&#39;custom&#39;) A custom eta0 grid of starting value is supplied to &#39;custom-grid&#39; variable
+            grid_size (int, optional): The number of optimizations from which the best model is chosen. Defaults to 20.
+        &#34;&#34;&#34;
+        self._timestamps = timestamps
+        T = self._check_valid_T(T, timestamps[-1])
+        self._grid_type = grid_type
+        self._grid_size = grid_size
+
+        if grid_type == &#34;random&#34;:
+            eta0_grid = rng.uniform(0.001, 0.999, grid_size)
+        elif grid_type == &#34;equidistant&#34;:
+            eta0_grid = np.linspace(0.001, 0.999, grid_size)
+        elif grid_type == &#34;custom&#34;:
+            eta0_grid = kwargs.get(&#34;custom_grid&#34;)
+        
+        # TODO: Allow parrallel optimization over the different starting values
+        opt_res_ls = [] 
+        logL_res_ls = []
+        for eta0 in eta0_grid:
+            mu0 = len(timestamps) * (1 - eta0) / T
+            alpha0 = rng.uniform(1e-3, 3)
+            tau00 = rng.uniform(1e-7, 3)
+            param_vec0 = np.array([mu0, eta0, alpha0, tau00], dtype=np.float64)
+            
+            if self._kernel == &#34;powlaw&#34;:
+                opt_result = uvhp_powlaw_mle(self._timestamps, T, self._m, self._M, param_vec0)
+            elif self._kernel == &#34;powlaw-cutoff&#34;:
+                opt_result = uvhp_powlaw_cut_mle(self._timestamps, T, self._m, self._M, param_vec0)
+
+            if opt_result[2][&#34;warnflag&#34;] == 0: # if optimization exits successfully: append result
+                opt_res_ls.append(opt_result)
+                logL_res_ls.append(-opt_result[1])
+
+        self._opt_result = opt_result   
+        if len(opt_res_ls) &gt; 0:
+            # choose model with largest logL
+            idx = logL_res_ls.index(max(logL_res_ls))
+            opt_result = opt_res_ls[idx]   
+        
+            self.success_flag = True
+            result_param_vec = opt_result[0]
+            self.logL = -opt_result[1]
+            self.mu, self.eta, self.alpha, self.tau0 = result_param_vec[0], result_param_vec[1], result_param_vec[2], result_param_vec[3]
+
+        else:
+            print(f&#34;WARNING: Grid Optimization not successful, none of the {grid_size} attempts exited succesfully&#34;)  
+
+    def compensator(self) -&gt; np.ndarray:
+        &#34;&#34;&#34; Computes the compensator corresponding to the estimated process. 
+            The compensator of a point process is defined as:
+
+        Raises:
+            Exception: If model has not yet been successfully estimated yet
+
+        Returns:
+            np.ndarray: numpy array of timestamps (the compensator)
+        &#34;&#34;&#34;
+        if self.success_flag == False:
+            raise Exception(&#34;ERROR: Cannot compute compensator, model has not been succesfully estimated!&#34;)
+
+        if self._kernel == &#34;powlaw&#34;:
+            compensator = uvhp_approx_powl_compensator(self._timestamps, self.mu, self.eta, self.alpha, self.tau0, self._m, self._M)
+        elif self._kernel == &#34;powlaw-cutoff&#34;:
+            compensator = uvhp_approx_powl_cut_compensator(self._timestamps, self.mu, self.eta, self.alpha, self.tau0, self._m, self._M)
+
+        return compensator
+    
+    # TODO: Method for evaluating estimated intensity with option of plotting the intensity
+    # TODO: Method for evaluating log-likelihood given timestamps and paramters??</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="HawkesPyLib.inference.ApproxPowlawHawkesProcessEstimation.aic"><code class="name flex">
+<span>def <span class="ident">aic</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the Akaike information criteria of the estimated model</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>Exception</code></dt>
+<dd>If process has not been succesfully estimated yet. I.e. if 'success_flag' is False</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>The AIC value</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def aic(self) -&gt; float:
+    &#34;&#34;&#34;Returns the Akaike information criteria of the estimated model
+
+    Raises:
+        Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+    Returns:
+        float: The AIC value
+    &#34;&#34;&#34;
+    if self.success_flag == True:
+        return -2 * self.logL + 2 * self._num_par
+    else:
+        raise Exception(&#34;ERROR: Cannot compute AIC, model has not been succesfully estimated!&#34;)</code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.ApproxPowlawHawkesProcessEstimation.bic"><code class="name flex">
+<span>def <span class="ident">bic</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the Baysian information criteria of the estimated model</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>Exception</code></dt>
+<dd>If process has not been succesfully estimated yet. I.e. if 'success_flag' is False</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>The BIC value</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def bic(self) -&gt; float:
+    &#34;&#34;&#34;Returns the Baysian information criteria of the estimated model
+
+    Raises:
+        Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+    Returns:
+        float: The BIC value
+    &#34;&#34;&#34;
+    if self.success_flag == True:
+        return -2 * self.logL + self._num_par * np.log(self._num_par)
+    else:
+        raise Exception(&#34;ERROR: Cannot compute BIC, model has not been succesfully estimated!&#34;)</code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.ApproxPowlawHawkesProcessEstimation.compensator"><code class="name flex">
+<span>def <span class="ident">compensator</span></span>(<span>self) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Computes the compensator corresponding to the estimated process.
+The compensator of a point process is defined as:</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>Exception</code></dt>
+<dd>If model has not yet been successfully estimated yet</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>numpy array of timestamps (the compensator)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def compensator(self) -&gt; np.ndarray:
+    &#34;&#34;&#34; Computes the compensator corresponding to the estimated process. 
+        The compensator of a point process is defined as:
+
+    Raises:
+        Exception: If model has not yet been successfully estimated yet
+
+    Returns:
+        np.ndarray: numpy array of timestamps (the compensator)
+    &#34;&#34;&#34;
+    if self.success_flag == False:
+        raise Exception(&#34;ERROR: Cannot compute compensator, model has not been succesfully estimated!&#34;)
+
+    if self._kernel == &#34;powlaw&#34;:
+        compensator = uvhp_approx_powl_compensator(self._timestamps, self.mu, self.eta, self.alpha, self.tau0, self._m, self._M)
+    elif self._kernel == &#34;powlaw-cutoff&#34;:
+        compensator = uvhp_approx_powl_cut_compensator(self._timestamps, self.mu, self.eta, self.alpha, self.tau0, self._m, self._M)
+
+    return compensator</code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.ApproxPowlawHawkesProcessEstimation.estimate"><code class="name flex">
+<span>def <span class="ident">estimate</span></span>(<span>self, timestamps: numpy.ndarray, T: float, max_attempts: int = 5, custom_param_vec0: bool = False, **kwargs) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Method for estimating the Hawkes process parameters using maximum likelihood estimation.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>timestamps</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>1d numpy array containing the timestamp observations.
+Must be sorted and only positive timestamps are allowed</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
+<dd>The end time of the Hawkes process.</dd>
+<dt><strong><code>max_attempts</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>If the optimization routine does not exit successfully. Number of times the optimization repeats with new starting values. Defaults to 5.</dd>
+<dt><strong><code>custom_param_vec0</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>If custom initial values should be used. Defaults to False.
+If true you must supply an addtional variable 'custom_grid' containing a npumpy array of correct dimensions and bound.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def estimate(self, timestamps: np.ndarray, T: float, max_attempts: int=5, custom_param_vec0: bool=False, **kwargs) -&gt; None: 
+    &#34;&#34;&#34; Method for estimating the Hawkes process parameters using maximum likelihood estimation.
+
+    Args:
+        timestamps (np.ndarray): 1d numpy array containing the timestamp observations. 
+                                 Must be sorted and only positive timestamps are allowed
+        T (float): The end time of the Hawkes process.
+        max_attempts (int, optional): If the optimization routine does not exit successfully. Number of times the optimization repeats with new starting values. Defaults to 5.
+        custom_param_vec0 (bool, optional): If custom initial values should be used. Defaults to False. 
+                                            If true you must supply an addtional variable &#39;custom_grid&#39; containing a npumpy array of correct dimensions and bound.
+    &#34;&#34;&#34;
+    self._timestamps = timestamps
+    self._T = self._check_valid_T(T, timestamps[-1])
+
+    succ_flag = None
+
+    if custom_param_vec0 == False:
+        attempt = 0
+        while (succ_flag != 0) &amp; (attempt &lt;= max_attempts):
+            attempt += 1
+            # TODO: Improve the standard starting values: eta0 using the model-free branching ratio estimator, alpha0/tau00 ????
+            eta0 = rng.uniform(1e-3, 0.999)
+            mu0 = len(timestamps) * (1 - eta0) / self._T
+            alpha0 = rng.uniform(1e-3, 3)
+            tau00 = rng.uniform(1e-7, 3)
+            param_vec0 = np.array([mu0, eta0, alpha0, tau00], dtype=np.float64)
+            
+            if self._kernel == &#34;powlaw&#34;:
+                opt_result = uvhp_powlaw_mle(self._timestamps, self._T, self._m, self._M, param_vec0)
+            elif self._kernel == &#34;powlaw-cutoff&#34;:
+                opt_result = uvhp_powlaw_cut_mle(self._timestamps, self._T, self._m, self._M, param_vec0)
+
+            succ_flag = opt_result[2][&#34;warnflag&#34;] # 0 if convergence, 1 if too many func evals or iters, 2 other reason see [&#34;task&#34;]
+    else:
+        if self._kernel == &#34;powlaw&#34;:
+            opt_result = uvhp_powlaw_mle(self._timestamps, self._T, self._m, self._M, kwargs.get(&#34;param_vec0&#34;))
+        elif self._kernel == &#34;powlaw-cutoff&#34;:
+            opt_result = uvhp_powlaw_cut_mle(self._timestamps, self._T, self._m, self._M, kwargs.get(&#34;param_vec0&#34;))
+        succ_flag = opt_result[2][&#34;warnflag&#34;]
+
+    self._opt_result = opt_result
+    self._grid_type = &#34;no-grid&#34;    
+    if succ_flag == 0:
+        self.success_flag = True
+        result_param_vec = opt_result[0]
+        self.logL = -opt_result[1]
+        self.mu, self.eta, self.alpha, self.tau0 = result_param_vec[0], result_param_vec[1], result_param_vec[2], result_param_vec[3]
+
+    else:
+        print(f&#34;WARNING: Optimization not successful: {opt_result[2][&#39;task&#39;]}&#34;)</code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.ApproxPowlawHawkesProcessEstimation.estimate_grid"><code class="name flex">
+<span>def <span class="ident">estimate_grid</span></span>(<span>self, timestamps: numpy.ndarray, T: float, grid_type: str, grid_size: int = 20, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Method for performing multiple optimizations using different initial values
+The estimated model is chosen to be the one with the largest log-likelihood value.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>timestamps</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>1d numpy array containing the timestamp observations.
+Must be sorted and only positive timestamps are allowed</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
+<dd>The end time of the Hawkes process.</dd>
+<dt><strong><code>grid_type</code></strong> :&ensp;<code>str</code></dt>
+<dd>One of: ('random') starting values for eta0 are chosen randomly.
+('equidistant') starting values for eta0 are equidistant between 0 and 1
+('custom') A custom eta0 grid of starting value is supplied to 'custom-grid' variable</dd>
+<dt><strong><code>grid_size</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>The number of optimizations from which the best model is chosen. Defaults to 20.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def estimate_grid(self, timestamps: np.ndarray, T: float, grid_type: str, grid_size: int=20, **kwargs):
+    &#34;&#34;&#34; Method for performing multiple optimizations using different initial values
+        The estimated model is chosen to be the one with the largest log-likelihood value.
+
+    Args:
+        timestamps (np.ndarray): 1d numpy array containing the timestamp observations. 
+                                 Must be sorted and only positive timestamps are allowed
+        T (float): The end time of the Hawkes process.
+        grid_type (str): One of: (&#39;random&#39;) starting values for eta0 are chosen randomly.
+                                 (&#39;equidistant&#39;) starting values for eta0 are equidistant between 0 and 1
+                                 (&#39;custom&#39;) A custom eta0 grid of starting value is supplied to &#39;custom-grid&#39; variable
+        grid_size (int, optional): The number of optimizations from which the best model is chosen. Defaults to 20.
+    &#34;&#34;&#34;
+    self._timestamps = timestamps
+    T = self._check_valid_T(T, timestamps[-1])
+    self._grid_type = grid_type
+    self._grid_size = grid_size
+
+    if grid_type == &#34;random&#34;:
+        eta0_grid = rng.uniform(0.001, 0.999, grid_size)
+    elif grid_type == &#34;equidistant&#34;:
+        eta0_grid = np.linspace(0.001, 0.999, grid_size)
+    elif grid_type == &#34;custom&#34;:
+        eta0_grid = kwargs.get(&#34;custom_grid&#34;)
+    
+    # TODO: Allow parrallel optimization over the different starting values
+    opt_res_ls = [] 
+    logL_res_ls = []
+    for eta0 in eta0_grid:
+        mu0 = len(timestamps) * (1 - eta0) / T
+        alpha0 = rng.uniform(1e-3, 3)
+        tau00 = rng.uniform(1e-7, 3)
+        param_vec0 = np.array([mu0, eta0, alpha0, tau00], dtype=np.float64)
+        
+        if self._kernel == &#34;powlaw&#34;:
+            opt_result = uvhp_powlaw_mle(self._timestamps, T, self._m, self._M, param_vec0)
+        elif self._kernel == &#34;powlaw-cutoff&#34;:
+            opt_result = uvhp_powlaw_cut_mle(self._timestamps, T, self._m, self._M, param_vec0)
+
+        if opt_result[2][&#34;warnflag&#34;] == 0: # if optimization exits successfully: append result
+            opt_res_ls.append(opt_result)
+            logL_res_ls.append(-opt_result[1])
+
+    self._opt_result = opt_result   
+    if len(opt_res_ls) &gt; 0:
+        # choose model with largest logL
+        idx = logL_res_ls.index(max(logL_res_ls))
+        opt_result = opt_res_ls[idx]   
+    
+        self.success_flag = True
+        result_param_vec = opt_result[0]
+        self.logL = -opt_result[1]
+        self.mu, self.eta, self.alpha, self.tau0 = result_param_vec[0], result_param_vec[1], result_param_vec[2], result_param_vec[3]
+
+    else:
+        print(f&#34;WARNING: Grid Optimization not successful, none of the {grid_size} attempts exited succesfully&#34;)  </code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.ApproxPowlawHawkesProcessEstimation.hq"><code class="name flex">
+<span>def <span class="ident">hq</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the Hannan-Quinn
+information criteria of the estimated model</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>Exception</code></dt>
+<dd>If process has not been succesfully estimated yet. I.e. if 'success_flag' is False</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>The HQ value</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def hq(self) -&gt; float:
+    &#34;&#34;&#34;Returns the Hannan-Quinn  information criteria of the estimated model
+
+    Raises:
+        Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+    Returns:
+        float: The HQ value
+    &#34;&#34;&#34;
+    if self.success_flag == True:
+        return -2 * self.logL + 2 * self._num_par * np.log(np.log(self._num_par))
+    else:
+        raise Exception(&#34;ERROR: Cannot compute HQ, model has not been succesfully estimated!&#34;)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="HawkesPyLib.inference.ExpHawkesProcessEstimation"><code class="flex name class">
+<span>class <span class="ident">ExpHawkesProcessEstimation</span></span>
+<span>(</span><span>rng=Generator(PCG64))</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class for inference of unvivariate Hawkes processes with normalized single exponentials memory kernel. The conditional intensity
+function for the kernel without cutoff is defined as:
+TODO: Intensity formulas </p>
+<p>The estiation is done by numerically maximizing the corresponding log-likelihood function.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>success_flag</code></strong> :&ensp;<code>bool</code></dt>
+<dd>True if process successfully estimated and the following attributes set.</dd>
+<dt><strong><code>mu</code></strong> :&ensp;<code>float</code></dt>
+<dd>The estimated background intensity :math:<code>\mu</code>.</dd>
+<dt><strong><code>eta</code></strong> :&ensp;<code>float</code></dt>
+<dd>The estimated branching ratio :math:<code>\eta</code>.</dd>
+<dt><strong><code>theta_vec</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>Array of P estimated decay speeds </dd>
+<dt><strong><code>logL</code></strong> :&ensp;<code>Float</code></dt>
+<dd>The log-likelihood value of the estimated process</dd>
+</dl>
+<p>Initilize ExpHawkesProcessEstimation class</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>rng</code></strong> :&ensp;<code>optional</code></dt>
+<dd>numpy numba generator. For reproducible results use: np.random.default_rng(seed)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ExpHawkesProcessEstimation():
+    &#34;&#34;&#34;
+    Class for inference of unvivariate Hawkes processes with normalized single exponentials memory kernel. The conditional intensity
+    function for the kernel without cutoff is defined as:
+    TODO: Intensity formulas 
+
+    The estiation is done by numerically maximizing the corresponding log-likelihood function.
+
+
+    Attributes:
+        success_flag (bool): True if process successfully estimated and the following attributes set.
+        mu (float): The estimated background intensity :math:`\mu`.
+        eta (float): The estimated branching ratio :math:`\\eta`.
+        theta_vec (np.ndarray): Array of P estimated decay speeds 
+        logL (Float): The log-likelihood value of the estimated process
+
+    &#34;&#34;&#34;
+
+    _timestamps = PositiveOrderedFloatNdarray(&#34;timestamps&#34;)
+    _grid_type = OneOf(&#34;random&#34;, &#34;equidistant&#34;, &#34;custom&#34;, &#34;no-grid&#34;)
+    _grid_size = IntInExRange(&#34;grid_size&#34;, lower_bound=0)
+
+
+    def __init__(self, rng=rng) -&gt; None:
+        &#34;&#34;&#34;Initilize ExpHawkesProcessEstimation class
+
+        Args:
+            rng (optional): numpy numba generator. For reproducible results use: np.random.default_rng(seed)
+        &#34;&#34;&#34;
+        self._rng = rng
+        self.success_flag = False
+
+    def _check_valid_T(self, T: float, min_value) -&gt; float:
+        &#34;&#34;&#34;Checks if input &#39;T&#39; is valid
+
+        Args:
+            T (float): End time of the process
+            min_value (float): The minimum value for the end time of the process. i.e. the largest/last timestamps in &#39;timestamps&#39;
+
+        Raises:
+            ValueError: If T is invalid
+
+        Returns:
+            float: process end time &#39;T&#39; 
+        &#34;&#34;&#34;
+        if (T &lt; min_value):
+            raise ValueError(f&#34;The process end time &#39;T&#39; must be a number larger or equal to the last value in the sorted array &#39;timestamps&#39;&#34;)
+        else:
+            return float(T)
+    
+    def aic(self) -&gt; float:
+        &#34;&#34;&#34;Returns the Akaike information criteria of the estimated model
+
+        Raises:
+            Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+        Returns:
+            float: The AIC value
+        &#34;&#34;&#34;
+        if self.success_flag == True:
+            return -2 * self.logL + 2 * self._num_par
+        else:
+            raise Exception(&#34;ERROR: Cannot compute AIC, model has not been succesfully estimated!&#34;)
+
+    def bic(self) -&gt; float:
+        &#34;&#34;&#34;Returns the Baysian information criteria of the estimated model
+
+        Raises:
+            Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+        Returns:
+            float: The BIC value
+        &#34;&#34;&#34;
+        if self.success_flag == True:
+            return -2 * self.logL + self._num_par * np.log(self._num_par)
+        else:
+            raise Exception(&#34;ERROR: Cannot compute BIC, model has not been succesfully estimated!&#34;)
+
+    def hq(self) -&gt; float:
+        &#34;&#34;&#34;Returns the Hannan-Quinn  information criteria of the estimated model
+
+        Raises:
+            Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+        Returns:
+            float: The HQ value
+        &#34;&#34;&#34;
+        if self.success_flag == True:
+            return -2 * self.logL + 2 * self._num_par * np.log(np.log(self._num_par))
+        else:
+            raise Exception(&#34;ERROR: Cannot compute HQ, model has not been succesfully estimated!&#34;)
+        
+    def estimate(self, timestamps: np.ndarray, T: float, max_attempts: int=5,  custom_param_vec0: bool=False, **kwargs) -&gt; None: 
+        &#34;&#34;&#34; Method for estimating the Hawkes process parameters using maximum likelihood estimation.
+
+        Args:
+            timestamps (np.ndarray): 1d numpy array containing the timestamp observations. 
+                                     Must be sorted and only positive timestamps are allowed
+            T (float): The end time of the Hawkes process.
+            max_attempts (int, optional): If the optimization routine does not exit successfully. Number of times the optimization repeats with new starting values. Defaults to 5.
+            custom_param_vec0 (bool, optional): If custom initial values should be used. Defaults to False. 
+                                                If true you must supply an addtional variable &#39;custom_grid&#39; containing a npumpy array of correct dimensions and bound.
+        &#34;&#34;&#34;
+        self._timestamps = timestamps
+        T = self._check_valid_T(T, timestamps[-1])
+
+        succ_flag = None
+        if custom_param_vec0 == False:
+            attempt = 0
+            while (succ_flag != 0) &amp; (attempt &lt;= max_attempts):
+                attempt += 1
+                # TODO: Improve the standard starting values: eta0 using the model-free branching ratio estimator, theta0 ????
+                eta0 = rng.uniform(1e-3, 0.999)
+                mu0 = len(timestamps) * (1 - eta0) / T
+                theta0 = rng.uniform(1e-5, 5) 
+                param_vec0 = np.array([mu0, eta0, theta0], dtype=np.float64)
+            
+                opt_result = uvhp_expo_mle(self._timestamps, T, param_vec0)
+                succ_flag = opt_result[2][&#34;warnflag&#34;] # 0 if convergence, 1 if too many func evals or iters, 2 other reason see [&#34;task&#34;]
+        else:
+            opt_result = uvhp_expo_mle(self._timestamps, T, kwargs.get(&#34;param_vec0&#34;))
+            succ_flag = opt_result[2][&#34;warnflag&#34;] # 0 if convergence, 1 if too many func evals or iters, 2 other reason see [&#34;task&#34;]
+                
+        self._opt_result = opt_result
+        self._grid_type = &#34;no-grid&#34;    
+        if succ_flag == 0:
+            self.success_flag = True
+            result_param_vec = opt_result[0]
+            self.logL = -opt_result[1]
+            self.mu, self.eta, self.theta = result_param_vec[0], result_param_vec[1], result_param_vec[2]
+
+        else:
+            print(f&#34;WARNING: Optimization not successful: {opt_result[2][&#39;task&#39;]}&#34;)
+        
+        
+    def estimate_grid(self, timestamps: np.ndarray, T: float, grid_type: str, grid_size: int=20, rng=rng, **kwargs):
+        &#34;&#34;&#34; Method for performing multiple optimizations using different initial values
+            The estimated model is chosen to be the one with the largest log-likelihood value.
+
+        Args:
+            timestamps (np.ndarray): 1d numpy array containing the timestamp observations. 
+                                     Must be sorted and only positive timestamps are allowed
+            T (float): The end time of the Hawkes process.
+            grid_type (str): One of: (&#39;random&#39;) starting values for eta0 are chosen randomly.
+                                     (&#39;equidistant&#39;) starting values for eta0 are equidistant between 0 and 1
+                                     (&#39;custom&#39;) A custom eta0 grid of starting value is supplied to &#39;custom-grid&#39; variable
+            grid_size (int, optional): The number of optimizations from which the best model is chosen. Defaults to 20.
+        &#34;&#34;&#34;
+        self._timestamps = timestamps
+        T = self._check_valid_T(T, timestamps[-1])
+        self._grid_type = grid_type
+        self._grid_size = grid_size
+
+
+        if grid_type == &#34;random&#34;:
+            eta0_grid = rng.uniform(0.001, 0.999, grid_size)
+        elif grid_type == &#34;equidistant&#34;:
+            eta0_grid = np.linspace(0.001, 0.999, grid_size)
+        elif grid_type == &#34;custom&#34;:
+            eta0_grid = kwargs.get(&#34;custom_grid&#34;)
+        
+        # store the optimization results
+        opt_res_ls = [] 
+        logL_res_ls = []
+        for eta0 in eta0_grid:
+            # TODO: Improve the standard starting values: eta0 using the model-free branching ratio estimator, theta0 ????
+            mu0 = len(timestamps) * (1 - eta0) / T
+            theta0 = rng.uniform(1e-5, 5) 
+            param_vec0 = np.array([mu0, eta0, theta0], dtype=np.float64)
+            opt_result = uvhp_expo_mle(self._timestamps, T, param_vec0)
+            
+            if opt_result[2][&#34;warnflag&#34;] == 0: # if optimization exits successfully: append result
+                opt_res_ls.append(opt_result)
+                logL_res_ls.append(-opt_result[1])
+
+        self._opt_result = opt_result   
+        if len(opt_res_ls) &gt; 0:
+            # choose model with largest logL
+            idx = logL_res_ls.index(max(logL_res_ls))
+            opt_result = opt_res_ls[idx]   
+        
+            self.success_flag = True
+            result_param_vec = opt_result[0]
+            self.logL = -opt_result[1]
+            self.mu, self.eta, self.theta = result_param_vec[0], result_param_vec[1], result_param_vec[2]
+
+        else:
+            print(f&#34;WARNING: Grid Optimization not successful, none of the {grid_size} attempts exited succesfully&#34;)  
+        
+
+    def compensator(self):
+        &#34;&#34;&#34; Computes the compensator corresponding to the estimated process. 
+            The compensator of a point process is defined as:
+
+        Raises:
+            Exception: If model has not yet been successfully estimated yet
+
+        Returns:
+            np.ndarray: numpy array of timestamps (the compensator)
+        &#34;&#34;&#34;
+        if self.success_flag == False:
+            raise Exception(&#34;Cannot compute compensator, model has not been succesfully estimated!&#34;)
+
+        compensator = uvhp_expo_compensator(self._timestamps, self.mu, self.eta, self.theta)
+
+        return compensator</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="HawkesPyLib.inference.ExpHawkesProcessEstimation.aic"><code class="name flex">
+<span>def <span class="ident">aic</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the Akaike information criteria of the estimated model</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>Exception</code></dt>
+<dd>If process has not been succesfully estimated yet. I.e. if 'success_flag' is False</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>The AIC value</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def aic(self) -&gt; float:
+    &#34;&#34;&#34;Returns the Akaike information criteria of the estimated model
+
+    Raises:
+        Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+    Returns:
+        float: The AIC value
+    &#34;&#34;&#34;
+    if self.success_flag == True:
+        return -2 * self.logL + 2 * self._num_par
+    else:
+        raise Exception(&#34;ERROR: Cannot compute AIC, model has not been succesfully estimated!&#34;)</code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.ExpHawkesProcessEstimation.bic"><code class="name flex">
+<span>def <span class="ident">bic</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the Baysian information criteria of the estimated model</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>Exception</code></dt>
+<dd>If process has not been succesfully estimated yet. I.e. if 'success_flag' is False</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>The BIC value</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def bic(self) -&gt; float:
+    &#34;&#34;&#34;Returns the Baysian information criteria of the estimated model
+
+    Raises:
+        Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+    Returns:
+        float: The BIC value
+    &#34;&#34;&#34;
+    if self.success_flag == True:
+        return -2 * self.logL + self._num_par * np.log(self._num_par)
+    else:
+        raise Exception(&#34;ERROR: Cannot compute BIC, model has not been succesfully estimated!&#34;)</code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.ExpHawkesProcessEstimation.compensator"><code class="name flex">
+<span>def <span class="ident">compensator</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Computes the compensator corresponding to the estimated process.
+The compensator of a point process is defined as:</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>Exception</code></dt>
+<dd>If model has not yet been successfully estimated yet</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>numpy array of timestamps (the compensator)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def compensator(self):
+    &#34;&#34;&#34; Computes the compensator corresponding to the estimated process. 
+        The compensator of a point process is defined as:
+
+    Raises:
+        Exception: If model has not yet been successfully estimated yet
+
+    Returns:
+        np.ndarray: numpy array of timestamps (the compensator)
+    &#34;&#34;&#34;
+    if self.success_flag == False:
+        raise Exception(&#34;Cannot compute compensator, model has not been succesfully estimated!&#34;)
+
+    compensator = uvhp_expo_compensator(self._timestamps, self.mu, self.eta, self.theta)
+
+    return compensator</code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.ExpHawkesProcessEstimation.estimate"><code class="name flex">
+<span>def <span class="ident">estimate</span></span>(<span>self, timestamps: numpy.ndarray, T: float, max_attempts: int = 5, custom_param_vec0: bool = False, **kwargs) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Method for estimating the Hawkes process parameters using maximum likelihood estimation.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>timestamps</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>1d numpy array containing the timestamp observations.
+Must be sorted and only positive timestamps are allowed</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
+<dd>The end time of the Hawkes process.</dd>
+<dt><strong><code>max_attempts</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>If the optimization routine does not exit successfully. Number of times the optimization repeats with new starting values. Defaults to 5.</dd>
+<dt><strong><code>custom_param_vec0</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>If custom initial values should be used. Defaults to False.
+If true you must supply an addtional variable 'custom_grid' containing a npumpy array of correct dimensions and bound.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def estimate(self, timestamps: np.ndarray, T: float, max_attempts: int=5,  custom_param_vec0: bool=False, **kwargs) -&gt; None: 
+    &#34;&#34;&#34; Method for estimating the Hawkes process parameters using maximum likelihood estimation.
+
+    Args:
+        timestamps (np.ndarray): 1d numpy array containing the timestamp observations. 
+                                 Must be sorted and only positive timestamps are allowed
+        T (float): The end time of the Hawkes process.
+        max_attempts (int, optional): If the optimization routine does not exit successfully. Number of times the optimization repeats with new starting values. Defaults to 5.
+        custom_param_vec0 (bool, optional): If custom initial values should be used. Defaults to False. 
+                                            If true you must supply an addtional variable &#39;custom_grid&#39; containing a npumpy array of correct dimensions and bound.
+    &#34;&#34;&#34;
+    self._timestamps = timestamps
+    T = self._check_valid_T(T, timestamps[-1])
+
+    succ_flag = None
+    if custom_param_vec0 == False:
+        attempt = 0
+        while (succ_flag != 0) &amp; (attempt &lt;= max_attempts):
+            attempt += 1
+            # TODO: Improve the standard starting values: eta0 using the model-free branching ratio estimator, theta0 ????
+            eta0 = rng.uniform(1e-3, 0.999)
+            mu0 = len(timestamps) * (1 - eta0) / T
+            theta0 = rng.uniform(1e-5, 5) 
+            param_vec0 = np.array([mu0, eta0, theta0], dtype=np.float64)
+        
+            opt_result = uvhp_expo_mle(self._timestamps, T, param_vec0)
+            succ_flag = opt_result[2][&#34;warnflag&#34;] # 0 if convergence, 1 if too many func evals or iters, 2 other reason see [&#34;task&#34;]
+    else:
+        opt_result = uvhp_expo_mle(self._timestamps, T, kwargs.get(&#34;param_vec0&#34;))
+        succ_flag = opt_result[2][&#34;warnflag&#34;] # 0 if convergence, 1 if too many func evals or iters, 2 other reason see [&#34;task&#34;]
+            
+    self._opt_result = opt_result
+    self._grid_type = &#34;no-grid&#34;    
+    if succ_flag == 0:
+        self.success_flag = True
+        result_param_vec = opt_result[0]
+        self.logL = -opt_result[1]
+        self.mu, self.eta, self.theta = result_param_vec[0], result_param_vec[1], result_param_vec[2]
+
+    else:
+        print(f&#34;WARNING: Optimization not successful: {opt_result[2][&#39;task&#39;]}&#34;)</code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.ExpHawkesProcessEstimation.estimate_grid"><code class="name flex">
+<span>def <span class="ident">estimate_grid</span></span>(<span>self, timestamps: numpy.ndarray, T: float, grid_type: str, grid_size: int = 20, rng=Generator(PCG64), **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Method for performing multiple optimizations using different initial values
+The estimated model is chosen to be the one with the largest log-likelihood value.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>timestamps</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>1d numpy array containing the timestamp observations.
+Must be sorted and only positive timestamps are allowed</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
+<dd>The end time of the Hawkes process.</dd>
+<dt><strong><code>grid_type</code></strong> :&ensp;<code>str</code></dt>
+<dd>One of: ('random') starting values for eta0 are chosen randomly.
+('equidistant') starting values for eta0 are equidistant between 0 and 1
+('custom') A custom eta0 grid of starting value is supplied to 'custom-grid' variable</dd>
+<dt><strong><code>grid_size</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>The number of optimizations from which the best model is chosen. Defaults to 20.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def estimate_grid(self, timestamps: np.ndarray, T: float, grid_type: str, grid_size: int=20, rng=rng, **kwargs):
+    &#34;&#34;&#34; Method for performing multiple optimizations using different initial values
+        The estimated model is chosen to be the one with the largest log-likelihood value.
+
+    Args:
+        timestamps (np.ndarray): 1d numpy array containing the timestamp observations. 
+                                 Must be sorted and only positive timestamps are allowed
+        T (float): The end time of the Hawkes process.
+        grid_type (str): One of: (&#39;random&#39;) starting values for eta0 are chosen randomly.
+                                 (&#39;equidistant&#39;) starting values for eta0 are equidistant between 0 and 1
+                                 (&#39;custom&#39;) A custom eta0 grid of starting value is supplied to &#39;custom-grid&#39; variable
+        grid_size (int, optional): The number of optimizations from which the best model is chosen. Defaults to 20.
+    &#34;&#34;&#34;
+    self._timestamps = timestamps
+    T = self._check_valid_T(T, timestamps[-1])
+    self._grid_type = grid_type
+    self._grid_size = grid_size
+
+
+    if grid_type == &#34;random&#34;:
+        eta0_grid = rng.uniform(0.001, 0.999, grid_size)
+    elif grid_type == &#34;equidistant&#34;:
+        eta0_grid = np.linspace(0.001, 0.999, grid_size)
+    elif grid_type == &#34;custom&#34;:
+        eta0_grid = kwargs.get(&#34;custom_grid&#34;)
+    
+    # store the optimization results
+    opt_res_ls = [] 
+    logL_res_ls = []
+    for eta0 in eta0_grid:
+        # TODO: Improve the standard starting values: eta0 using the model-free branching ratio estimator, theta0 ????
+        mu0 = len(timestamps) * (1 - eta0) / T
+        theta0 = rng.uniform(1e-5, 5) 
+        param_vec0 = np.array([mu0, eta0, theta0], dtype=np.float64)
+        opt_result = uvhp_expo_mle(self._timestamps, T, param_vec0)
+        
+        if opt_result[2][&#34;warnflag&#34;] == 0: # if optimization exits successfully: append result
+            opt_res_ls.append(opt_result)
+            logL_res_ls.append(-opt_result[1])
+
+    self._opt_result = opt_result   
+    if len(opt_res_ls) &gt; 0:
+        # choose model with largest logL
+        idx = logL_res_ls.index(max(logL_res_ls))
+        opt_result = opt_res_ls[idx]   
+    
+        self.success_flag = True
+        result_param_vec = opt_result[0]
+        self.logL = -opt_result[1]
+        self.mu, self.eta, self.theta = result_param_vec[0], result_param_vec[1], result_param_vec[2]
+
+    else:
+        print(f&#34;WARNING: Grid Optimization not successful, none of the {grid_size} attempts exited succesfully&#34;)  </code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.ExpHawkesProcessEstimation.hq"><code class="name flex">
+<span>def <span class="ident">hq</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the Hannan-Quinn
+information criteria of the estimated model</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>Exception</code></dt>
+<dd>If process has not been succesfully estimated yet. I.e. if 'success_flag' is False</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>The HQ value</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def hq(self) -&gt; float:
+    &#34;&#34;&#34;Returns the Hannan-Quinn  information criteria of the estimated model
+
+    Raises:
+        Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+    Returns:
+        float: The HQ value
+    &#34;&#34;&#34;
+    if self.success_flag == True:
+        return -2 * self.logL + 2 * self._num_par * np.log(np.log(self._num_par))
+    else:
+        raise Exception(&#34;ERROR: Cannot compute HQ, model has not been succesfully estimated!&#34;)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="HawkesPyLib.inference.HawkesProcessEstimation"><code class="flex name class">
+<span>class <span class="ident">HawkesProcessEstimation</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Abstract Hawkes process estimation class defining method common to all estimation classes.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class HawkesProcessEstimation():
+    &#34;&#34;&#34;
+    Abstract Hawkes process estimation class defining method common to all estimation classes.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.SumExpHawkesProcessEstimation"><code class="flex name class">
+<span>class <span class="ident">SumExpHawkesProcessEstimation</span></span>
+<span>(</span><span>P: int, rng=Generator(PCG64))</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class for inference of unvivariate Hawkes processes with sum of P exponentials memory kernel. The conditional intensity
+function for the kernel without cutoff is defined as:
+TODO: Intensity formulas </p>
+<p>The estiation is done by numerically maximizing the corresponding log-likelihood function.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>success_flag</code></strong> :&ensp;<code>bool</code></dt>
+<dd>True if process successfully estimated and the following attributes set.</dd>
+<dt><strong><code>mu</code></strong> :&ensp;<code>float</code></dt>
+<dd>The estimated background intensity :math:<code>\mu</code>.</dd>
+<dt><strong><code>eta</code></strong> :&ensp;<code>float</code></dt>
+<dd>The estimated branching ratio :math:<code>\eta</code>.</dd>
+<dt><strong><code>theta_vec</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>Array of P estimated decay speeds </dd>
+<dt><strong><code>logL</code></strong> :&ensp;<code>Float</code></dt>
+<dd>The log-likelihood value of the estimated process</dd>
+</dl>
+<p>Initilize the SumExpHawkesProcessEstimation class.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>P</code></strong> :&ensp;<code>int</code></dt>
+<dd>The number of exponential kernels that make up the memory kernel.</dd>
+<dt><strong><code>rng</code></strong> :&ensp;<code>optional</code></dt>
+<dd>numpy numba generator. For reproducible results use: np.random.default_rng(seed)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SumExpHawkesProcessEstimation():
+    &#34;&#34;&#34;
+    Class for inference of unvivariate Hawkes processes with sum of P exponentials memory kernel. The conditional intensity
+    function for the kernel without cutoff is defined as:
+    TODO: Intensity formulas 
+   
+    The estiation is done by numerically maximizing the corresponding log-likelihood function.
+
+    Attributes:
+        success_flag (bool): True if process successfully estimated and the following attributes set.
+        mu (float): The estimated background intensity :math:`\mu`.
+        eta (float): The estimated branching ratio :math:`\\eta`.
+        theta_vec (np.ndarray): Array of P estimated decay speeds 
+        logL (Float): The log-likelihood value of the estimated process
+
+
+    &#34;&#34;&#34;
+
+    _P = IntInExRange(&#34;P&#34;, lower_bound=0)
+    _timestamps = PositiveOrderedFloatNdarray(&#34;timestamps&#34;)
+    _grid_type = OneOf(&#34;random&#34;, &#34;equidistant&#34;, &#34;custom&#34;, &#34;no-grid&#34;)
+    _grid_size = IntInExRange(&#34;grid_size&#34;, lower_bound=0)
+
+
+    def __init__(self, P: int, rng=rng) -&gt; None:
+        &#34;&#34;&#34;Initilize the SumExpHawkesProcessEstimation class.
+
+        Args:
+            P (int): The number of exponential kernels that make up the memory kernel.
+            rng (optional): numpy numba generator. For reproducible results use: np.random.default_rng(seed)
+        &#34;&#34;&#34;
+        self._P = P
+        self._kernel = &#34;sum-expo&#34;
+        self._rng = rng
+        self.success_flag = False
+        self._ic = False
+
+    def _check_valid_T(self, T: float, min_value) -&gt; float:
+        &#34;&#34;&#34;Checks if input &#39;T&#39; is valid
+
+        Args:
+            T (float): End time of the process
+            min_value (float): The minimum value for the end time of the process. i.e. the largest/last timestamps in &#39;timestamps&#39;
+
+        Raises:
+            ValueError: If T is invalid
+
+        Returns:
+            float: process end time &#39;T&#39; 
+        &#34;&#34;&#34;
+        if (T &lt; min_value):
+            raise ValueError(f&#34;The process end time &#39;T&#39; must be a number larger or equal to the last value in the sorted array &#39;timestamps&#39;&#34;)
+        else:
+            return float(T)
+    
+    def aic(self) -&gt; float:
+        &#34;&#34;&#34;Returns the Akaike information criteria of the estimated model
+
+        Raises:
+            Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+        Returns:
+            float: The AIC value
+        &#34;&#34;&#34;
+        if self.success_flag == True:
+            return -2 * self.logL + 2 * self._num_par
+        else:
+            raise Exception(&#34;ERROR: Cannot compute AIC, model has not been succesfully estimated!&#34;)
+
+    def bic(self) -&gt; float:
+        &#34;&#34;&#34;Returns the Baysian information criteria of the estimated model
+
+        Raises:
+            Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+        Returns:
+            float: The BIC value
+        &#34;&#34;&#34;
+        if self.success_flag == True:
+            return -2 * self.logL + self._num_par * np.log(self._num_par)
+        else:
+            raise Exception(&#34;ERROR: Cannot compute BIC, model has not been succesfully estimated!&#34;)
+
+    def hq(self) -&gt; float:
+        &#34;&#34;&#34;Returns the Hannan-Quinn  information criteria of the estimated model
+
+        Raises:
+            Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+        Returns:
+            float: The HQ value
+        &#34;&#34;&#34;
+        if self.success_flag == True:
+            return -2 * self.logL + 2 * self._num_par * np.log(np.log(self._num_par))
+        else:
+            raise Exception(&#34;ERROR: Cannot compute HQ, model has not been succesfully estimated!&#34;)
+
+        
+    def estimate(self, timestamps: np.ndarray, T: float, max_attempts: int=5, custom_param_vec0: bool=False, **kwargs): 
+        &#34;&#34;&#34; Method for estimating the Hawkes process parameters using maximum likelihood estimation.
+
+        Args:
+            timestamps (np.ndarray): 1d numpy array containing the timestamp observations. 
+                                     Must be sorted and only positive timestamps are allowed
+            T (float): The end time of the Hawkes process.
+            max_attempts (int, optional): If the optimization routine does not exit successfully. Number of times the optimization repeats with new starting values. Defaults to 5.
+            custom_param_vec0 (bool, optional): If custom initial values should be used. Defaults to False. 
+                                                If true you must supply an addtional variable &#39;custom_grid&#39; containing a npumpy array of correct dimensions and bound.
+        &#34;&#34;&#34;
+        self._timestamps = timestamps
+        T = self._check_valid_T(T, timestamps[-1])
+
+        succ_flag = None
+        if custom_param_vec0 == False:
+            attempt = 0
+            while (succ_flag != 0) &amp; (attempt &lt;= max_attempts):
+                attempt += 1
+                # TODO: Improve the standard starting values: eta0 using the model-free branching ratio estimator, theta0 ????
+                eta0 = rng.uniform(1e-3, 0.999)
+                mu0 = len(timestamps) * (1 - eta0) / T
+                theta0_vec = rng.uniform(1e-5, 5, self._P) 
+                param_vec0 = np.append(np.append(mu0, eta0), theta0_vec)
+            
+                opt_result = uvhp_sum_expo_mle(self._timestamps, T, self._P, param_vec0)
+                succ_flag = opt_result[2][&#34;warnflag&#34;] # 0 if convergence, 1 if too many func evals or iters, 2 other reason see [&#34;task&#34;]
+        else:
+            opt_result = uvhp_sum_expo_mle(self._timestamps, T, self._P, kwargs.get(&#34;param_vec0&#34;))
+            succ_flag = opt_result[2][&#34;warnflag&#34;] 
+                
+        self._opt_result = opt_result
+        self._grid_type = &#34;no-grid&#34;    
+        if succ_flag == 0:
+            self.success_flag = True
+            result_param_vec = opt_result[0]
+            self.logL = -opt_result[1]
+            self.mu, self.eta, self.theta_vec = result_param_vec[0], result_param_vec[1], np.sort(result_param_vec[2::])
+
+        else:
+            print(f&#34;WARNING: Optimization not successful: {opt_result[2][&#39;task&#39;]}&#34;)
+
+        
+    def estimate_grid(self, timestamps: np.ndarray, T: float, grid_type: str, grid_size: int=20, rng=rng, **kwargs):
+        &#34;&#34;&#34; Method for performing multiple optimizations using different initial values
+            The estimated model is chosen to be the one with the largest log-likelihood value.
+
+        Args:
+            timestamps (np.ndarray): 1d numpy array containing the timestamp observations. 
+                                     Must be sorted and only positive timestamps are allowed
+            T (float): The end time of the Hawkes process.
+            grid_type (str): One of: (&#39;random&#39;) starting values for eta0 are chosen randomly.
+                                     (&#39;equidistant&#39;) starting values for eta0 are equidistant between 0 and 1
+                                     (&#39;custom&#39;) A custom eta0 grid of starting value is supplied to &#39;custom-grid&#39; variable
+            grid_size (int, optional): The number of optimizations from which the best model is chosen. Defaults to 20.
+        &#34;&#34;&#34;        
+        self._timestamps = timestamps
+        T = self._check_valid_T(T, timestamps[-1])
+        self._grid_type = grid_type
+        self._grid_size = grid_size
+
+
+        if grid_type == &#34;random&#34;:
+            eta0_grid = rng.uniform(0.001, 0.999, grid_size)
+        elif grid_type == &#34;equidistant&#34;:
+            eta0_grid = np.linspace(0.001, 0.999, grid_size)
+        elif grid_type == &#34;custom&#34;:
+            eta0_grid = kwargs.get(&#34;custom_grid&#34;)
+        
+        # store the optimization results
+        opt_res_ls = [] 
+        logL_res_ls = []
+        for eta0 in eta0_grid:
+            # TODO: Improve the standard starting values: eta0 using the model-free branching ratio estimator, theta0 ????
+            mu0 = len(timestamps) * (1 - eta0) / T
+            theta0_vec = rng.uniform(1e-5, 5, self._P) 
+            param_vec0 = np.append(np.append(mu0, eta0), theta0_vec)
+            opt_result = uvhp_sum_expo_mle(self._timestamps, T, self._P, param_vec0)
+            
+            if opt_result[2][&#34;warnflag&#34;] == 0: # if optimization exits successfully: append result
+                opt_res_ls.append(opt_result)
+                logL_res_ls.append(-opt_result[1])
+
+        self._opt_result = opt_result   
+        if len(opt_res_ls) &gt; 0:
+            # choose model with largest logL
+            idx = logL_res_ls.index(max(logL_res_ls))
+            opt_result = opt_res_ls[idx]   
+        
+            self.success_flag = True
+            result_param_vec = opt_result[0]
+            self.logL = -opt_result[1]
+            self.mu, self.eta, self.theta_vec = result_param_vec[0], result_param_vec[1], np.sort(result_param_vec[2::])
+
+        else:
+            print(f&#34;WARNING: Grid Optimization not successful, none of the {grid_size} attempts exited succesfully&#34;)  
+
+
+    def compensator(self):
+        &#34;&#34;&#34; Computes the compensator corresponding to the estimated process. 
+            The compensator of a point process is defined as:
+
+        Raises:
+            Exception: If model has not yet been successfully estimated yet
+
+        Returns:
+            np.ndarray: numpy array of timestamps (the compensator)
+        &#34;&#34;&#34;
+        if self.success_flag == False:
+            raise Exception(&#34;ERROR: Cannot compute compensator, model has not been succesfully estimated!&#34;)
+
+        compensator = uvhp_sum_expo_compensator(self._timestamps, self.mu, self.eta, self.theta_vec)
+
+        return compensator</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="HawkesPyLib.inference.SumExpHawkesProcessEstimation.aic"><code class="name flex">
+<span>def <span class="ident">aic</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the Akaike information criteria of the estimated model</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>Exception</code></dt>
+<dd>If process has not been succesfully estimated yet. I.e. if 'success_flag' is False</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>The AIC value</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def aic(self) -&gt; float:
+    &#34;&#34;&#34;Returns the Akaike information criteria of the estimated model
+
+    Raises:
+        Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+    Returns:
+        float: The AIC value
+    &#34;&#34;&#34;
+    if self.success_flag == True:
+        return -2 * self.logL + 2 * self._num_par
+    else:
+        raise Exception(&#34;ERROR: Cannot compute AIC, model has not been succesfully estimated!&#34;)</code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.SumExpHawkesProcessEstimation.bic"><code class="name flex">
+<span>def <span class="ident">bic</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the Baysian information criteria of the estimated model</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>Exception</code></dt>
+<dd>If process has not been succesfully estimated yet. I.e. if 'success_flag' is False</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>The BIC value</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def bic(self) -&gt; float:
+    &#34;&#34;&#34;Returns the Baysian information criteria of the estimated model
+
+    Raises:
+        Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+    Returns:
+        float: The BIC value
+    &#34;&#34;&#34;
+    if self.success_flag == True:
+        return -2 * self.logL + self._num_par * np.log(self._num_par)
+    else:
+        raise Exception(&#34;ERROR: Cannot compute BIC, model has not been succesfully estimated!&#34;)</code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.SumExpHawkesProcessEstimation.compensator"><code class="name flex">
+<span>def <span class="ident">compensator</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Computes the compensator corresponding to the estimated process.
+The compensator of a point process is defined as:</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>Exception</code></dt>
+<dd>If model has not yet been successfully estimated yet</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>numpy array of timestamps (the compensator)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def compensator(self):
+    &#34;&#34;&#34; Computes the compensator corresponding to the estimated process. 
+        The compensator of a point process is defined as:
+
+    Raises:
+        Exception: If model has not yet been successfully estimated yet
+
+    Returns:
+        np.ndarray: numpy array of timestamps (the compensator)
+    &#34;&#34;&#34;
+    if self.success_flag == False:
+        raise Exception(&#34;ERROR: Cannot compute compensator, model has not been succesfully estimated!&#34;)
+
+    compensator = uvhp_sum_expo_compensator(self._timestamps, self.mu, self.eta, self.theta_vec)
+
+    return compensator</code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.SumExpHawkesProcessEstimation.estimate"><code class="name flex">
+<span>def <span class="ident">estimate</span></span>(<span>self, timestamps: numpy.ndarray, T: float, max_attempts: int = 5, custom_param_vec0: bool = False, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Method for estimating the Hawkes process parameters using maximum likelihood estimation.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>timestamps</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>1d numpy array containing the timestamp observations.
+Must be sorted and only positive timestamps are allowed</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
+<dd>The end time of the Hawkes process.</dd>
+<dt><strong><code>max_attempts</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>If the optimization routine does not exit successfully. Number of times the optimization repeats with new starting values. Defaults to 5.</dd>
+<dt><strong><code>custom_param_vec0</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>If custom initial values should be used. Defaults to False.
+If true you must supply an addtional variable 'custom_grid' containing a npumpy array of correct dimensions and bound.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def estimate(self, timestamps: np.ndarray, T: float, max_attempts: int=5, custom_param_vec0: bool=False, **kwargs): 
+    &#34;&#34;&#34; Method for estimating the Hawkes process parameters using maximum likelihood estimation.
+
+    Args:
+        timestamps (np.ndarray): 1d numpy array containing the timestamp observations. 
+                                 Must be sorted and only positive timestamps are allowed
+        T (float): The end time of the Hawkes process.
+        max_attempts (int, optional): If the optimization routine does not exit successfully. Number of times the optimization repeats with new starting values. Defaults to 5.
+        custom_param_vec0 (bool, optional): If custom initial values should be used. Defaults to False. 
+                                            If true you must supply an addtional variable &#39;custom_grid&#39; containing a npumpy array of correct dimensions and bound.
+    &#34;&#34;&#34;
+    self._timestamps = timestamps
+    T = self._check_valid_T(T, timestamps[-1])
+
+    succ_flag = None
+    if custom_param_vec0 == False:
+        attempt = 0
+        while (succ_flag != 0) &amp; (attempt &lt;= max_attempts):
+            attempt += 1
+            # TODO: Improve the standard starting values: eta0 using the model-free branching ratio estimator, theta0 ????
+            eta0 = rng.uniform(1e-3, 0.999)
+            mu0 = len(timestamps) * (1 - eta0) / T
+            theta0_vec = rng.uniform(1e-5, 5, self._P) 
+            param_vec0 = np.append(np.append(mu0, eta0), theta0_vec)
+        
+            opt_result = uvhp_sum_expo_mle(self._timestamps, T, self._P, param_vec0)
+            succ_flag = opt_result[2][&#34;warnflag&#34;] # 0 if convergence, 1 if too many func evals or iters, 2 other reason see [&#34;task&#34;]
+    else:
+        opt_result = uvhp_sum_expo_mle(self._timestamps, T, self._P, kwargs.get(&#34;param_vec0&#34;))
+        succ_flag = opt_result[2][&#34;warnflag&#34;] 
+            
+    self._opt_result = opt_result
+    self._grid_type = &#34;no-grid&#34;    
+    if succ_flag == 0:
+        self.success_flag = True
+        result_param_vec = opt_result[0]
+        self.logL = -opt_result[1]
+        self.mu, self.eta, self.theta_vec = result_param_vec[0], result_param_vec[1], np.sort(result_param_vec[2::])
+
+    else:
+        print(f&#34;WARNING: Optimization not successful: {opt_result[2][&#39;task&#39;]}&#34;)</code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.SumExpHawkesProcessEstimation.estimate_grid"><code class="name flex">
+<span>def <span class="ident">estimate_grid</span></span>(<span>self, timestamps: numpy.ndarray, T: float, grid_type: str, grid_size: int = 20, rng=Generator(PCG64), **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Method for performing multiple optimizations using different initial values
+The estimated model is chosen to be the one with the largest log-likelihood value.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>timestamps</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>1d numpy array containing the timestamp observations.
+Must be sorted and only positive timestamps are allowed</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
+<dd>The end time of the Hawkes process.</dd>
+<dt><strong><code>grid_type</code></strong> :&ensp;<code>str</code></dt>
+<dd>One of: ('random') starting values for eta0 are chosen randomly.
+('equidistant') starting values for eta0 are equidistant between 0 and 1
+('custom') A custom eta0 grid of starting value is supplied to 'custom-grid' variable</dd>
+<dt><strong><code>grid_size</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>The number of optimizations from which the best model is chosen. Defaults to 20.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def estimate_grid(self, timestamps: np.ndarray, T: float, grid_type: str, grid_size: int=20, rng=rng, **kwargs):
+    &#34;&#34;&#34; Method for performing multiple optimizations using different initial values
+        The estimated model is chosen to be the one with the largest log-likelihood value.
+
+    Args:
+        timestamps (np.ndarray): 1d numpy array containing the timestamp observations. 
+                                 Must be sorted and only positive timestamps are allowed
+        T (float): The end time of the Hawkes process.
+        grid_type (str): One of: (&#39;random&#39;) starting values for eta0 are chosen randomly.
+                                 (&#39;equidistant&#39;) starting values for eta0 are equidistant between 0 and 1
+                                 (&#39;custom&#39;) A custom eta0 grid of starting value is supplied to &#39;custom-grid&#39; variable
+        grid_size (int, optional): The number of optimizations from which the best model is chosen. Defaults to 20.
+    &#34;&#34;&#34;        
+    self._timestamps = timestamps
+    T = self._check_valid_T(T, timestamps[-1])
+    self._grid_type = grid_type
+    self._grid_size = grid_size
+
+
+    if grid_type == &#34;random&#34;:
+        eta0_grid = rng.uniform(0.001, 0.999, grid_size)
+    elif grid_type == &#34;equidistant&#34;:
+        eta0_grid = np.linspace(0.001, 0.999, grid_size)
+    elif grid_type == &#34;custom&#34;:
+        eta0_grid = kwargs.get(&#34;custom_grid&#34;)
+    
+    # store the optimization results
+    opt_res_ls = [] 
+    logL_res_ls = []
+    for eta0 in eta0_grid:
+        # TODO: Improve the standard starting values: eta0 using the model-free branching ratio estimator, theta0 ????
+        mu0 = len(timestamps) * (1 - eta0) / T
+        theta0_vec = rng.uniform(1e-5, 5, self._P) 
+        param_vec0 = np.append(np.append(mu0, eta0), theta0_vec)
+        opt_result = uvhp_sum_expo_mle(self._timestamps, T, self._P, param_vec0)
+        
+        if opt_result[2][&#34;warnflag&#34;] == 0: # if optimization exits successfully: append result
+            opt_res_ls.append(opt_result)
+            logL_res_ls.append(-opt_result[1])
+
+    self._opt_result = opt_result   
+    if len(opt_res_ls) &gt; 0:
+        # choose model with largest logL
+        idx = logL_res_ls.index(max(logL_res_ls))
+        opt_result = opt_res_ls[idx]   
+    
+        self.success_flag = True
+        result_param_vec = opt_result[0]
+        self.logL = -opt_result[1]
+        self.mu, self.eta, self.theta_vec = result_param_vec[0], result_param_vec[1], np.sort(result_param_vec[2::])
+
+    else:
+        print(f&#34;WARNING: Grid Optimization not successful, none of the {grid_size} attempts exited succesfully&#34;)  </code></pre>
+</details>
+</dd>
+<dt id="HawkesPyLib.inference.SumExpHawkesProcessEstimation.hq"><code class="name flex">
+<span>def <span class="ident">hq</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the Hannan-Quinn
+information criteria of the estimated model</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>Exception</code></dt>
+<dd>If process has not been succesfully estimated yet. I.e. if 'success_flag' is False</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>The HQ value</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def hq(self) -&gt; float:
+    &#34;&#34;&#34;Returns the Hannan-Quinn  information criteria of the estimated model
+
+    Raises:
+        Exception: If process has not been succesfully estimated yet. I.e. if &#39;success_flag&#39; is False
+
+    Returns:
+        float: The HQ value
+    &#34;&#34;&#34;
+    if self.success_flag == True:
+        return -2 * self.logL + 2 * self._num_par * np.log(np.log(self._num_par))
+    else:
+        raise Exception(&#34;ERROR: Cannot compute HQ, model has not been succesfully estimated!&#34;)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="HawkesPyLib" href="index.html">HawkesPyLib</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="HawkesPyLib.inference.compute_ic" href="#HawkesPyLib.inference.compute_ic">compute_ic</a></code></li>
+<li><code><a title="HawkesPyLib.inference.exp1_inv" href="#HawkesPyLib.inference.exp1_inv">exp1_inv</a></code></li>
+<li><code><a title="HawkesPyLib.inference.qq_plot" href="#HawkesPyLib.inference.qq_plot">qq_plot</a></code></li>
+<li><code><a title="HawkesPyLib.inference.qq_plot_unit_exponential" href="#HawkesPyLib.inference.qq_plot_unit_exponential">qq_plot_unit_exponential</a></code></li>
+<li><code><a title="HawkesPyLib.inference.uvhp_expo_mle" href="#HawkesPyLib.inference.uvhp_expo_mle">uvhp_expo_mle</a></code></li>
+<li><code><a title="HawkesPyLib.inference.uvhp_powlaw_cut_mle" href="#HawkesPyLib.inference.uvhp_powlaw_cut_mle">uvhp_powlaw_cut_mle</a></code></li>
+<li><code><a title="HawkesPyLib.inference.uvhp_powlaw_mle" href="#HawkesPyLib.inference.uvhp_powlaw_mle">uvhp_powlaw_mle</a></code></li>
+<li><code><a title="HawkesPyLib.inference.uvhp_sum_expo_mle" href="#HawkesPyLib.inference.uvhp_sum_expo_mle">uvhp_sum_expo_mle</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="HawkesPyLib.inference.ApproxPowlawHawkesProcessEstimation" href="#HawkesPyLib.inference.ApproxPowlawHawkesProcessEstimation">ApproxPowlawHawkesProcessEstimation</a></code></h4>
+<ul class="two-column">
+<li><code><a title="HawkesPyLib.inference.ApproxPowlawHawkesProcessEstimation.aic" href="#HawkesPyLib.inference.ApproxPowlawHawkesProcessEstimation.aic">aic</a></code></li>
+<li><code><a title="HawkesPyLib.inference.ApproxPowlawHawkesProcessEstimation.bic" href="#HawkesPyLib.inference.ApproxPowlawHawkesProcessEstimation.bic">bic</a></code></li>
+<li><code><a title="HawkesPyLib.inference.ApproxPowlawHawkesProcessEstimation.compensator" href="#HawkesPyLib.inference.ApproxPowlawHawkesProcessEstimation.compensator">compensator</a></code></li>
+<li><code><a title="HawkesPyLib.inference.ApproxPowlawHawkesProcessEstimation.estimate" href="#HawkesPyLib.inference.ApproxPowlawHawkesProcessEstimation.estimate">estimate</a></code></li>
+<li><code><a title="HawkesPyLib.inference.ApproxPowlawHawkesProcessEstimation.estimate_grid" href="#HawkesPyLib.inference.ApproxPowlawHawkesProcessEstimation.estimate_grid">estimate_grid</a></code></li>
+<li><code><a title="HawkesPyLib.inference.ApproxPowlawHawkesProcessEstimation.hq" href="#HawkesPyLib.inference.ApproxPowlawHawkesProcessEstimation.hq">hq</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="HawkesPyLib.inference.ExpHawkesProcessEstimation" href="#HawkesPyLib.inference.ExpHawkesProcessEstimation">ExpHawkesProcessEstimation</a></code></h4>
+<ul class="two-column">
+<li><code><a title="HawkesPyLib.inference.ExpHawkesProcessEstimation.aic" href="#HawkesPyLib.inference.ExpHawkesProcessEstimation.aic">aic</a></code></li>
+<li><code><a title="HawkesPyLib.inference.ExpHawkesProcessEstimation.bic" href="#HawkesPyLib.inference.ExpHawkesProcessEstimation.bic">bic</a></code></li>
+<li><code><a title="HawkesPyLib.inference.ExpHawkesProcessEstimation.compensator" href="#HawkesPyLib.inference.ExpHawkesProcessEstimation.compensator">compensator</a></code></li>
+<li><code><a title="HawkesPyLib.inference.ExpHawkesProcessEstimation.estimate" href="#HawkesPyLib.inference.ExpHawkesProcessEstimation.estimate">estimate</a></code></li>
+<li><code><a title="HawkesPyLib.inference.ExpHawkesProcessEstimation.estimate_grid" href="#HawkesPyLib.inference.ExpHawkesProcessEstimation.estimate_grid">estimate_grid</a></code></li>
+<li><code><a title="HawkesPyLib.inference.ExpHawkesProcessEstimation.hq" href="#HawkesPyLib.inference.ExpHawkesProcessEstimation.hq">hq</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="HawkesPyLib.inference.HawkesProcessEstimation" href="#HawkesPyLib.inference.HawkesProcessEstimation">HawkesProcessEstimation</a></code></h4>
+</li>
+<li>
+<h4><code><a title="HawkesPyLib.inference.SumExpHawkesProcessEstimation" href="#HawkesPyLib.inference.SumExpHawkesProcessEstimation">SumExpHawkesProcessEstimation</a></code></h4>
+<ul class="two-column">
+<li><code><a title="HawkesPyLib.inference.SumExpHawkesProcessEstimation.aic" href="#HawkesPyLib.inference.SumExpHawkesProcessEstimation.aic">aic</a></code></li>
+<li><code><a title="HawkesPyLib.inference.SumExpHawkesProcessEstimation.bic" href="#HawkesPyLib.inference.SumExpHawkesProcessEstimation.bic">bic</a></code></li>
+<li><code><a title="HawkesPyLib.inference.SumExpHawkesProcessEstimation.compensator" href="#HawkesPyLib.inference.SumExpHawkesProcessEstimation.compensator">compensator</a></code></li>
+<li><code><a title="HawkesPyLib.inference.SumExpHawkesProcessEstimation.estimate" href="#HawkesPyLib.inference.SumExpHawkesProcessEstimation.estimate">estimate</a></code></li>
+<li><code><a title="HawkesPyLib.inference.SumExpHawkesProcessEstimation.estimate_grid" href="#HawkesPyLib.inference.SumExpHawkesProcessEstimation.estimate_grid">estimate_grid</a></code></li>
+<li><code><a title="HawkesPyLib.inference.SumExpHawkesProcessEstimation.hq" href="#HawkesPyLib.inference.SumExpHawkesProcessEstimation.hq">hq</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
