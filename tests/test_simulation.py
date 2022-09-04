@@ -1,12 +1,12 @@
-from typing import Type
-import unittest
+from unittest import TestCase, mock
 import numpy as np
 from HawkesPyLib.simulation import (ApproxPowerlawHawkesProcessSimulation,
                                         ExpHawkesProcessSimulation,
                                         SumExpHawkesProcessSimulation)
+from HawkesPyLib.core.intensity import generate_eval_grid
 
 
-class TestExpHawkesSimulation(unittest.TestCase):
+class TestExpHawkesSimulation(TestCase):
     def setUp(self):
         self.mu = .5
         self.eta = .8
@@ -30,6 +30,23 @@ class TestExpHawkesSimulation(unittest.TestCase):
         Expo_timestamps = ExpoSimulator.simulate(self.T, self.seed)
         np.testing.assert_allclose(SumExpo_timestamps, Expo_timestamps, rtol=1e-15, atol=1e-15)
 
+    def test_calls_correct_intensity(self):
+        """ Check if intensity function called correct and with the correct parameters """
+        step_size = 0.1
+        with mock.patch("HawkesPyLib.simulation.uvhp_expo_intensity") as patched_function:
+            ExpoSimulator = ExpHawkesProcessSimulation(self.mu, self.eta, self.theta)
+            timestamps = ExpoSimulator.simulate(self.T, self.seed)
+            grid = generate_eval_grid(step_size, self.T)
+            ExpoSimulator.intensity(step_size)
+
+        patched_function.assert_called_once()
+        np.testing.assert_array_equal(timestamps,patched_function.call_args[0][0])
+        np.testing.assert_array_equal(grid, patched_function.call_args[0][1])
+        self.assertEqual(self.mu, patched_function.call_args[0][2])
+        self.assertEqual(self.eta, patched_function.call_args[0][3])
+        self.assertEqual(self.theta, patched_function.call_args[0][4])
+
+
     def test_refuse_invalid_mu(self):
         """ Check if non positive mu and non float mu raise error """
         with self.assertRaises(ValueError):
@@ -37,7 +54,7 @@ class TestExpHawkesSimulation(unittest.TestCase):
         with self.assertRaises(ValueError):
             ExpHawkesProcessSimulation(0., self.eta, self.theta)
         with self.assertRaises(TypeError):
-            ExpHawkesProcessSimulation(2, self.eta, self.theta)
+            ExpHawkesProcessSimulation("2", self.eta, self.theta)
 
     def test_refuse_invalid_eta(self):
         """ Check if values for eta outside the interval (0,1) are refused """
@@ -55,7 +72,7 @@ class TestExpHawkesSimulation(unittest.TestCase):
         with self.assertRaises(ValueError):
             ExpHawkesProcessSimulation(self.mu, self.eta, -0.6)
         with self.assertRaises(TypeError):
-            ExpHawkesProcessSimulation(self.mu, self.eta, 3)
+            ExpHawkesProcessSimulation(self.mu, self.eta, "2")
             
     def test_refuse_invalid_T(self):
         """ Check if non positive T and non float int raise error """
@@ -65,9 +82,9 @@ class TestExpHawkesSimulation(unittest.TestCase):
         with self.assertRaises(ValueError):
             ExpoSimulator.simulate(T=-3.5)
         with self.assertRaises(TypeError):
-            ExpoSimulator.simulate(T=3)
+            ExpoSimulator.simulate(T="3")
 
-class TestSumExpHawkesSimulation(unittest.TestCase):
+class TestSumExpHawkesSimulation(TestCase):
     def setUp(self) -> None:
         self.mu = .5
         self.eta=.8
@@ -81,6 +98,22 @@ class TestSumExpHawkesSimulation(unittest.TestCase):
         desired = np.array([2.3083755,  2.32075025, 2.45105384, 2.70743681, 3.26019467,
                              3.27231931, 9.53121707, 9.56803776, 9.59677089])
         np.testing.assert_allclose(actual, desired, rtol=1e-8, atol=1e-8)
+
+    def test_calls_correct_intensity(self):
+        """ Check if intensity function called correct and the correct with correct params """
+        step_size = 0.1
+        with mock.patch("HawkesPyLib.simulation.uvhp_sum_expo_intensity") as patched_function:
+            SumExpoSimulator = SumExpHawkesProcessSimulation(self.mu, self.eta, self.theta_vec)
+            timestamps = SumExpoSimulator.simulate(self.T, self.seed)
+            grid = generate_eval_grid(step_size, self.T)
+            SumExpoSimulator.intensity(step_size)
+
+        patched_function.assert_called_once()
+        np.testing.assert_array_equal(timestamps,patched_function.call_args[0][0])
+        np.testing.assert_array_equal(grid, patched_function.call_args[0][1])
+        self.assertEqual(self.mu, patched_function.call_args[0][2])
+        self.assertEqual(self.eta, patched_function.call_args[0][3])
+        np.testing.assert_array_equal(self.theta_vec, patched_function.call_args[0][4])
     
     def test_refuse_invalid_mu(self):
         """ Check if non positive mu and non float mu raise error """
@@ -89,7 +122,7 @@ class TestSumExpHawkesSimulation(unittest.TestCase):
         with self.assertRaises(ValueError):
             SumExpHawkesProcessSimulation(0., self.eta, self.theta_vec)
         with self.assertRaises(TypeError):
-            SumExpHawkesProcessSimulation(2, self.eta, self.theta_vec)
+            SumExpHawkesProcessSimulation("2", self.eta, self.theta_vec)
 
     def test_refuse_invalid_eta(self):
         """ Check if values for eta outside the interval (0,1) are refused """
@@ -119,10 +152,10 @@ class TestSumExpHawkesSimulation(unittest.TestCase):
         with self.assertRaises(ValueError):
             SumExpoSimulator.simulate(T=-3.5)
         with self.assertRaises(TypeError):
-            SumExpoSimulator.simulate(T=3)
+            SumExpoSimulator.simulate(T="3")
     
             
-class TestApproxPowlawHawkesSimulation(unittest.TestCase):
+class TestApproxPowlawHawkesSimulation(TestCase):
     def setUp(self) -> None:
         self.mu = .5
         self.eta = .8
@@ -147,6 +180,44 @@ class TestApproxPowlawHawkesSimulation(unittest.TestCase):
                              7.04272411, 8.86119774, 9.44193708, 9.44885092, 9.45292938])
         np.testing.assert_allclose(actual, desired, rtol=1e-8, atol=1e-8)
 
+    def test_calls_correct_intensity_powlaw(self):
+        """ Check if compensator function called correct and the correct with correct params """
+        step_size = 0.1
+        with mock.patch("HawkesPyLib.simulation.uvhp_approx_powl_intensity") as patched_function:
+            PowlawSimulator = ApproxPowerlawHawkesProcessSimulation("powlaw", self.mu, self.eta, self.alpha, self.tau0, self.m, self.M)
+            timestamps = PowlawSimulator.simulate(self.T, self.seed)
+            grid = generate_eval_grid(step_size, self.T)
+            PowlawSimulator.intensity(step_size)
+
+        patched_function.assert_called_once()
+        np.testing.assert_array_equal(timestamps,patched_function.call_args[0][0])
+        np.testing.assert_array_equal(grid, patched_function.call_args[0][1])
+        self.assertEqual(self.mu, patched_function.call_args[0][2])
+        self.assertEqual(self.eta, patched_function.call_args[0][3])
+        self.assertEqual(self.alpha, patched_function.call_args[0][4])
+        self.assertEqual(self.tau0, patched_function.call_args[0][5])
+        self.assertEqual(self.m, patched_function.call_args[0][6])
+        self.assertEqual(self.M, patched_function.call_args[0][7])
+
+
+    def test_calls_correct_intensity_powlaw_cutoff(self):
+        """ Check if compensator function called correct and the correct with correct params """
+        step_size = 0.1
+        with mock.patch("HawkesPyLib.simulation.uvhp_approx_powl_cutoff_intensity") as patched_function:
+            PowlawSimulator = ApproxPowerlawHawkesProcessSimulation("powlaw-cutoff", self.mu, self.eta, self.alpha, self.tau0, self.m, self.M)
+            timestamps = PowlawSimulator.simulate(self.T, self.seed)
+            grid = generate_eval_grid(step_size, self.T)
+            PowlawSimulator.intensity(step_size)
+
+        patched_function.assert_called_once()
+        np.testing.assert_array_equal(timestamps,patched_function.call_args[0][0])
+        np.testing.assert_array_equal(grid, patched_function.call_args[0][1])
+        self.assertEqual(self.mu, patched_function.call_args[0][2])
+        self.assertEqual(self.eta, patched_function.call_args[0][3])
+        self.assertEqual(self.alpha, patched_function.call_args[0][4])
+        self.assertEqual(self.tau0, patched_function.call_args[0][5])
+        self.assertEqual(self.m, patched_function.call_args[0][6])
+        self.assertEqual(self.M, patched_function.call_args[0][7])
 
     def test_refuse_invalid_mu(self):
         """ Check if non positive mu and non float mu raise error """
@@ -155,7 +226,7 @@ class TestApproxPowlawHawkesSimulation(unittest.TestCase):
         with self.assertRaises(ValueError):
             ApproxPowerlawHawkesProcessSimulation("powlaw", 0., self.eta, self.alpha, self.tau0, self.m, self.M)
         with self.assertRaises(TypeError):
-            ApproxPowerlawHawkesProcessSimulation("powlaw", 2, self.eta, self.alpha, self.tau0, self.m, self.M)
+            ApproxPowerlawHawkesProcessSimulation("powlaw", "2", self.eta, self.alpha, self.tau0, self.m, self.M)
 
     def test_refuse_invalid_eta(self):
         """ Check if values for eta outside the interval (0,1) are refused """
@@ -173,7 +244,7 @@ class TestApproxPowlawHawkesSimulation(unittest.TestCase):
         with self.assertRaises(ValueError):
             ApproxPowerlawHawkesProcessSimulation("powlaw", self.mu, self.eta, 0., self.tau0, self.m, self.M)
         with self.assertRaises(TypeError):
-            ApproxPowerlawHawkesProcessSimulation("powlaw", self.mu, self.eta, 2, self.tau0, self.m, self.M)
+            ApproxPowerlawHawkesProcessSimulation("powlaw", self.mu, self.eta, "3", self.tau0, self.m, self.M)
 
     def test_refuse_invalid_tau0(self):
         """ Check if non positive values for tau0 are refused """
@@ -182,7 +253,7 @@ class TestApproxPowlawHawkesSimulation(unittest.TestCase):
         with self.assertRaises(ValueError):
             ApproxPowerlawHawkesProcessSimulation("powlaw", self.mu, self.eta, self.alpha, 0., self.m, self.M)
         with self.assertRaises(TypeError):
-            ApproxPowerlawHawkesProcessSimulation("powlaw", self.mu, self.eta, self.alpha, 1, self.m, self.M)
+            ApproxPowerlawHawkesProcessSimulation("powlaw", self.mu, self.eta, self.alpha, "2", self.m, self.M)
     
     def test_refuse_invalid_m(self):
         """ Check if non positive values for m are refused """
@@ -191,7 +262,7 @@ class TestApproxPowlawHawkesSimulation(unittest.TestCase):
         with self.assertRaises(ValueError):
             ApproxPowerlawHawkesProcessSimulation("powlaw", self.mu, self.eta, self.alpha, self.tau0, 0.0, self.M)
         with self.assertRaises(TypeError):
-            ApproxPowerlawHawkesProcessSimulation("powlaw", self.mu, self.eta, self.alpha, self.tau0, 4, self.M)
+            ApproxPowerlawHawkesProcessSimulation("powlaw", self.mu, self.eta, self.alpha, self.tau0, "2", self.M)
     
     def test_refuse_invalid_M(self):
         """ Check if non positive non integer values for M are refused """
@@ -211,5 +282,5 @@ class TestApproxPowlawHawkesSimulation(unittest.TestCase):
         with self.assertRaises(ValueError):
             PowlawSimulator.simulate(T=-3.5)
         with self.assertRaises(TypeError):
-            PowlawSimulator.simulate(T=3)
+            PowlawSimulator.simulate(T="2")
    

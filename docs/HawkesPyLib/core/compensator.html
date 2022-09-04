@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>HawkesPyLib API documentation</title>
-<meta name="description" content="`HawkesPyLib` is a python package for simulation, and inference of Hawkes processes." />
+<title>HawkesPyLib.core.compensator API documentation</title>
+<meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -20,35 +20,118 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Package <code>HawkesPyLib</code></h1>
+<h1 class="title">Module <code>HawkesPyLib.core.compensator</code></h1>
 </header>
 <section id="section-intro">
-<p><code><a title="HawkesPyLib" href="#HawkesPyLib">HawkesPyLib</a></code> is a python package for simulation, and inference of Hawkes processes.</p>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt><code class="name"><a title="HawkesPyLib.core" href="core/index.html">HawkesPyLib.core</a></code></dt>
+<dt id="HawkesPyLib.core.compensator.uvhp_expo_compensator"><code class="name flex">
+<span>def <span class="ident">uvhp_expo_compensator</span></span>(<span>sample_vec: numpy.ndarray, mu: float, eta: float, theta: float) ‑> numpy.ndarray</span>
+</code></dt>
 <dd>
-<div class="hslist"></div>
+<div class="hslist"><p>Computes the compensator for a Hawkes procss with single exponential kernel.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>sample_vec</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>numpy array of timestamps. Must be non-negative and sorted in ascending order.</dd>
+<dt><strong><code>mu</code></strong> :&ensp;<code>float</code></dt>
+<dd>Background intensity of the Hawkes process. mu &gt; 0</dd>
+<dt><strong><code>eta</code></strong> :&ensp;<code>float</code></dt>
+<dd>Branching ratio of the Hawkes process. 0 &lt; eta &lt; 1</dd>
+<dt><strong><code>theta</code></strong> :&ensp;<code>float</code></dt>
+<dd>Decay speed of the exponential memory kernel. theta &gt; 0</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>numpy array of timestamps</dd>
+</dl></div>
 </dd>
-<dt><code class="name"><a title="HawkesPyLib.inference" href="inference.html">HawkesPyLib.inference</a></code></dt>
+<dt id="HawkesPyLib.core.compensator.uvhp_approx_powl_compensator"><code class="name flex">
+<span>def <span class="ident">uvhp_approx_powl_compensator</span></span>(<span>sample_vec: numpy.ndarray, mu: float, eta: float, alpha: float, tau: float, m: float, M: int) ‑> numpy.ndarray</span>
+</code></dt>
 <dd>
-<div class="hslist"></div>
+<div class="hslist"><p>Computes the compensator for a Hawkes procss with approximate power-law kernel.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>sample_vec</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>numpy array of timestamps. Must be non-negative and sorted in ascending order.</dd>
+<dt><strong><code>mu</code></strong> :&ensp;<code>float</code></dt>
+<dd>Background intensity of the Hawkes process. mu &gt; 0</dd>
+<dt><strong><code>eta</code></strong> :&ensp;<code>float</code></dt>
+<dd>Branching ratio of the Hawkes process. 0 &lt; eta &lt; 1</dd>
+<dt><strong><code>alpha</code></strong> :&ensp;<code>float</code></dt>
+<dd>Power-law coefficient. alpha &gt; 0</dd>
+<dt><strong><code>tau</code></strong> :&ensp;<code>float</code></dt>
+<dd>Decay speed of the kernel. tau &gt; 0</dd>
+<dt><strong><code>m</code></strong> :&ensp;<code>float</code></dt>
+<dd>Memory kernel parameter, m &gt; 0</dd>
+<dt><strong><code>M</code></strong> :&ensp;<code>int</code></dt>
+<dd>Memory kernel parameter, M &gt; 0</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>numpy array of timestamps</dd>
+</dl></div>
 </dd>
-<dt><code class="name"><a title="HawkesPyLib.processes" href="processes.html">HawkesPyLib.processes</a></code></dt>
+<dt id="HawkesPyLib.core.compensator.uvhp_approx_powl_cut_compensator"><code class="name flex">
+<span>def <span class="ident">uvhp_approx_powl_cut_compensator</span></span>(<span>sample_vec, mu, eta, alpha, tau, m, M) ‑> numpy.ndarray</span>
+</code></dt>
 <dd>
-<div class="hslist"></div>
+<div class="hslist"><p>Computes the compensator for a Hawkes procss with approximate power-law kernel with cutoff.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>sample_vec</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>numpy array of timestamps. Must be non-negative and sorted in ascending order.</dd>
+<dt><strong><code>mu</code></strong> :&ensp;<code>float</code></dt>
+<dd>background intensity of the Hawkes process</dd>
+<dt><strong><code>eta</code></strong> :&ensp;<code>float</code></dt>
+<dd>Branching ratio of the Hawkes process. 0 &lt; eta &lt; 1</dd>
+<dt><strong><code>alpha</code></strong> :&ensp;<code>float</code></dt>
+<dd>Power-law coefficient. alpha &gt; 0</dd>
+<dt><strong><code>tau</code></strong> :&ensp;<code>float</code></dt>
+<dd>Decay speed of the kernel. tau &gt; 0</dd>
+<dt><strong><code>m</code></strong> :&ensp;<code>float</code></dt>
+<dd>Memory kernel parameter, m &gt; 0</dd>
+<dt><strong><code>M</code></strong> :&ensp;<code>int</code></dt>
+<dd>Memory kernel parameter, M &gt; 0</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>numpy array of timestamps</dd>
+</dl></div>
 </dd>
-<dt><code class="name"><a title="HawkesPyLib.simulation" href="simulation.html">HawkesPyLib.simulation</a></code></dt>
+<dt id="HawkesPyLib.core.compensator.uvhp_sum_expo_compensator"><code class="name flex">
+<span>def <span class="ident">uvhp_sum_expo_compensator</span></span>(<span>sample_vec: numpy.ndarray, mu: float, eta: float, theta_vec: numpy.ndarray) ‑> numpy.ndarray</span>
+</code></dt>
 <dd>
-<div class="hslist"></div>
+<div class="hslist"><p>Computes the compensator for a Hawkes procss with P-sum exponential kernel.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>sample_vec</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>numpy array of timestamps. Must be non-negative and sorted in ascending order.</dd>
+<dt><strong><code>mu</code></strong> :&ensp;<code>float</code></dt>
+<dd>background intensity of the Hawkes process. mu &gt; 0</dd>
+<dt><strong><code>eta</code></strong> :&ensp;<code>float</code></dt>
+<dd>Branching ratio of the Hawkes process. 0 &lt; eta &lt; 1</dd>
+<dt><strong><code>theta_vec</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>Decay speed of the P exponential memory kernels. theta_vec &gt; 0 all values</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>numpy array of timestamps</dd>
+</dl></div>
 </dd>
 </dl>
-</section>
-<section>
-</section>
-<section>
 </section>
 <section>
 </section>
@@ -88,7 +171,7 @@ const query = new URL(window.location).searchParams.get('q');
 if (query)
 search(query);
 function search(query) {
-const url = '../doc-search.html#' + encodeURIComponent(query);
+const url = '../../doc-search.html#' + encodeURIComponent(query);
 new tingle.modal({
 cssClass: ['modal-dialog'],
 onClose: () => {
@@ -105,12 +188,17 @@ setTimeout(() => input.focus(), 100);
 <ul></ul>
 </div>
 <ul id="index">
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<li><h3>Super-module</h3>
 <ul>
-<li><code><a title="HawkesPyLib.core" href="core/index.html">HawkesPyLib.core</a></code></li>
-<li><code><a title="HawkesPyLib.inference" href="inference.html">HawkesPyLib.inference</a></code></li>
-<li><code><a title="HawkesPyLib.processes" href="processes.html">HawkesPyLib.processes</a></code></li>
-<li><code><a title="HawkesPyLib.simulation" href="simulation.html">HawkesPyLib.simulation</a></code></li>
+<li><code><a title="HawkesPyLib.core" href="index.html">HawkesPyLib.core</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="HawkesPyLib.core.compensator.uvhp_expo_compensator" href="#HawkesPyLib.core.compensator.uvhp_expo_compensator">uvhp_expo_compensator</a></code></li>
+<li><code><a title="HawkesPyLib.core.compensator.uvhp_approx_powl_compensator" href="#HawkesPyLib.core.compensator.uvhp_approx_powl_compensator">uvhp_approx_powl_compensator</a></code></li>
+<li><code><a title="HawkesPyLib.core.compensator.uvhp_approx_powl_cut_compensator" href="#HawkesPyLib.core.compensator.uvhp_approx_powl_cut_compensator">uvhp_approx_powl_cut_compensator</a></code></li>
+<li><code><a title="HawkesPyLib.core.compensator.uvhp_sum_expo_compensator" href="#HawkesPyLib.core.compensator.uvhp_sum_expo_compensator">uvhp_sum_expo_compensator</a></code></li>
 </ul>
 </li>
 </ul>
