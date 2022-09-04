@@ -7,7 +7,7 @@ A simple Python Library for simulation and inference of univariate Hawkes proces
 
 A quick example of simulating and estimating a Hawkes process can be found in the Example.ipynb notebook.
 
-A detailed descriptions of the libraries fcan be found in the [documentation](https://simbold.github.io/HawkesPyLib/)
+A detailed description of the package can be found in the [documentation](https://simbold.github.io/HawkesPyLib/)
 
 The following Hawkes process models are currently available:
 - Univariate Hawkes process with single exponential kernel
