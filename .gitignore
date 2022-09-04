@@ -26,6 +26,7 @@ htmlcov/
 
 # custom pdoc3 templates
 _pdoc_templates/
+pdocs/
 
 # mypy
 .mypy_cache/
