@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import numpy as np
 
+
 class Validator(ABC):
     """
     Abstract validator class
@@ -13,12 +14,13 @@ class Validator(ABC):
         return getattr(obj, self.private_name)
 
     def __set__(self, obj, value):
-        self.validate(value)
+        value = self.validate(value)
         setattr(obj, self.private_name, value)
 
     @abstractmethod
     def validate(self, value):
         pass
+
 
 class OneOf(Validator):
     """
@@ -32,10 +34,13 @@ class OneOf(Validator):
         if value not in self.options:
             raise ValueError(f'Expected {value!r} to be one of {self.options!r}')
 
+        return value
+
 
 class FloatInExRange(Validator):
     """
-    Validator class that validates if a given value is of type float and in the the exclusive range: lower_bound < value < upper_bound
+    Validator class that validates if a given value is of type float or int and in the the exclusive range: lower_bound < value < upper_bound
+    if the value is an int it will be converted to float
     """
 
     def __init__(self, param_name, lower_bound=None, upper_bound=None):
@@ -44,12 +49,13 @@ class FloatInExRange(Validator):
         self.param_name = param_name
 
     def validate(self, value):
-        if not isinstance(value, (float)):
+        if not isinstance(value, (float, int)):
             raise TypeError(f'Expected {value!r} to be a float for parameter {self.param_name}')
         if self.lower_bound is not None and value <= self.lower_bound:
             raise ValueError(f'Expected {value!r} to be larger than {self.lower_bound!r} for parameter {self.param_name}')
         if self.upper_bound is not None and value >= self.upper_bound:
             raise ValueError(f'Expected {value!r} to be smaller than {self.upper_bound!r} for parameter {self.param_name}')
+        return float(value)
 
 
 class IntInExRange(Validator):
@@ -69,6 +75,7 @@ class IntInExRange(Validator):
             raise ValueError(f'Expected {value!r} to be larger than {self.lower_bound!r} for parameter {self.param_name}')
         if self.upper_bound is not None and value >= self.upper_bound:
             raise ValueError(f'Expected {value!r} to be smaller than {self.upper_bound!r} for parameter {self.param_name}')
+        return value
 
 
 class PositiveFloatNdarray(Validator):
@@ -86,6 +93,7 @@ class PositiveFloatNdarray(Validator):
             raise ValueError(f'Expected {np_arr!r} to contain only positive values for parameter {self.param_name}')
         if np_arr.dtype != np.float64:
             raise TypeError(f'Expected {np_arr!r} to be of dtype np.float64 for parameter {self.param_name}')
+        return np_arr
 
 
 class PositiveOrderedFloatNdarray(Validator):
@@ -107,6 +115,4 @@ class PositiveOrderedFloatNdarray(Validator):
             raise TypeError(f'Expected the array {np_arr!r} to be of dtype np.float64 for input argument {self.name}')
         if not (np.diff(np_arr) >= 0).all():
             raise ValueError(f"The array {np_arr!r} must be sorted in acending order for input argument {self.name}")
-        
-
-
+        return np_arr

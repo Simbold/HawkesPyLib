@@ -23,3 +23,9 @@ htmlcov/
 
 # tox
 .tox/
+
+# custom pdoc3 templates
+_pdoc_templates/
+
+# mypy
+.mypy_cache/

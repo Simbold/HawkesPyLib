@@ -1,78 +1,133 @@
 import numpy as np
-from HawkesPyLib.num.simu import (uvhp_approx_powl_cutoff_simulator,
-                      uvhp_expo_simulator,
-                      uvhp_approx_powl_simulator,
-                      uvhp_sum_expo_simulator)
+from HawkesPyLib.core.simulation import (uvhp_approx_powl_cutoff_simulator,
+                                         uvhp_expo_simulator,
+                                         uvhp_approx_powl_simulator,
+                                         uvhp_sum_expo_simulator)
+from HawkesPyLib.core.intensity import (uvhp_approx_powl_cutoff_intensity,
+                                        uvhp_approx_powl_intensity,
+                                        uvhp_expo_intensity,
+                                        uvhp_sum_expo_intensity,
+                                        generate_eval_grid)
 from HawkesPyLib.util import (OneOf,
-                FloatInExRange,
-                IntInExRange,
-                PositiveFloatNdarray)
+                              FloatInExRange,
+                              IntInExRange,
+                              PositiveFloatNdarray)
+from HawkesPyLib.core.kernel import (uvhp_approx_powl_cutoff_kernel,
+                                     uvhp_approx_powl_kernel,
+                                     uvhp_expo_kernel,
+                                     uvhp_sum_expo_kernel)
+
+__all__ = ["ExpHawkesProcessSimulation", "SumExpHawkesProcessSimulation", "ApproxPowerlawHawkesProcessSimulation"]
 
 
 class ExpHawkesProcessSimulation():
-    """ Class for simulation of Hawkes processes with single exponential kernel.
+    r""" Class for simulation of univariate Hawkes processes with single exponential memory kernel.
         The conditional intensity function is defined as:
-    .. math::
-        \lambda^*(t) = \mu + \sum_{t_i < t} \dfrac{\\eta}{\\theta} \exp(-(t - t_i)/\\theta),
-    where :math:`\mu` ("mu") is a constant background intensity, :math:`\\eta` ("eta")
-    is the branching ratio and :math:"\\theta" is the exponential decay parameter. 
-    The simultion is done using Ogata's thinning algorithm.
+        $$ \lambda(t) = \mu + \dfrac{\eta}{\theta} \sum_{t_i < t} e^{(-(t - t_i)/\theta)} $$
 
-     Attributes:
-        mu (float): The background intensity :math:`\mu`.
-        eta (float): The branching ratio :math:`\\eta`.
-        theta (float): Decay speed of exponential kernel :math: '\\theta'. 
-        T (int): Time until the Hawkes process was simulated
-        timestamps (np.ndarray): numpy array of simulated timestamps.
-        n_jumps (int): The number of simulated timestamps.
+        where \(\mu\) (`mu`) is the constant background intensity,\(\eta \) (`eta`)
+        is the branching ratio and \(\theta\) (`theta`) is the exponential decay parameter.
+
+        The implemented simulation algorithm is based on Ogata's modified thinning algorithm (see Ogata 1981 for details).
+
+        References:
+
+        - Ogata, Y. (1981). On lewis simulation method for point processes. IEEE transactions on information theory, 27(1):2331.
     """
-                                                                                
     mu = FloatInExRange("mu", lower_bound=0)
     eta = FloatInExRange("eta", lower_bound=0, upper_bound=1)
     theta = FloatInExRange("theta", lower_bound=0)
     T = FloatInExRange("T", lower_bound=0)
 
     def __init__(self, mu: float, eta: float, theta: float) -> None:
+        r""" To initlize the class provide the following parameters that specify the single exponential Hawkes process.
+        Args:
+            mu (float): The background intensity, \(\mu > 0\).
+            eta (float): The branching ratio, \(0 < \eta > 1\).
+            theta (float): Exponential decay parameter, \(\theta > 0\).
+
+        Attributes:
+            mu (float): The background intensity, \(\mu > 0\).
+            eta (float): The branching ratio, \(0 < \eta > 1\).
+            theta (float): Exponential decay parameter, \(\theta > 0\).
+            T (float): Maximum time until the Hawkes process was simulated.
+            timestamps (np.ndarray): 1d array of simulated arrival times.
+            n_jumps (int): Number of simulated arrival times.
+        """
         self.mu = mu
         self.eta = eta
         self.theta = theta
-    
-    # TODO: Add simulation options: max_n, multiple paths, branching sampling istead of Ogata's thinning algorithm
-    def simulate(self, T: float, seed: int=None) -> np.ndarray:
-        """ Method for generating a realisation of the specified Hawkes process.
+        self._simulated = False
+
+    # TODO: Add simulation options: max_n, multiple paths, branching sampler and conditional simulation
+    def simulate(self, T: float, seed: int = None) -> np.ndarray:
+        """ Generates a realization of the specified Hawkes process.
 
         Args:
             T (float): Maximum time until which the Hawkes process will be simulated.
-            seed (int, optional): To seed the numba random number generator. Defaults to None.
+            seed (int, optional): Seed the random number generator.
 
         Returns:
-            np.ndarray: numpy array of simulated timestamps
+            np.ndarray: 1d array of simulated arrival times.
         """
         self.T = T
         self.timestamps = uvhp_expo_simulator(self.T, self.mu, self.eta, self.theta, seed=seed)
         self.n_jumps = len(self.timestamps)
+        self._simulated = True
         return self.timestamps
-    
-    # TODO: Add methods: evaluate intensity on grid, simulate conditional on a set of timestamps
+
+    def intensity(self, step_size: float) -> np.ndarray:
+        r""" Evaluates the intensity function \(\lambda(t)\) on a grid of equidistant timestamps over the
+            closed interval [0, T] with step size `step_size`.
+
+        !!! note
+            - Additionally to the equidistant time grid the intensity is evaluated
+            at each simulated arrival time.
+            - If the process end time T is not perfectly divisible by
+            the step size the 'effective' step size deviates slightly from the given one.
+
+        Args:
+            step_size (float): Step size of the time grid.
+
+        Returns:
+            np.ndarray: 2d array of timestamps (column 0) and corresponding intensity values (column 1)
+        """
+        if self._simulated is True:
+            grid = generate_eval_grid(step_size, self.T)
+            intensity = uvhp_expo_intensity(self.timestamps, grid, self.mu, self.eta, self.theta)
+            return intensity
+
+        else:
+            raise Exception("ERROR: The Intensity of the simulated process can only be computed after the process is simulated")
+
+    def kernel_values(self, times: np.ndarray) -> np.ndarray:
+        r""" Returns the value of the memory kernel at given time values.
+            The memory kernel of the single exponential memory kernel is defined as:
+            $$ g(t) = \dfrac{\eta}{\theta}  e^{(-t/\theta)} $$
+
+        Args:
+            times (np.ndarray): 1d array of time values for which to compute the value of the memory kernel.
+
+        Returns:
+            np.ndarray: 1d array containing the values of the memory kernel value at the given times.
+        """
+        kernel_values = uvhp_expo_kernel(times, self.eta, self.theta)
+        return kernel_values
 
 
 class SumExpHawkesProcessSimulation():
-    """Class for simulation of Hawkes processes with P sum of exponential kernel.
-    The conditional intensity function is defined as:
-    .. math::
-        \lambda^*(t) = \mu + \sum_{t_i < t} \sum_{k=1}^{P} \dfrac{\\eta}{\\theta_k} \exp(-(t - t_i)/\\theta_k),
-    where :math:`\mu` ("mu") is a constant background intensity, :math:`\\eta` ("eta")
-    is the branching ratio and :math:"\\theta_k" is the k'th exponential decay parameter. The simultion is done using 
-    Ogata's thinning algorithm.
+    r""" Class for simulation of univariate Hawkes processes with single exponential memory kernel.
+        The conditional intensity function is defined as:
+        $$ \lambda(t) = \mu + \dfrac{\eta}{P} \sum_{t_i < t} \sum_{k=1}^{P} \dfrac{1}{\theta_k} e^{(-(t - t_i)/\theta_k)} $$
 
+        where \(\mu\) (`mu`) is the constant background intensity, \(\eta \) (`eta`)
+        is the branching ratio and \(\theta_k\) is the k'th exponential decay parameter in (`theta_vec`).
 
-    Attributes:
-        mu (float): The background intensity :math:`\mu`.
-        eta (float): The branching ratio :math:`\\eta`.
-        theta _vec (np.ndarray): Decay speed of the P exponential kernels :math: '\\theta_k'. 
-        T (int): Time until the Hawkes process was simulated
-        timestamps (np.ndarray): numpy array of simulated timestamps.
-        n_jumps (int): The number of simulated timestamps.
+        The implemented simulation algorithm is based on Ogata's modified thinning algorithm (see Ogata 1981 for details).
+
+        References:
+
+        - Ogata, Y. (1981). On lewis simulation method for point processes. IEEE transactions on information theory, 27(1):2331.
     """
     mu = FloatInExRange("mu", lower_bound=0)
     eta = FloatInExRange("eta", lower_bound=0, upper_bound=1)
@@ -80,55 +135,107 @@ class SumExpHawkesProcessSimulation():
     T = FloatInExRange("T", lower_bound=0)
 
     def __init__(self, mu: float, eta: float, theta_vec: np.ndarray) -> None:
+        r""" To initlize the class provide the following parameters that specify the P-sum exponential Hawkes process.
+        Args:
+            mu (float): The background intensity, \(\mu > 0\).
+            eta (float): The branching ratio, \(0 < \eta > 1\).
+            theta_vec (np.ndarray): 1d array of exponential decay parameters, \(\theta_k > 0\).
+
+        Attributes:
+            mu (float): The background intensity, \(\mu > 0\).
+            eta (float): The branching ratio, \(0 < \eta > 1\).
+            theta_vec (np.ndarray): 1d array of exponential decay parameters, \(\theta_k > 0\).
+            T (float): Maximum time until the Hawkes process was simulated.
+            timestamps (np.ndarray): 1d array of simulated arrival times.
+            n_jumps (int): Number of simulated arrival times.
+        """
         self.mu = mu
         self.eta = eta
         self.theta_vec = theta_vec
-    
-    # TODO: Add simulation options: max_n, multiple paths, branching sampling istead of Ogata's thinning algorithm
-    def simulate(self, T: float, seed: int=None) -> np.ndarray:
-        """ Method for generating a realisation of the specified Hawkes process.
+        self._simulated = False
+
+    # TODO: Add simulation options: max_n, multiple paths, branching sampler and conditional simulation
+    def simulate(self, T: float, seed: int = None) -> np.ndarray:
+        """ Generates a realization of the specified Hawkes process.
 
         Args:
             T (float): Maximum time until which the Hawkes process will be simulated.
-            seed (int, optional): To seed the numba random number generator. Defaults to None.
+            seed (int, optional): Seed the random number generator.
 
         Returns:
-            np.ndarray: numpy array of simulated timestamps
+            np.ndarray: 1d array of simulated arrival times.
         """
         self.T = T
         self.timestamps = uvhp_sum_expo_simulator(self.T, self.mu, self.eta, self.theta_vec, seed=seed)
         self.n_jumps = len(self.timestamps)
+        self._simulated = True
         return self.timestamps
-    
-    # TODO: Add methods: evaluate intensity on grid, simulate conditional on a set of timestamps
+
+    def intensity(self, step_size: float) -> np.ndarray:
+        r""" Evaluates the intensity function \(\lambda(t)\) on a grid of equidistant timestamps over the
+            closed interval [0, T] with step size `step_size`.
+
+        !!! note
+            - Additionally to the equidistant time grid the intensity is evaluated
+            at each simulated arrival time.
+            - If the process end time T is not perfectly divisible by
+            the step size the 'effective' step size deviates slightly from the given one.
+
+        Args:
+            step_size (float): Step size of the time grid.
+
+        Returns:
+            np.ndarray: 2d array of timestamps (column 0) and corresponding intensity values (column 1)
+        """
+        if self._simulated is True:
+            grid = generate_eval_grid(step_size, self.T)
+            intensity = uvhp_sum_expo_intensity(self.timestamps, grid, self.mu, self.eta, self.theta_vec)
+            return intensity
+
+        else:
+            raise Exception("ERROR: The Intensity of the simulated process can only be computed after the process is simulated")
+
+    def kernel_values(self, times: np.ndarray) -> np.ndarray:
+        r""" Returns the value of the memory kernel at given time values. The memory kernel of the P-sum exponential
+            memory kernel is defined as:
+            $$ g(t) = \dfrac{\eta}{P} \sum_{k=1}^{P} \dfrac{1}{\theta_k} e^{(-t/\theta_k)} $$
+
+        Args:
+            times (np.ndarray): 1d array of time values for which to compute the value of the memory kernel.
+
+        Returns:
+            np.ndarray: 1d array containing the values of the memory kernel value at the given times.
+        """
+        kernel_values = uvhp_sum_expo_kernel(times, self.eta, self.theta_vec)
+        return kernel_values
 
 
 class ApproxPowerlawHawkesProcessSimulation():
-    """
-    Class for simulation of Hawkes processes with approximate power-law kernel.
-    The conditional intensity
-    function for the kernel without cutoff is defined as:
-    .. math::
-        \lambda^*(t) = \mu + \sum_{t_i < t}  \dfrac{\\eta}{Z} \\bigg[ \sum_{k=0}^{M-1} \\alpha_k^{-(1+\\alpha)} \exp(-(t - t_i)/\\alpha_k) \\bigg],
-    where :math:`\mu` ("mu") is a constant background intensity, :math:`\\eta` ("eta")
-    is the branching ratio and :math:\\alpha_k = \\tau_0 m^k the k'th powerlaw weight. S and Z are scaling factors and computed automatically. 
-    M and m define the accuracy of the power-law approximation.
-    The intensity for the kernel with cutoff is given by:
-        .. math::
-        \lambda^*(t) = \mu + \sum_{t_i < t}  \dfrac{\\eta}{Z} \\bigg[ \sum_{k=0}^{M-1} \\alpha_k^{-(1+\\alpha)} \exp(-(t - t_i)/\\alpha_k) - S \exp(-(t - t_i)/\\talpha_{-1}) \\bigg],
-   
-    The simultion is done using Ogata's thinning algorithm.
+    r""" Class for simulation of univariate Hawkes processes with approximate power-law memory kernel.
+        The conditional intensity function for the approximate power-law kernel is defined as:
 
-    Attributes:
-        mu (float): The background intensity :math:`\mu`.
-        eta (float): The branching ratio :math:`\\eta`.
-        alpha (float): Power-law coefficient :math: '\\alpha'.
-        tau0 (float): Specifies shape of the memory kernel :math: '\\tau_0'.  
-        m (float): Specify the approximation of the true power-law.
-        M (int): Number of weighted exponential function that approximate the true power-law.
-        T (int): Time until the Hawkes process was simulated
-        timestamps (np.ndarray): numpy array of simulated timestamps.
-        n_jumps (int): The number of simulated timestamps.
+        \[\lambda(t) = \mu + \sum_{t_i < t}  \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} \bigg],\]
+
+        and the conditional intensity function for the approximate power-law kernel with smooth cutoff is defined as:
+
+        \[\lambda(t) = \mu + \sum_{t_i < t} \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} - S e^{(-(t - t_i)/a_{-1})} \bigg],\]
+
+        where \(\mu\) (`mu`) is the constant background intensity, \(\eta \) (`eta`)
+        is the branching ratio, \(\alpha\) (`alpha`) is the tail index and \(\tau_0\) a scale parameter that
+        also controls the decay timescale as well as the location of the smooth cutoff (i.e. the time at which the memory kernel reaches its maximum).
+
+        The true power-law is approximtated by a sum of \(M\) exponential function with power-law weights
+        \(a_k = \tau_0 m^k\). \(M\) is the number of exponentials used for the approximation and \(m\) is a scale
+        parameter. The power-law approximation holds for times up to \(m^{M-1}\) after which the memory kernel
+        decays exponentially. S and Z are scaling factors that ensure that the memory kernel integrates to \(\eta\)
+        and that the kernel value at time zero is zero (for the smooth cutoff version). S and Z are computed automatically.
+
+        The implemented simulation algorithm is based on Ogata's modified thinning algorithm (see Ogata 1981 for details).
+
+        References:
+
+        - Ogata, Y. (1981). On lewis simulation method for point processes. IEEE transactions on information theory, 27(1):2331.
+
     """
     mu = FloatInExRange("mu", lower_bound=0)
     eta = FloatInExRange("eta", lower_bound=0, upper_bound=1)
@@ -140,16 +247,27 @@ class ApproxPowerlawHawkesProcessSimulation():
     kernel = OneOf("powlaw", "powlaw-cutoff")
 
     def __init__(self, kernel: str, mu: float, eta: float, alpha: float, tau0: float, m: float, M: int) -> None:
-        """ Initilizes the ApproxPowerlawHawkesProcessSimulation class
+        r""" Initilize class by setting the processes parameters.
 
         Args:
-            kernel (str): Can be one of: 'powlaw' or 'powlaw-cutoff'. Specifies the shape of the memory kernel.
-            mu (float): The background intensity :math:`\mu`.
-            eta (float): The branching ratio :math:`\\eta`.
-            alpha (float): Power-law coefficient :math: '\\alpha'.
-            tau0 (float): Specifies shape of the memory kernel :math: '\\tau_0'.  
-            m (float): Specify the approximation of the true power-law.
-            M (int): Number of weighted exponential function that approximate the true power-law.
+            kernel (str): Can be one of: 'powlaw' or 'powlaw-cutoff'.
+            mu (float): The background intensity, \(\mu > 0\).
+            eta (float): The branching ratio, \(0 < \eta > 1\).
+            alpha (float): Tail index of the power-law decay, \(\alpha > 0\).
+            tau0 (float): Timescale parameter, \(\tau_0 > 0\).
+            m (float): Scale parameter of the power-law weights, \(m > 0 \).
+            M (int): Number of weighted exponential functions that approximate the power-law.
+
+        Attributes:
+            mu (float): The background intensity, \(\mu > 0\).
+            eta (float): The branching ratio, \(0 < \eta > 1\).
+            alpha (float): Tail index of the power-law decay, \(\alpha > 0\).
+            tau0 (float): Timescale parameter, \(\tau_0 > 0\).
+            m (float): Scale parameter of the power-law weights, \(m > 0 \).
+            M (int): Number of weighted exponential functions that approximate the power-law.
+            T (float): Maximum time until the Hawkes process was simulated.
+            timestamps (np.ndarray): 1d array of simulated arrival times.
+            n_jumps (int): Number of simulated arrival times.
             """
         self.mu = mu
         self.eta = eta
@@ -158,25 +276,76 @@ class ApproxPowerlawHawkesProcessSimulation():
         self.m = m
         self.M = M
         self.kernel = kernel
-    
-    # TODO: Add simulation options: max_n, multiple paths, branching sampling instead of Ogata's thinning algorithm
-    def simulate(self, T: float, seed: int=None):
-        """ Method for generating a realisation of the specified Hawkes process.
+        self._simulated = False
+
+    # TODO: Add simulation options: max_n, multiple paths, branching sampler and conditional simulation
+    def simulate(self, T: float, seed: int = None):
+        """ Generates a realization of the specified Hawkes process.
 
         Args:
             T (float): Maximum time until which the Hawkes process will be simulated.
-            seed (int, optional): To seed the numba random number generator. Defaults to None.
+            seed (int, optional): Seed the random number generator.
 
         Returns:
-            np.ndarray: numpy array of simulated timestamps
+            np.ndarray: 1d array of simulated arrival times.
         """
         self.T = T
         if self.kernel == "powlaw-cutoff":
             self.timestamps = uvhp_approx_powl_cutoff_simulator(self.T, self.mu, self.eta, self.alpha, self.tau0, self.m, self.M, seed=seed)
 
         else:
-            self.timestamps = uvhp_approx_powl_simulator(self.T, self.mu, self.eta, self.alpha, self.tau0, self.m, self.M, seed=seed)         
+            self.timestamps = uvhp_approx_powl_simulator(self.T, self.mu, self.eta, self.alpha, self.tau0, self.m, self.M, seed=seed)
+
         self.n_jumps = len(self.timestamps)
+        self._simulated = True
+
         return self.timestamps
-    
-    # TODO: Add methods: evaluate intensity on grid, simulate conditional on a set of timestamps
+
+    def intensity(self, step_size: float) -> np.ndarray:
+        r""" Evaluates the intensity function \(\lambda(t)\) on a grid of equidistant timestamps over the
+            closed interval [0, T] with step size `step_size`.
+
+        !!! note
+            - Additionally to the equidistant time grid the intensity is evaluated
+            at each simulated arrival time.
+            - If the process end time T is not perfectly divisible by
+            the step size the 'effective' step size deviates slightly from the given one.
+
+        Args:
+            step_size (float): Step size of the time grid.
+
+        Returns:
+            np.ndarray: 2d array of timestamps (column 0) and corresponding intensity values (column 1)
+        """
+        if self._simulated is True:
+            grid = generate_eval_grid(step_size, self.T)
+
+            if self.kernel == "powlaw-cutoff":
+                intensity = uvhp_approx_powl_cutoff_intensity(self.timestamps, grid, self.mu, self.eta, self.alpha, self.tau0, self.m, self.M)
+            elif self.kernel == "powlaw":
+                intensity = uvhp_approx_powl_intensity(self.timestamps, grid, self.mu, self.eta, self.alpha, self.tau0, self.m, self.M)
+
+            return intensity
+
+        else:
+            raise Exception("ERROR: The Intensity of the simulated process can only be computed after the process is simulated")
+
+    def kernel_values(self, times: np.ndarray) -> np.ndarray:
+        r""" Returns the value of the memory kernel at given time values. The memory kernel of the approximate
+        power-law memory kernel is defined as:
+        $$ g(t) = \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} \bigg] $$
+
+        and the memory kernel of the approximate power-law kernel with smooth cutoff is defined as:
+        $$ g(t) = \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} - S e^{(-(t - t_i)/a_{-1})} \bigg] $$
+
+        Args:
+            times (np.ndarray): 1d array of time values for which to compute the value of the memory kernel.
+
+        Returns:
+            np.ndarray: 1d array containing the values of the memory kernel value at the given times.
+        """
+        if self.kernel == "powlaw-cutoff":
+            return uvhp_approx_powl_cutoff_kernel(times, self.eta, self.alpha, self.tau0, self.m, self.M)
+
+        elif self.kernel == "powlaw":
+            return uvhp_approx_powl_kernel(times, self.eta, self.alpha, self.tau0, self.m, self.M)
