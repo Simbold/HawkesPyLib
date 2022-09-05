@@ -171,7 +171,8 @@ class ExpHawkesProcessInference(UnivariateHawkesProcess):
         self._kernel = "expo"
         self._num_par = 3
 
-    def estimate(self, timestamps: np.ndarray, T: float, return_params: bool = False, max_attempts: int = 5,  custom_param_vec0: bool = False, **kwargs) -> None:
+    def estimate(self, timestamps: np.ndarray, T: float, return_params: bool = False, max_attempts: int = 5,
+                 custom_param_vec0: bool = False, **kwargs) -> None:
         """ Estimates the Hawkes process parameters using maximum likelihood estimation.
 
         Args:
@@ -417,8 +418,10 @@ class SumExpHawkesProcessInference(UnivariateHawkesProcess):
         else:
             print(f"WARNING: Optimization not successful: {opt_result[2]['task']}")
 
-    def estimate_grid(self, timestamps: np.ndarray, T: float, grid_type: str = 'equidistant', grid_size: int = 20, return_params: bool = False, rng=rng, **kwargs):
-        """ Estimates the Hawkes process parameters using maximum likelihood estimation. Fits the model multiple times using different
+    def estimate_grid(self, timestamps: np.ndarray, T: float, grid_type: str = 'equidistant',
+                      grid_size: int = 20, return_params: bool = False, rng=rng, **kwargs):
+        """ Estimates the Hawkes process parameters using maximum likelihood estimation.
+            Fits the model multiple times using different
             initial parameter values. Subsequently the fitted model with the largest logL value is returned.
 
         The grid applied only to the initial value of eta in the mle routine,
@@ -642,8 +645,10 @@ class ApproxPowerlawHawkesProcessInference(UnivariateHawkesProcess):
         else:
             print(f"WARNING: Optimization not successful: {opt_result[2]['task']}")
 
-    def estimate_grid(self, timestamps: np.ndarray, T: float, grid_type: str = 'equidistant', grid_size: int = 20, return_params: bool = False, rng=rng, **kwargs) -> None:
-        """ Estimates the Hawkes process parameters using maximum likelihood estimation. Fits the model multiple times using different
+    def estimate_grid(self, timestamps: np.ndarray, T: float, grid_type: str = 'equidistant',
+                      grid_size: int = 20, return_params: bool = False, rng=rng, **kwargs) -> None:
+        """ Estimates the Hawkes process parameters using maximum likelihood estimation.
+            Fits the model multiple times using different
             initial parameter values. Subsequently the fitted model with the largest logL value is returned.
 
         The grid applied only to the initial value of eta in the mle routine,

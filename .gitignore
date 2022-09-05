@@ -1,6 +1,7 @@
 # private testing folder
 _Testing/
 _old/
+_build_docs.sh
 
 # Caching / generated files
 __pycache__/
@@ -23,6 +24,7 @@ htmlcov/
 
 # tox
 .tox/
+HawkesPyLib.egg-info
 
 # custom pdoc3 templates
 _pdoc_templates/
