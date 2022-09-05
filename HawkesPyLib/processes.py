@@ -55,7 +55,8 @@ class UnivariateHawkesProcess:
             is the branching ratio, \(\alpha\) (`alpha`) is the power-law tail exponent and \(\tau_0\) a scale parameter controlling the decay timescale.
 
         - Hawkes process with approximate power-law kernel with smooth cutoff ('powlaw-cutoff' `kernel`), defined by the conditional intenstiy fnuction:
-            \[\lambda(t) = \mu + \sum_{t_i < t} \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} - S e^{(-(t - t_i)/a_{-1})} \bigg],\]
+            \[\lambda(t) = \mu + \sum_{t_i < t} \dfrac{\eta}{Z}
+            \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} - S e^{(-(t - t_i)/a_{-1})} \bigg],\]
 
             where \(\mu\) (`mu`) is the constant background intensity, \(\eta \) (`eta`)
             is the branching ratio, \(\alpha\) (`alpha`) is the power-law tail exponent and \(\tau_0\) a scale parameter controlling the decay timescale and
@@ -123,7 +124,8 @@ class UnivariateHawkesProcess:
             alpha (float): Tail index of the power-law decay, \(\alpha > 0\). Must be set if `kernel` is set to 'powlaw' or 'powlaw-cutoff'.
             tau0 (float): Timescale parameter, \(\tau_0 > 0\). Must be set if `kernel` is set to 'powlaw' or 'powlaw-cutoff'.
             m (float, optional): Scale parameter of the power-law weights, m > 0. Must be set if `kernel` is set to 'powlaw' or 'powlaw-cutoff'.
-            M (int, optional): Number of weighted exponential kernels used in the approximate power-law kernel. Must be set if `kernel` is set to 'powlaw' or 'powlaw-cutoff'.
+            M (int, optional): Number of weighted exponential kernels used in the approximate power-law kernel.
+             Must be set if `kernel` is set to 'powlaw' or 'powlaw-cutoff'.
         """
         self.mu = mu
         self.eta = eta

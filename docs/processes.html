@@ -15,7 +15,7 @@
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML" integrity="sha256-kZafAc6mZvK3W3v1pHOcUix30OHQN6pU/NO2oFkqZVw=" crossorigin></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
 <script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
-<style>.homelink{display:block;font-size:3em;font-weight:bold;color:#555;padding-bottom:.9em;border-bottom:2px solid silver}.homelink:hover{color:inherit}.homelink img{max-width:60%;max-height:10em;margin:auto;margin-bottom:.2em}</style>
+<style>.homelink{display:block;font-size:2em;font-weight:bold;color:#555;padding-bottom:0.7em;border-bottom:1px solid silver}.homelink:hover{color:inherit}.homelink img{max-width:40%;max-height:20em;margin:auto;margin-bottom:.2em}</style>
 <link rel="canonical" href="https://simbold.github.io/HawkesPyLib/HawkesPyLib/processes.html">
 <link rel="icon" href="https://simbold.github.io/HawkesPyLib/logo.png">
 </head>
@@ -67,7 +67,9 @@ is the branching ratio, <span><span class="MathJax_Preview">\alpha</span><script
 </li>
 <li>
 <p>Hawkes process with approximate power-law kernel with smooth cutoff ('powlaw-cutoff' <code>kernel</code>), defined by the conditional intenstiy fnuction:
-<span><span class="MathJax_Preview">\lambda(t) = \mu + \sum_{t_i &lt; t} \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} - S e^{(-(t - t_i)/a_{-1})} \bigg],</span><script type="math/tex; mode=display">\lambda(t) = \mu + \sum_{t_i < t} \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} - S e^{(-(t - t_i)/a_{-1})} \bigg],</script></span></p>
+<span><span class="MathJax_Preview">\lambda(t) = \mu + \sum_{t_i &lt; t} \dfrac{\eta}{Z}
+\bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} - S e^{(-(t - t_i)/a_{-1})} \bigg],</span><script type="math/tex; mode=display">\lambda(t) = \mu + \sum_{t_i < t} \dfrac{\eta}{Z}
+\bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} - S e^{(-(t - t_i)/a_{-1})} \bigg],</script></span></p>
 <p>where <span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span> (<code>mu</code>) is the constant background intensity, <span><span class="MathJax_Preview">\eta </span><script type="math/tex">\eta </script></span> (<code>eta</code>)
 is the branching ratio, <span><span class="MathJax_Preview">\alpha</span><script type="math/tex">\alpha</script></span> (<code>alpha</code>) is the power-law tail exponent and <span><span class="MathJax_Preview">\tau_0</span><script type="math/tex">\tau_0</script></span> a scale parameter controlling the decay timescale and
 the location of the smooth cutoff point (i.e. the time duration after each jump at which the intensity reaches a maximum).</p>
@@ -148,8 +150,9 @@ and that the kernel value at time zero is zero (for the smooth cutoff version). 
 <dt><strong><code>m</code></strong> :&ensp;<code>float</code>, optional</dt>
 <dd>Scale parameter of the power-law weights, m &gt; 0. Must be set if <code>kernel</code> is set to 'powlaw' or 'powlaw-cutoff'.</dd>
 <dt><strong><code>M</code></strong> :&ensp;<code>int</code>, optional</dt>
-<dd>Number of weighted exponential kernels used in the approximate power-law kernel. Must be set if <code>kernel</code> is set to 'powlaw' or 'powlaw-cutoff'.</dd>
-</dl></div>
+<dd>Number of weighted exponential kernels used in the approximate power-law kernel.</dd>
+</dl>
+<p>Must be set if <code>kernel</code> is set to 'powlaw' or 'powlaw-cutoff'.</p></div>
 </dd>
 <dt id="HawkesPyLib.processes.UnivariateHawkesProcess.set_arrival_times"><code class="name flex">
 <span>def <span class="ident">set_arrival_times</span></span>(<span>self, timestamps: numpy.ndarray, T: float) ‑> None</span>

@@ -130,7 +130,8 @@ def uvhp_sum_expo_intensity(sample_vec: np.ndarray, grid: np.ndarray, mu: float,
 
 
 @numba.jit(nopython=True)
-def uvhp_approx_powl_cutoff_intensity(sample_vec: np.ndarray, grid: np.ndarray, mu: float, eta: float, alpha: float, tau: float, m: float, M: int) -> np.ndarray:
+def uvhp_approx_powl_cutoff_intensity(sample_vec: np.ndarray, grid: np.ndarray, mu: float, eta: float,
+                                      alpha: float, tau: float, m: float, M: int) -> np.ndarray:
     """ Evaluation of the intensity function of a univariate Hawkes process with approximate power-law kernel with smooth cutoff component
 
     Args:

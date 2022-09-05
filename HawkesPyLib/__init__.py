@@ -1,5 +1,18 @@
 """
 `HawkesPyLib` is a python package for simulation, and inference of Hawkes processes.
+
+The source code of the package can be found on [github](https://github.com/Simbold/HawkesPyLib).
+
+The package is structured into three main modules:
+
+- `HawkesPyLib.simulation` for simulation of Hawkes process
+
+- `HawkesPyLib.inference` for fitting Hawkes processes
+
+- `HawkesPyLib.processes` for analysing fully specified Hawkes processes
+
+The module `HawkesPyLib.core` contains the functions underlying the simulation and fitting methods.
+
 """
 
 __pdoc__ = {}
@@ -24,27 +37,9 @@ __pdoc__["HawkesPyLib.simulation.ApproxPowerlawHawkesProcessSimulation.kernel"] 
 
 __pdoc__["HawkesPyLib.util"] = False
 
-__pdoc__["HawkesPyLib.inference.ExpHawkesProcessInference.mu"] = False
-__pdoc__["HawkesPyLib.inference.ExpHawkesProcessInference.eta"] = False
-__pdoc__["HawkesPyLib.inference.ExpHawkesProcessInference.theta"] = False
-__pdoc__["HawkesPyLib.inference.ExpHawkesProcessInference.timestamps"] = False
 __pdoc__["HawkesPyLib.inference.ExpHawkesProcessInference.set_params"] = False
-
-
-__pdoc__["HawkesPyLib.inference.SumExpHawkesProcessInference.mu"] = False
-__pdoc__["HawkesPyLib.inference.SumExpHawkesProcessInference.eta"] = False
-__pdoc__["HawkesPyLib.inference.SumExpHawkesProcessInference.theta_vec"] = False
-__pdoc__["HawkesPyLib.inference.SumExpHawkesProcessInference.timestamps"] = False
 __pdoc__["HawkesPyLib.inference.SumExpHawkesProcessInference.set_params"] = False
-
-
-__pdoc__["HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.mu"] = False
-__pdoc__["HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.eta"] = False
-__pdoc__["HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.alpha"] = False
-__pdoc__["HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.tau0"] = False
-__pdoc__["HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.timestamps"] = False
 __pdoc__["HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.set_params"] = False
-
 
 __pdoc__["HawkesPyLib.processes.UnivariateHawkesProcess.mu"] = False
 __pdoc__["HawkesPyLib.processes.UnivariateHawkesProcess.eta"] = False
