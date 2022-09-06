@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>HawkesPyLib.inference API documentation</title>
+<title>HawkesPyLib.inference documentation</title>
 <meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -41,10 +41,11 @@
 <span>(</span><span>rng=Generator(PCG64))</span>
 </code></dt>
 <dd>
-<div class="hslist"><p>Inference of unvivariate Hawkes processes with single exponentials memory kernel.
-Hawkes process with single exponential memory kernel ('expo' kernel), is defined by the conditional intensity function:</p>
+<div class="hslist"><p>Fitting of unvivariate Hawkes processes with single exponentials memory kernel.
+The Hawkes process with single exponential memory kernel ('expo' kernel),
+is defined by the conditional intensity function:</p>
 <p><span><span class="MathJax_Preview">\lambda(t) = \mu + \dfrac{\eta}{\theta} \sum_{t_i &lt; t} e^{(-(t - t_i)/\theta)}</span><script type="math/tex; mode=display">\lambda(t) = \mu + \dfrac{\eta}{\theta} \sum_{t_i < t} e^{(-(t - t_i)/\theta)}</script></span></p>
-<p>Two maximum liklihood based inference methods are currently available:</p>
+<p>Two maximum likelihood based inference methods are currently available:</p>
 <ul>
 <li>
 <p><code><a title="HawkesPyLib.inference.ExpHawkesProcessInference.estimate" href="#HawkesPyLib.inference.ExpHawkesProcessInference.estimate">ExpHawkesProcessInference.estimate()</a></code> maximizes the log-likelihood given a sample of arrival times.</p>
@@ -52,22 +53,25 @@ Hawkes process with single exponential memory kernel ('expo' kernel), is defined
 <li>
 <p><code><a title="HawkesPyLib.inference.ExpHawkesProcessInference.estimate_grid" href="#HawkesPyLib.inference.ExpHawkesProcessInference.estimate_grid">ExpHawkesProcessInference.estimate_grid()</a></code> maximizes the log-likelihood on a grid of different starting values
 and returns the best model out of all fitted models (i.e. the model with the highest log-likelihood).
-The log-likelihood function of Hawkes processes can be very flat and a single optimization run may get stuck in a local
-supoptimal maximum.</p>
+A single optimization run may get stuck in a local supoptimal maximum. The grid estimation increases
+the chance of finding the global maximum but also significantly increases the computational cost.</p>
 </li>
 </ul>
-<p>This class inherets from <code><a title="HawkesPyLib.processes.UnivariateHawkesProcess" href="processes.html#HawkesPyLib.processes.UnivariateHawkesProcess">UnivariateHawkesProcess</a></code> and provides methods for further analysis of the fitted model:</p>
+<p>This class inherets from <code><a title="HawkesPyLib.processes.UnivariateHawkesProcess" href="processes.html#HawkesPyLib.processes.UnivariateHawkesProcess">UnivariateHawkesProcess</a></code>
+and provides methods for further analysis of the fitted model:</p>
 <ul>
-<li>ExpHawkesProcessInference.compensator() computes the compensator and may be used as a starting point for a 'residual' analysis.</li>
+<li>ExpHawkesProcessInference.compensator() computes the compensator and
+may be used as a starting point for a 'residual' analysis.</li>
 <li>ExpHawkesProcessInference.intensity() evaluates the estimated conditional intensity.</li>
-<li>ExpHawkesProcessInference.kernel_values() returns values of the estimated memory kernel.</li>
+<li>ExpHawkesProcessInference.kernel_values() returns values for the estimated memory kernel.</li>
 <li>ExpHawkesProcessInference.ic() computes information criteria of the estimated model.</li>
 </ul>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>rng</code></strong> :&ensp;<code>optional</code></dt>
-<dd>numpy random number generator. For reproducible results use: rng=np.random.default_rng(seed)</dd>
+<dd>numpy random number generator.</dd>
 </dl>
+<p>For reproducible results use: rng=np.random.default_rng(seed)</p>
 <h2 id="attributes">Attributes</h2>
 <dl>
 <dt><strong><code>mu</code></strong> :&ensp;<code>float</code></dt>
@@ -75,7 +79,7 @@ supoptimal maximum.</p>
 <dt><strong><code>eta</code></strong> :&ensp;<code>float</code></dt>
 <dd>The estimated branching ratio.</dd>
 <dt><strong><code>theta</code></strong> :&ensp;<code>float</code></dt>
-<dd>Estimated decay speed of single exponential kernel, theta &gt; 0.</dd>
+<dd>Estimated decay speed of the single exponential kernel.</dd>
 <dt><strong><code>timestamps</code></strong> :&ensp;<code>np.ndarray</code></dt>
 <dd>1d array of arrival times that were used in the most recent fitting routine.</dd>
 <dt><strong><code>T</code></strong></dt>
@@ -93,48 +97,50 @@ supoptimal maximum.</p>
 <span>def <span class="ident">estimate</span></span>(<span>self, timestamps: numpy.ndarray, T: float, return_params: bool = False, max_attempts: int = 5, custom_param_vec0: bool = False, **kwargs) ‑> None</span>
 </code></dt>
 <dd>
-<div class="hslist"><p>Estimates the Hawkes process parameters using maximum likelihood estimation.</p>
+<div class="hslist"><p>Estimates process parameters using maximum likelihood estimation.</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>timestamps</code></strong> :&ensp;<code>np.ndarray</code></dt>
 <dd>1d array of arrival times.
 Must be sorted and only positive timestamps are allowed!</dd>
 <dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
-<dd>The end time of the Hawkes process.</dd>
+<dd>The end time of the Hawkes process.
+Must be larger or equal the last arrival time in argument <code>timestamps</code>.</dd>
 <dt><strong><code>return_params</code></strong> :&ensp;<code>bool</code>, optional</dt>
-<dd>If True returns a tuple of fitted parameters in the order: mu, eta, alpha, tau0</dd>
+<dd>If True, returns a tuple of fitted parameters in the order: mu, eta, alpha, tau0</dd>
 <dt><strong><code>max_attempts</code></strong> :&ensp;<code>int</code>, optional</dt>
 <dd>Number of times the maximum likelihood estimation repeats with new starting values
 if the optimization routine does not exit successfully. Defaults to 5.</dd>
 <dt><strong><code>custom_param_vec0</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>If custom initial values should be used. Defaults to False.
-If true you must supply an addtional variable 'param_vec0' a 1d numpy array
-containing the initial starting values: param_vec0 = [mu0 &gt; 0, 0 &lt; eta0 &lt;1, theta &gt; 0].</dd>
+If True you must supply an addtional variable to **kwargs called <code>param_vec0</code> a 1d numpy array
+containing the initial starting values: param_vec0 = [mu0 &gt; 0, 0 &lt; eta0 &lt; 1, theta &gt; 0].</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>tuple</code></dt>
-<dd>(optional) if <code>return_params</code>=True returns tuple of fitted parameters: mu, eta, theta</dd>
+<dd>(optional) if <code>return_params=True</code> returns a tuple of fitted parameters: <code>mu</code>, <code>eta</code>, <code>theta</code></dd>
 </dl></div>
 </dd>
 <dt id="HawkesPyLib.inference.ExpHawkesProcessInference.estimate_grid"><code class="name flex">
 <span>def <span class="ident">estimate_grid</span></span>(<span>self, timestamps: numpy.ndarray, T: float, grid_type: str = 'equidistant', grid_size: int = 20, return_params: bool = False, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="hslist"><p>Estimates the Hawkes process parameters using maximum likelihood estimation. Fits the model multiple times using different
-initial parameter values. Subsequently the fitted model with the largest logL value is returned.</p>
-<p>The grid applied only to the initial value of eta in the mle routine,
-mu0 is set in using the unconditonal mean of the process and theta is always chosed randomly.</p>
+<div class="hslist"><p>Estimates the Hawkes process parameters using maximum likelihood estimation.
+Fits the model multiple times using different initial parameter values.
+Subsequently the fitted model with the largest log-likelihood value is returned.</p>
+<p>The grid applies only to the initial value of eta in the MLE routine,
+mu0 is set by using the unconditonal mean of the process and theta is chosen randomly.</p>
 <p>There are three options for the type of eta0 starting value grid:</p>
 <ul>
 <li>
-<p>('random') starting values for eta0 are chosen randomly.</p>
+<p>'random': starting values for eta0 are chosen randomly.</p>
 </li>
 <li>
-<p>('equidistant') starting values for eta0 are equidistant between 0 and 1</p>
+<p>'equidistant': starting values for eta0 are equidistant between 0 and 1.</p>
 </li>
 <li>
-<p>('custom') A custom eta0 grid of starting value is supplied to 'custom-grid' variable:
+<p>'custom': A custom eta0 grid of starting values is supplied to **kwargs argument called <code>custom-grid</code>.
 You must supply an addtional variable 'custom-grid' a 1d numpy array
 containing a grid of initial starting values with constraint 0 &lt; eta0 &lt; 1.</p>
 </li>
@@ -145,18 +151,19 @@ containing a grid of initial starting values with constraint 0 &lt; eta0 &lt; 1.
 <dd>1d array of arrival times.
 Must be sorted and only positive timestamps are allowed!</dd>
 <dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
-<dd>The end time of the Hawkes process.</dd>
+<dd>The end time of the Hawkes process.
+Must be larger or equal the last arrival time in argument <code>timestamps</code>.</dd>
 <dt><strong><code>grid_type</code></strong> :&ensp;<code>str</code>, optional</dt>
-<dd>Type of grid for eta0 starting values, one of: 'random', 'equidistant' or 'custom'. Default to 'equidistant'</dd>
+<dd>Type of grid for eta0 starting values, one of: 'random', 'equidistant' or 'custom'. Default to 'equidistant'.</dd>
 <dt><strong><code>grid_size</code></strong> :&ensp;<code>int</code>, optional</dt>
 <dd>The number of optimizations to run. Defaults to 20.</dd>
 <dt><strong><code>return_params</code></strong> :&ensp;<code>bool</code>, optional</dt>
-<dd>If True returns a tuple of fitted parameters in the order: mu, eta, alpha, tau0</dd>
+<dd>If True returns a tuple of fitted parameters in the order: mu, eta, theta</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>tuple</code></dt>
-<dd>(optional) if <code>return_params</code>=True returns tuple of fitted parameters: mu, eta, theta</dd>
+<dd>(optional) if <code>return_params=True</code> returns a tuple of fitted parameters: <code>mu</code>, <code>eta</code>, <code>theta</code></dd>
 </dl></div>
 </dd>
 <dt id="HawkesPyLib.inference.ExpHawkesProcessInference.get_params"><code class="name flex">
@@ -167,24 +174,9 @@ Must be sorted and only positive timestamps are allowed!</dd>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>tuple</code></dt>
-<dd>Tuple of parameter values such as:</dd>
+<dd>Tuple of parameter values that are ordered as follows:</dd>
 </dl>
-<ul>
-<li><code>mu</code> (float), <code>eta</code> (float), <code>theta</code> (float)</li>
-</ul></div>
-</dd>
-<dt id="HawkesPyLib.inference.ExpHawkesProcessInference.set_arrival_times"><code class="name flex">
-<span>def <span class="ident">set_arrival_times</span></span>(<span>self, timestamps: numpy.ndarray, T: float) ‑> None</span>
-</code></dt>
-<dd>
-<div class="hslist"><p>Set arrival times of the process.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>timestamps</code></strong> :&ensp;<code>np.ndarray</code></dt>
-<dd>1d array of arrival times of the process. Arrival times must be positive and ordered.</dd>
-<dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
-<dd>End time of the process. T must be larger or equal to the last arrival time.</dd>
-</dl></div>
+<p><code>mu</code> (float), <code>eta</code> (float), <code>theta</code> (float)</p></div>
 </dd>
 <dt id="HawkesPyLib.inference.ExpHawkesProcessInference.intensity"><code class="name flex">
 <span>def <span class="ident">intensity</span></span>(<span>self, step_size: float) ‑> numpy.ndarray</span>
@@ -253,14 +245,14 @@ e^{(-t/\theta)} </script></span></p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>np.ndarray</code></dt>
-<dd>1d array containing the values of the memory kernel value at the given times.</dd>
+<dd>1d array containing the values of the memory kernel value at the given time(s).</dd>
 </dl></div>
 </dd>
 <dt id="HawkesPyLib.inference.ExpHawkesProcessInference.compute_logL"><code class="name flex">
 <span>def <span class="ident">compute_logL</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="hslist"><p>Computes the log-likelihood function given the set parameters, arrival times and process end time T.</p>
+<div class="hslist"><p>Computes the log-likelihood function given the process parameters, arrival times and process end time T.</p>
 <p>The log-likelihood function of a Hawkes process is given by:
 <span><span class="MathJax_Preview"> logL(t_1,..., t_n) = -\int_0^T \lambda(t) du + \sum_{t=1}^n log(\lambda(t_i))</span><script type="math/tex; mode=display"> logL(t_1,..., t_n) = -\int_0^T \lambda(t) du + \sum_{t=1}^n log(\lambda(t_i))</script></span></p>
 <h2 id="returns">Returns</h2>
@@ -304,10 +296,10 @@ information criteria</p>
 <span>(</span><span>P: int, rng=Generator(PCG64))</span>
 </code></dt>
 <dd>
-<div class="hslist"><p>Inference of unvivariate Hawkes processes with P-sum exponentials memory kernel.
-The Hawkes process with P-sum exponential memory kernel ('sum-expo' kernel), is defined by the conditional intensity function:
+<div class="hslist"><p>Fitting of unvivariate Hawkes processes with P-sum exponentials memory kernels.
+A Hawkes process with P-sum exponential memory kernel ('sum-expo' kernel), is defined by the conditional intensity function:
 <span><span class="MathJax_Preview">\lambda(t) = \mu + \dfrac{\eta}{P} \sum_{t_i &lt; t} \sum_{k=1}^{P} \dfrac{1}{\theta_k} e^{(-(t - t_i)/\theta_k)}</span><script type="math/tex; mode=display">\lambda(t) = \mu + \dfrac{\eta}{P} \sum_{t_i < t} \sum_{k=1}^{P} \dfrac{1}{\theta_k} e^{(-(t - t_i)/\theta_k)}</script></span></p>
-<p>Two maximum liklihood based inference methods are currently available:</p>
+<p>Two maximum likelihood based inference methods are currently available:</p>
 <ul>
 <li>
 <p><code><a title="HawkesPyLib.inference.ExpHawkesProcessInference.estimate" href="#HawkesPyLib.inference.ExpHawkesProcessInference.estimate">ExpHawkesProcessInference.estimate()</a></code> maximizes the log-likelihood given a sample of arrival times.</p>
@@ -315,17 +307,18 @@ The Hawkes process with P-sum exponential memory kernel ('sum-expo' kernel), is 
 <li>
 <p><code><a title="HawkesPyLib.inference.ExpHawkesProcessInference.estimate_grid" href="#HawkesPyLib.inference.ExpHawkesProcessInference.estimate_grid">ExpHawkesProcessInference.estimate_grid()</a></code> maximizes the log-likelihood on a grid of different starting values
 and returns the best model out of all fitted models (i.e. the model with the highest log-likelihood).
-The log-likelihood function of Hawkes processes can be very flat and a single optimization run may get stuck in a local
-supoptimal maximum.</p>
+A single optimization run may get stuck in a local supoptimal maximum. The grid estimation increases
+the chance of finding the global maximum but also significantly increases the computational cost.</p>
 </li>
 </ul>
 <p>This class inherets from <code><a title="HawkesPyLib.processes.UnivariateHawkesProcess" href="processes.html#HawkesPyLib.processes.UnivariateHawkesProcess">UnivariateHawkesProcess</a></code>
 and provides methods for further analysis of the fitted model:</p>
 <ul>
-<li>SumExpHawkesProcessInference.compensator() computes the compensator and may be used as a starting point for a 'residual' analysis.</li>
-<li>SumExpHawkesProcessInference.intensity() evaluates the estimated conditional intensity.</li>
-<li>SumExpHawkesProcessInference.kernel_values() returns values of the estimated memory kernel.</li>
-<li>SumExpHawkesProcessInference.ic() computes information criteria of the estimated model.</li>
+<li>ExpHawkesProcessInference.compensator() computes the compensator and
+may be used as a starting point for a 'residual' analysis.</li>
+<li>ExpHawkesProcessInference.intensity() evaluates the estimated conditional intensity.</li>
+<li>ExpHawkesProcessInference.kernel_values() returns values for the estimated memory kernel.</li>
+<li>ExpHawkesProcessInference.ic() computes information criteria of the estimated model.</li>
 </ul>
 <h2 id="args">Args</h2>
 <dl>
@@ -341,7 +334,7 @@ and provides methods for further analysis of the fitted model:</p>
 <dt><strong><code>eta</code></strong> :&ensp;<code>float</code></dt>
 <dd>The estimated branching ratio.</dd>
 <dt><strong><code>theta_vec</code></strong> :&ensp;<code>np.ndarray</code>, optional</dt>
-<dd>Estimated decay speeds of P-sum, exponential kernel.</dd>
+<dd>Estimated decay speeds of the P exponential kernels.</dd>
 <dt><strong><code>timestamps</code></strong> :&ensp;<code>np.ndarray</code></dt>
 <dd>1d array of arrival times that were used in the most recent fitting routine.</dd>
 <dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
@@ -366,21 +359,23 @@ and provides methods for further analysis of the fitted model:</p>
 <dd>1d array of arrival times.
 Must be sorted and only positive timestamps are allowed!</dd>
 <dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
-<dd>The end time of the Hawkes process.</dd>
+<dd>The end time of the Hawkes process.
+Must be larger or equal the last arrival time in argument <code>timestamps</code>.</dd>
 <dt><strong><code>return_params</code></strong> :&ensp;<code>bool</code>, optional</dt>
-<dd>If True returns a tuple of fitted parameters in the order: mu, eta, alpha, tau0</dd>
+<dd>If True, returns a tuple of fitted parameters in the order: mu, eta, alpha, tau0</dd>
 <dt><strong><code>max_attempts</code></strong> :&ensp;<code>int</code>, optional</dt>
 <dd>Number of times the maximum likelihood estimation repeats with new starting values
 if the optimization routine does not exit successfully. Defaults to 5.</dd>
 <dt><strong><code>custom_param_vec0</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>If custom initial values should be used. Defaults to False.
-If true you must supply an addtional variable 'param_vec0' a 1d numpy array
-containing the initial starting values: param_vec0 = [mu0 &gt; 0, 0 &lt; eta0 &lt;1, theta &gt; 0].</dd>
+If true you must supply an addtional variable to **kwargs
+called <code>param_vec0</code> a 1d numpy array containing the initial
+starting values: param_vec0 = [mu0 &gt; 0, 0 &lt; eta0 &lt;1, theta1_0 &gt; 0, &hellip;, theta1_0].</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>tuple</code></dt>
-<dd>(optional) if <code>return_params</code>=True returns tuple of fitted parameters: mu, eta, theta</dd>
+<dd>(optional) if <code>return_params=True</code> returns a tuple of fitted parameters: <code>mu</code>, <code>eta</code>, <code>theta_vec</code></dd>
 </dl></div>
 </dd>
 <dt id="HawkesPyLib.inference.SumExpHawkesProcessInference.estimate_grid"><code class="name flex">
@@ -388,20 +383,20 @@ containing the initial starting values: param_vec0 = [mu0 &gt; 0, 0 &lt; eta0 &l
 </code></dt>
 <dd>
 <div class="hslist"><p>Estimates the Hawkes process parameters using maximum likelihood estimation.
-Fits the model multiple times using different
-initial parameter values. Subsequently the fitted model with the largest logL value is returned.</p>
-<p>The grid applied only to the initial value of eta in the mle routine,
-mu0 is set in using the unconditonal mean of the process and theta is always chosed randomly.</p>
+Fits the model multiple times using different initial parameter values.
+Subsequently the fitted model with the largest log-likelihood value is returned.</p>
+<p>The grid applies only to the initial value of eta in the MLE routine,
+mu0 is set by using the unconditonal mean of the process and theta is chosen randomly.</p>
 <p>There are three options for the type of eta0 starting value grid:</p>
 <ul>
 <li>
-<p>('random') starting values for eta0 are chosen randomly.</p>
+<p>'random': starting values for eta0 are chosen randomly.</p>
 </li>
 <li>
-<p>('equidistant') starting values for eta0 are equidistant between 0 and 1</p>
+<p>'equidistant': starting values for eta0 are equidistant between 0 and 1.</p>
 </li>
 <li>
-<p>('custom') A custom eta0 grid of starting value is supplied to 'custom-grid' variable:
+<p>'custom': A custom eta0 grid of starting values is supplied to **kwargs argument called 'custom-grid'.
 You must supply an addtional variable 'custom-grid' a 1d numpy array
 containing a grid of initial starting values with constraint 0 &lt; eta0 &lt; 1.</p>
 </li>
@@ -412,7 +407,8 @@ containing a grid of initial starting values with constraint 0 &lt; eta0 &lt; 1.
 <dd>1d array of arrival times.
 Must be sorted and only positive timestamps are allowed!</dd>
 <dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
-<dd>The end time of the Hawkes process.</dd>
+<dd>The end time of the Hawkes process.
+Must be larger or equal the last arrival time in argument <code>timestamps</code>.</dd>
 <dt><strong><code>grid_type</code></strong> :&ensp;<code>str</code>, optional</dt>
 <dd>Type of grid for eta0 starting values, one of: 'random', 'equidistant' or 'custom'. Default to 'equidistant'</dd>
 <dt><strong><code>grid_size</code></strong> :&ensp;<code>int</code>, optional</dt>
@@ -423,7 +419,7 @@ Must be sorted and only positive timestamps are allowed!</dd>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>tuple</code></dt>
-<dd>(optional) if <code>return_params</code>=True returns tuple of fitted parameters: mu, eta, theta</dd>
+<dd>(optional) if <code>return_params=True</code> returns a tuple of fitted parameters: <code>mu</code>, <code>eta</code>, <code>theta_vec</code></dd>
 </dl></div>
 </dd>
 <dt id="HawkesPyLib.inference.SumExpHawkesProcessInference.get_params"><code class="name flex">
@@ -434,24 +430,9 @@ Must be sorted and only positive timestamps are allowed!</dd>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>tuple</code></dt>
-<dd>Tuple of parameter values such as:</dd>
+<dd>Tuple of parameter values with order and types:</dd>
 </dl>
-<ul>
-<li><code>mu</code> (float), <code>eta</code> (float), <code>theta_vec</code> (np.ndarray)</li>
-</ul></div>
-</dd>
-<dt id="HawkesPyLib.inference.SumExpHawkesProcessInference.set_arrival_times"><code class="name flex">
-<span>def <span class="ident">set_arrival_times</span></span>(<span>self, timestamps: numpy.ndarray, T: float) ‑> None</span>
-</code></dt>
-<dd>
-<div class="hslist"><p>Set arrival times of the process.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>timestamps</code></strong> :&ensp;<code>np.ndarray</code></dt>
-<dd>1d array of arrival times of the process. Arrival times must be positive and ordered.</dd>
-<dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
-<dd>End time of the process. T must be larger or equal to the last arrival time.</dd>
-</dl></div>
+<p><code>mu</code> (float), <code>eta</code> (float), <code>theta_vec</code> (np.ndarray)</p></div>
 </dd>
 <dt id="HawkesPyLib.inference.SumExpHawkesProcessInference.intensity"><code class="name flex">
 <span>def <span class="ident">intensity</span></span>(<span>self, step_size: float) ‑> numpy.ndarray</span>
@@ -520,14 +501,14 @@ e^{(-t/\theta)} </script></span></p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>np.ndarray</code></dt>
-<dd>1d array containing the values of the memory kernel value at the given times.</dd>
+<dd>1d array containing the values of the memory kernel value at the given time(s).</dd>
 </dl></div>
 </dd>
 <dt id="HawkesPyLib.inference.SumExpHawkesProcessInference.compute_logL"><code class="name flex">
 <span>def <span class="ident">compute_logL</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="hslist"><p>Computes the log-likelihood function given the set parameters, arrival times and process end time T.</p>
+<div class="hslist"><p>Computes the log-likelihood function given the process parameters, arrival times and process end time T.</p>
 <p>The log-likelihood function of a Hawkes process is given by:
 <span><span class="MathJax_Preview"> logL(t_1,..., t_n) = -\int_0^T \lambda(t) du + \sum_{t=1}^n log(\lambda(t_i))</span><script type="math/tex; mode=display"> logL(t_1,..., t_n) = -\int_0^T \lambda(t) du + \sum_{t=1}^n log(\lambda(t_i))</script></span></p>
 <h2 id="returns">Returns</h2>
@@ -571,8 +552,8 @@ information criteria</p>
 <span>(</span><span>kernel: str, m: float, M: int, rng=Generator(PCG64))</span>
 </code></dt>
 <dd>
-<div class="hslist"><p>Inference of unvivariate Hawkes processes with approximate power-law memory kernel.
-The Hawkes process with approximate power-law kernel ('powlaw' <code>kernel</code>), is defined by the conditional intenstiy fnuction:
+<div class="hslist"><p>Fitting of unvivariate Hawkes processes with approximate power-law memory kernel.
+The Hawkes process with approximate power-law kernel ('powlaw' <code>kernel</code>), is defined by the conditional intensity fnuction:
 <span><span class="MathJax_Preview">\lambda(t) = \mu + \sum_{t_i &lt; t}
 \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} \bigg],</span><script type="math/tex; mode=display">\lambda(t) = \mu + \sum_{t_i < t}
 \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} \bigg],</script></span></p>
@@ -583,36 +564,38 @@ is the branching ratio, <span><span class="MathJax_Preview">\alpha</span><script
 <p>where <span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span> (<code>mu</code>) is the constant background intensity, <span><span class="MathJax_Preview">\eta </span><script type="math/tex">\eta </script></span> (<code>eta</code>)
 is the branching ratio, <span><span class="MathJax_Preview">\alpha</span><script type="math/tex">\alpha</script></span> (<code>alpha</code>) is the power-law tail exponent and <span><span class="MathJax_Preview">\tau_0</span><script type="math/tex">\tau_0</script></span> a scale parameter controlling the decay timescale and
 the location of the smooth cutoff point (i.e. the time duration after each jump at which the intensity reaches a maximum).</p>
-<p>The true power-law is approximtated by a sum of <span><span class="MathJax_Preview">M</span><script type="math/tex">M</script></span> exponential function with power-law weights
+<p>The true power-law is approximtated by a sum of <span><span class="MathJax_Preview">M</span><script type="math/tex">M</script></span> exponential functions with power-law weights
 <span><span class="MathJax_Preview">a_k = \tau_0 m^k</span><script type="math/tex">a_k = \tau_0 m^k</script></span>. <span><span class="MathJax_Preview">M</span><script type="math/tex">M</script></span> is the number of exponentials used for the approximation and <span><span class="MathJax_Preview">m</span><script type="math/tex">m</script></span> is a scale
 parameter. The power-law approximation holds for times up to <span><span class="MathJax_Preview">m^{M-1}</span><script type="math/tex">m^{M-1}</script></span> after which the memory kernel
 decays exponentially. S and Z are scaling factors that ensure that the memory kernel integrates to <span><span class="MathJax_Preview">\eta</span><script type="math/tex">\eta</script></span>
 and that the kernel value at time zero is zero (for the smooth cutoff version). S and Z are computed automatically.</p>
-<p>Two maximum liklihood based inference methods are currently available:</p>
+<p>Two maximum likelihood based inference methods are currently available:</p>
 <ul>
 <li>
-<p><code><a title="HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.estimate" href="#HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.estimate">ApproxPowerlawHawkesProcessInference.estimate()</a></code> maximizes the log-likelihood given a sample of arrival times.</p>
+<p><code><a title="HawkesPyLib.inference.ExpHawkesProcessInference.estimate" href="#HawkesPyLib.inference.ExpHawkesProcessInference.estimate">ExpHawkesProcessInference.estimate()</a></code> maximizes the log-likelihood given a sample of arrival times.</p>
 </li>
 <li>
-<p><code><a title="HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.estimate_grid" href="#HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.estimate_grid">ApproxPowerlawHawkesProcessInference.estimate_grid()</a></code> maximizes the log-likelihood on a grid of different starting values
+<p><code><a title="HawkesPyLib.inference.ExpHawkesProcessInference.estimate_grid" href="#HawkesPyLib.inference.ExpHawkesProcessInference.estimate_grid">ExpHawkesProcessInference.estimate_grid()</a></code> maximizes the log-likelihood on a grid of different starting values
 and returns the best model out of all fitted models (i.e. the model with the highest log-likelihood).
-The log-likelihood function of Hawkes processes can be very flat and a single optimization run may get stuck in a local
-supoptimal maximum.</p>
+A single optimization run may get stuck in a local supoptimal maximum. The grid estimation increases
+the chance of finding the global maximum but also significantly increases the computational cost.</p>
 </li>
 </ul>
-<p>This class inherets from <code><a title="HawkesPyLib.processes.UnivariateHawkesProcess" href="processes.html#HawkesPyLib.processes.UnivariateHawkesProcess">UnivariateHawkesProcess</a></code> and provides methods for further analysis of the fitted model:</p>
+<p>This class inherets from <code><a title="HawkesPyLib.processes.UnivariateHawkesProcess" href="processes.html#HawkesPyLib.processes.UnivariateHawkesProcess">UnivariateHawkesProcess</a></code>
+and provides methods for further analysis of the fitted model:</p>
 <ul>
-<li>ApproxPowerlawHawkesProcessInference.compensator() computes the compensator and may be used as a starting point for a 'residual' analysis.</li>
-<li>ApproxPowerlawHawkesProcessInference.intensity() evaluates the estimated conditional intensity.</li>
-<li>ApproxPowerlawHawkesProcessInference.kernel_values() returns values of the estimated memory kernel.</li>
-<li>ApproxPowerlawHawkesProcessInference.ic() computes information criteria of the estimated model.</li>
+<li>ExpHawkesProcessInference.compensator() computes the compensator and
+may be used as a starting point for a 'residual' analysis.</li>
+<li>ExpHawkesProcessInference.intensity() evaluates the estimated conditional intensity.</li>
+<li>ExpHawkesProcessInference.kernel_values() returns values for the estimated memory kernel.</li>
+<li>ExpHawkesProcessInference.ic() computes information criteria of the estimated model.</li>
 </ul>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>kernel</code></strong> :&ensp;<code>str</code></dt>
 <dd>Must be one of: 'powlaw', 'powlaw-cutoff'. Specifies the shape of the approximate power-law kernel</dd>
 <dt><strong><code>m</code></strong> :&ensp;<code>float</code></dt>
-<dd>Specifies the approximation of the true power-law. Must be positive</dd>
+<dd>Scale parameter that that specifies the approximation of the true power-law. Must be positive.</dd>
 <dt><strong><code>M</code></strong> :&ensp;<code>int</code></dt>
 <dd>The number of weighted exponential kernels that specifies the approximation of the true power-law. Must be positive.</dd>
 <dt><strong><code>rng</code></strong> :&ensp;<code>optional</code></dt>
@@ -629,7 +612,7 @@ supoptimal maximum.</p>
 <dt><strong><code>tau0</code></strong> :&ensp;<code>float</code></dt>
 <dd>Estimated timescale parameter.</dd>
 <dt><strong><code>timestamps</code></strong> :&ensp;<code>np.ndarray</code></dt>
-<dd>1d array of arrival times.</dd>
+<dd>1d array of arrival times that were used in the most recent fitting routine.</dd>
 <dt><strong><code>T</code></strong></dt>
 <dd>(float): End time of the process.</dd>
 <dt><strong><code>logL</code></strong> :&ensp;<code>Float</code></dt>
@@ -652,7 +635,8 @@ supoptimal maximum.</p>
 <dd>1d array of arrival times.
 Must be sorted and only positive timestamps are allowed!</dd>
 <dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
-<dd>The end time of the Hawkes process.</dd>
+<dd>The end time of the Hawkes process.
+Must be larger or equal the last arrival time in argument <code>timestamps</code>.</dd>
 <dt><strong><code>return_params</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>If True returns a tuple of fitted parameters in the order: mu, eta, alpha, tau0</dd>
 <dt><strong><code>max_attempts</code></strong> :&ensp;<code>int</code>, optional</dt>
@@ -660,13 +644,13 @@ Must be sorted and only positive timestamps are allowed!</dd>
 if the optimization routine does not exit successfully. Defaults to 5.</dd>
 <dt><strong><code>custom_param_vec0</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>If custom initial values should be used. Defaults to False.
-If true you must supply an addtional variable 'param_vec0' a 1d numpy array
-containing the initial starting values: param_vec0 = [mu0 &gt; 0, 0 &lt; eta0 &lt;1, theta &gt; 0].</dd>
+If true you must supply an addtional variable to **kwargs called <code>param_vec0</code> a 1d numpy array
+containing the initial starting values: param_vec0 = [mu0 &gt; 0, 0 &lt; eta0 &lt;1, alpha0 &gt; 0, tau0_0].</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>tuple</code></dt>
-<dd>(optional) if <code>return_params</code>=True returns tuple of fitted parameters: mu, eta, theta</dd>
+<dd>(optional) if <code>return_params=True</code> returns tuple of fitted parameters: <code>mu</code>, <code>eta</code>, <code>alpha</code>, <code>tau0</code></dd>
 </dl></div>
 </dd>
 <dt id="HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.estimate_grid"><code class="name flex">
@@ -674,20 +658,20 @@ containing the initial starting values: param_vec0 = [mu0 &gt; 0, 0 &lt; eta0 &l
 </code></dt>
 <dd>
 <div class="hslist"><p>Estimates the Hawkes process parameters using maximum likelihood estimation.
-Fits the model multiple times using different
-initial parameter values. Subsequently the fitted model with the largest logL value is returned.</p>
-<p>The grid applied only to the initial value of eta in the mle routine,
-mu0 is set in using the unconditonal mean of the process and theta is always chosed randomly.</p>
+Fits the model multiple times using different initial parameter values.
+Subsequently the fitted model with the largest log-likelihood value is returned.</p>
+<p>The grid applies only to the initial value of eta in the MLE routine,
+mu0 is set by using the unconditonal mean of the process and theta is chosen randomly.</p>
 <p>There are three options for the type of eta0 starting value grid:</p>
 <ul>
 <li>
-<p>('random') starting values for eta0 are chosen randomly.</p>
+<p>'random': starting values for eta0 are chosen randomly.</p>
 </li>
 <li>
-<p>('equidistant') starting values for eta0 are equidistant between 0 and 1</p>
+<p>'equidistant': starting values for eta0 are equidistant between 0 and 1.</p>
 </li>
 <li>
-<p>('custom') A custom eta0 grid of starting value is supplied to 'custom-grid' variable:
+<p>'custom': A custom eta0 grid of starting values is supplied to **kwargs argument called <code>custom-grid</code>.
 You must supply an addtional variable 'custom-grid' a 1d numpy array
 containing a grid of initial starting values with constraint 0 &lt; eta0 &lt; 1.</p>
 </li>
@@ -698,7 +682,8 @@ containing a grid of initial starting values with constraint 0 &lt; eta0 &lt; 1.
 <dd>1d array of arrival times.
 Must be sorted and only positive timestamps are allowed!</dd>
 <dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
-<dd>The end time of the Hawkes process.</dd>
+<dd>The end time of the Hawkes process.
+Must be larger or equal the last arrival time in argument <code>timestamps</code>.</dd>
 <dt><strong><code>grid_type</code></strong> :&ensp;<code>str</code>, optional</dt>
 <dd>Type of grid for eta0 starting values, one of: 'random', 'equidistant' or 'custom'. Default to 'equidistant'</dd>
 <dt><strong><code>grid_size</code></strong> :&ensp;<code>int</code>, optional</dt>
@@ -709,7 +694,7 @@ Must be sorted and only positive timestamps are allowed!</dd>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>tuple</code></dt>
-<dd>(optional) if <code>return_params</code>=True returns tuple of fitted parameters: mu, eta, theta</dd>
+<dd>(optional) if <code>return_params=True</code> returns tuple of fitted parameters: <code>mu</code>, <code>eta</code>, <code>alpha</code>, <code>tau0</code></dd>
 </dl></div>
 </dd>
 <dt id="HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.get_params"><code class="name flex">
@@ -720,24 +705,9 @@ Must be sorted and only positive timestamps are allowed!</dd>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>tuple</code></dt>
-<dd>Tuple of parameter values such as:</dd>
+<dd>Tuple of parameter with order and types:</dd>
 </dl>
-<ul>
-<li><code>mu</code> (float), <code>eta</code> (float), <code>alpha</code> (float), <code>tau0</code> (float), <code>m</code> (float), <code>M</code> (int)</li>
-</ul></div>
-</dd>
-<dt id="HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.set_arrival_times"><code class="name flex">
-<span>def <span class="ident">set_arrival_times</span></span>(<span>self, timestamps: numpy.ndarray, T: float) ‑> None</span>
-</code></dt>
-<dd>
-<div class="hslist"><p>Set arrival times of the process.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>timestamps</code></strong> :&ensp;<code>np.ndarray</code></dt>
-<dd>1d array of arrival times of the process. Arrival times must be positive and ordered.</dd>
-<dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
-<dd>End time of the process. T must be larger or equal to the last arrival time.</dd>
-</dl></div>
+<p><code>mu</code> (float), <code>eta</code> (float), <code>alpha</code> (float), <code>tau0</code> (float), <code>m</code> (float), <code>M</code> (int)</p></div>
 </dd>
 <dt id="HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.intensity"><code class="name flex">
 <span>def <span class="ident">intensity</span></span>(<span>self, step_size: float) ‑> numpy.ndarray</span>
@@ -806,14 +776,14 @@ e^{(-t/\theta)} </script></span></p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>np.ndarray</code></dt>
-<dd>1d array containing the values of the memory kernel value at the given times.</dd>
+<dd>1d array containing the values of the memory kernel value at the given time(s).</dd>
 </dl></div>
 </dd>
 <dt id="HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.compute_logL"><code class="name flex">
 <span>def <span class="ident">compute_logL</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="hslist"><p>Computes the log-likelihood function given the set parameters, arrival times and process end time T.</p>
+<div class="hslist"><p>Computes the log-likelihood function given the process parameters, arrival times and process end time T.</p>
 <p>The log-likelihood function of a Hawkes process is given by:
 <span><span class="MathJax_Preview"> logL(t_1,..., t_n) = -\int_0^T \lambda(t) du + \sum_{t=1}^n log(\lambda(t_i))</span><script type="math/tex; mode=display"> logL(t_1,..., t_n) = -\int_0^T \lambda(t) du + \sum_{t=1}^n log(\lambda(t_i))</script></span></p>
 <h2 id="returns">Returns</h2>
@@ -879,7 +849,6 @@ information criteria</p>
 <li><code><a title="HawkesPyLib.inference.ExpHawkesProcessInference.estimate" href="#HawkesPyLib.inference.ExpHawkesProcessInference.estimate">estimate</a></code></li>
 <li><code><a title="HawkesPyLib.inference.ExpHawkesProcessInference.estimate_grid" href="#HawkesPyLib.inference.ExpHawkesProcessInference.estimate_grid">estimate_grid</a></code></li>
 <li><code><a title="HawkesPyLib.inference.ExpHawkesProcessInference.get_params" href="#HawkesPyLib.inference.ExpHawkesProcessInference.get_params">get_params</a></code></li>
-<li><code><a title="HawkesPyLib.inference.ExpHawkesProcessInference.set_arrival_times" href="processes.html#HawkesPyLib.inference.ExpHawkesProcessInference.set_arrival_times">set_arrival_times</a></code></li>
 <li><code><a title="HawkesPyLib.inference.ExpHawkesProcessInference.intensity" href="processes.html#HawkesPyLib.inference.ExpHawkesProcessInference.intensity">intensity</a></code></li>
 <li><code><a title="HawkesPyLib.inference.ExpHawkesProcessInference.compensator" href="processes.html#HawkesPyLib.inference.ExpHawkesProcessInference.compensator">compensator</a></code></li>
 <li><code><a title="HawkesPyLib.inference.ExpHawkesProcessInference.kernel_values" href="processes.html#HawkesPyLib.inference.ExpHawkesProcessInference.kernel_values">kernel_values</a></code></li>
@@ -893,7 +862,6 @@ information criteria</p>
 <li><code><a title="HawkesPyLib.inference.SumExpHawkesProcessInference.estimate" href="#HawkesPyLib.inference.SumExpHawkesProcessInference.estimate">estimate</a></code></li>
 <li><code><a title="HawkesPyLib.inference.SumExpHawkesProcessInference.estimate_grid" href="#HawkesPyLib.inference.SumExpHawkesProcessInference.estimate_grid">estimate_grid</a></code></li>
 <li><code><a title="HawkesPyLib.inference.SumExpHawkesProcessInference.get_params" href="#HawkesPyLib.inference.SumExpHawkesProcessInference.get_params">get_params</a></code></li>
-<li><code><a title="HawkesPyLib.inference.SumExpHawkesProcessInference.set_arrival_times" href="processes.html#HawkesPyLib.inference.SumExpHawkesProcessInference.set_arrival_times">set_arrival_times</a></code></li>
 <li><code><a title="HawkesPyLib.inference.SumExpHawkesProcessInference.intensity" href="processes.html#HawkesPyLib.inference.SumExpHawkesProcessInference.intensity">intensity</a></code></li>
 <li><code><a title="HawkesPyLib.inference.SumExpHawkesProcessInference.compensator" href="processes.html#HawkesPyLib.inference.SumExpHawkesProcessInference.compensator">compensator</a></code></li>
 <li><code><a title="HawkesPyLib.inference.SumExpHawkesProcessInference.kernel_values" href="processes.html#HawkesPyLib.inference.SumExpHawkesProcessInference.kernel_values">kernel_values</a></code></li>
@@ -907,7 +875,6 @@ information criteria</p>
 <li><code><a title="HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.estimate" href="#HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.estimate">estimate</a></code></li>
 <li><code><a title="HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.estimate_grid" href="#HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.estimate_grid">estimate_grid</a></code></li>
 <li><code><a title="HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.get_params" href="#HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.get_params">get_params</a></code></li>
-<li><code><a title="HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.set_arrival_times" href="processes.html#HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.set_arrival_times">set_arrival_times</a></code></li>
 <li><code><a title="HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.intensity" href="processes.html#HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.intensity">intensity</a></code></li>
 <li><code><a title="HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.compensator" href="processes.html#HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.compensator">compensator</a></code></li>
 <li><code><a title="HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.kernel_values" href="processes.html#HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.kernel_values">kernel_values</a></code></li>

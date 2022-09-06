@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>HawkesPyLib.processes API documentation</title>
+<title>HawkesPyLib.processes documentation</title>
 <meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -58,15 +58,17 @@ is the branching ratio and <span><span class="MathJax_Preview">\theta</span><scr
 is the branching ratio and <span><span class="MathJax_Preview">\theta_k</span><script type="math/tex">\theta_k</script></span> is the k'th exponential decay parameter in (<code>theta_vec</code>).</p>
 </li>
 <li>
-<p>Hawkes process with approximate power-law kernel ('powlaw' <code>kernel</code>), defined by the conditional intenstiy fnuction:
+<p>Hawkes process with approximate power-law kernel ('powlaw' <code>kernel</code>), defined by the conditional intenstiy function:
 <span><span class="MathJax_Preview">\lambda(t) = \mu + \sum_{t_i &lt; t}
 \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} \bigg],</span><script type="math/tex; mode=display">\lambda(t) = \mu + \sum_{t_i < t}
 \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} \bigg],</script></span></p>
 <p>where <span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span> (<code>mu</code>) is the constant background intensity, <span><span class="MathJax_Preview">\eta </span><script type="math/tex">\eta </script></span> (<code>eta</code>)
-is the branching ratio, <span><span class="MathJax_Preview">\alpha</span><script type="math/tex">\alpha</script></span> (<code>alpha</code>) is the power-law tail exponent and <span><span class="MathJax_Preview">\tau_0</span><script type="math/tex">\tau_0</script></span> a scale parameter controlling the decay timescale.</p>
+is the branching ratio, <span><span class="MathJax_Preview">\alpha</span><script type="math/tex">\alpha</script></span> (<code>alpha</code>) is the power-law tail exponent and <span><span class="MathJax_Preview">\tau_0</span><script type="math/tex">\tau_0</script></span>
+a scale parameter controlling the decay timescale.</p>
 </li>
 <li>
-<p>Hawkes process with approximate power-law kernel with smooth cutoff ('powlaw-cutoff' <code>kernel</code>), defined by the conditional intenstiy fnuction:
+<p>Hawkes process with approximate power-law kernel with smooth cutoff ('powlaw-cutoff' <code>kernel</code>),
+defined by the conditional intenstiy function:
 <span><span class="MathJax_Preview">\lambda(t) = \mu + \sum_{t_i &lt; t} \dfrac{\eta}{Z}
 \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} - S e^{(-(t - t_i)/a_{-1})} \bigg],</span><script type="math/tex; mode=display">\lambda(t) = \mu + \sum_{t_i < t} \dfrac{\eta}{Z}
 \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} - S e^{(-(t - t_i)/a_{-1})} \bigg],</script></span></p>
@@ -86,7 +88,7 @@ and that the kernel value at time zero is zero (for the smooth cutoff version). 
 <p><code><a title="HawkesPyLib.processes.UnivariateHawkesProcess.intensity" href="#HawkesPyLib.processes.UnivariateHawkesProcess.intensity">UnivariateHawkesProcess.intensity()</a></code> evaluates the conditional intensity function <span><span class="MathJax_Preview">\lambda(t)</span><script type="math/tex">\lambda(t)</script></span>.</p>
 </li>
 <li>
-<p><code><a title="HawkesPyLib.processes.UnivariateHawkesProcess.compensator" href="#HawkesPyLib.processes.UnivariateHawkesProcess.compensator">UnivariateHawkesProcess.compensator()</a></code> computes the compensator process <span><span class="MathJax_Preview">\Lambda(t)</span><script type="math/tex">\Lambda(t)</script></span>.</p>
+<p><code><a title="HawkesPyLib.processes.UnivariateHawkesProcess.compensator" href="#HawkesPyLib.processes.UnivariateHawkesProcess.compensator">UnivariateHawkesProcess.compensator()</a></code> computes the compensator process <span><span class="MathJax_Preview">\Lambda(t) = \int_0^t \lambda(u) du</span><script type="math/tex">\Lambda(t) = \int_0^t \lambda(u) du</script></span>.</p>
 </li>
 <li>
 <p><code><a title="HawkesPyLib.processes.UnivariateHawkesProcess.kernel_values" href="#HawkesPyLib.processes.UnivariateHawkesProcess.kernel_values">UnivariateHawkesProcess.kernel_values()</a></code> returns values for the memory kernel.</p>
@@ -95,7 +97,8 @@ and that the kernel value at time zero is zero (for the smooth cutoff version). 
 <p><code><a title="HawkesPyLib.processes.UnivariateHawkesProcess.compute_logL" href="#HawkesPyLib.processes.UnivariateHawkesProcess.compute_logL">UnivariateHawkesProcess.compute_logL()</a></code> computes the log-likelihood function.</p>
 </li>
 </ul>
-<p>Initilize the class by specifying the memory kernel type.</p>
+<p>The class works by first initlizing with the desired kernel type and secondly by setting the corresponding parameters
+and arrival times using the <code>set_params()</code> and <code>set_arrival_times()</code> methods. </p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>kernel</code></strong> :&ensp;<code>str</code></dt>
@@ -106,13 +109,14 @@ and that the kernel value at time zero is zero (for the smooth cutoff version). 
 <dt><strong><code>mu</code></strong> :&ensp;<code>float</code></dt>
 <dd>The background intensity, <span><span class="MathJax_Preview">\mu &gt; 0</span><script type="math/tex">\mu > 0</script></span>.</dd>
 <dt><strong><code>eta</code></strong> :&ensp;<code>float</code></dt>
-<dd>The branching ratio, <span><span class="MathJax_Preview">0 &lt; \eta &gt; 1</span><script type="math/tex">0 < \eta > 1</script></span>.</dd>
+<dd>The branching ratio, <span><span class="MathJax_Preview">0 &lt; eta &gt; 1</span><script type="math/tex">0 < eta > 1</script></span>.</dd>
 <dt><strong><code>theta</code></strong> :&ensp;<code>float</code></dt>
-<dd>Decay speed of single exponential kernel, theta &gt; 0. Only set if <code>kernel</code> is set to 'expo'.</dd>
+<dd>Decay speed of single exponential kernel, <span><span class="MathJax_Preview">\theta &gt; 0</span><script type="math/tex">\theta > 0</script></span>. Only set if <code>kernel</code> is set to 'expo'.</dd>
 <dt><strong><code>theta_vec</code></strong> :&ensp;<code>np.ndarray</code>, optional</dt>
-<dd>Decay speed of P-sum, exponential kernel, theta_k &gt; 0. Only set if <code>kernel</code> is set to 'sum-expo'.</dd>
+<dd>Decay speeds of the P-sum, exponential kernel, <span><span class="MathJax_Preview">\theta_k &gt; 0</span><script type="math/tex">\theta_k > 0</script></span>.
+Only set if <code>kernel</code> is set to 'sum-expo'.</dd>
 <dt><strong><code>alpha</code></strong> :&ensp;<code>float</code></dt>
-<dd>Tail index of the power-law decay, <span><span class="MathJax_Preview">\alpha &gt; 0</span><script type="math/tex">\alpha > 0</script></span>. Only set if <code>kernel</code> is set to 'powlaw' or 'powlaw-cutoff'.</dd>
+<dd>Tail exponent of the power-law decay, <span><span class="MathJax_Preview">\alpha &gt; 0</span><script type="math/tex">\alpha > 0</script></span>. Only set if <code>kernel</code> is set to 'powlaw' or 'powlaw-cutoff'.</dd>
 <dt><strong><code>tau0</code></strong> :&ensp;<code>float</code></dt>
 <dd>Timescale parameter, <span><span class="MathJax_Preview">\tau_0 &gt; 0</span><script type="math/tex">\tau_0 > 0</script></span>. Only set if <code>kernel</code> is set to 'powlaw' or 'powlaw-cutoff'.</dd>
 <dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
@@ -132,7 +136,9 @@ and that the kernel value at time zero is zero (for the smooth cutoff version). 
 <span>def <span class="ident">set_params</span></span>(<span>self, mu: float, eta: float, **kwargs) ‑> None</span>
 </code></dt>
 <dd>
-<div class="hslist"><p>Set Hawkes process model parameters.</p>
+<div class="hslist"><p>Set Hawkes process model parameters.
+Arguments <code>mu</code> and <code>eta</code> are always requiered.
+The other arguements depend on the chosen <code>kernel</code> and are supplied to **kwargs.</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>mu</code></strong> :&ensp;<code>float</code></dt>
@@ -140,7 +146,7 @@ and that the kernel value at time zero is zero (for the smooth cutoff version). 
 <dt><strong><code>eta</code></strong> :&ensp;<code>float</code></dt>
 <dd>The branching ratio, <span><span class="MathJax_Preview">0 &lt; \eta &gt; 1</span><script type="math/tex">0 < \eta > 1</script></span>.</dd>
 <dt><strong><code>theta</code></strong> :&ensp;<code>float</code></dt>
-<dd>Decay speed of single exponential kernel, theta &gt; 0. Must be set if <code>kernel</code> is set to 'expo'.</dd>
+<dd>Decay speed of single exponential kernel, <span><span class="MathJax_Preview">\theta</span><script type="math/tex">\theta</script></span> &gt; 0. Must be set if <code>kernel</code> is set to 'expo'.</dd>
 <dt><strong><code>theta_vec</code></strong> :&ensp;<code>np.ndarray</code>, optional</dt>
 <dd>Decay speed of P-sum, exponential kernel, theta_k &gt; 0. Must be set if <code>kernel</code> is set to 'sum-expo'.</dd>
 <dt><strong><code>alpha</code></strong> :&ensp;<code>float</code></dt>
@@ -257,14 +263,14 @@ e^{(-t/\theta)} </script></span></p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>np.ndarray</code></dt>
-<dd>1d array containing the values of the memory kernel value at the given times.</dd>
+<dd>1d array containing the values of the memory kernel value at the given time(s).</dd>
 </dl></div>
 </dd>
 <dt id="HawkesPyLib.processes.UnivariateHawkesProcess.compute_logL"><code class="name flex">
 <span>def <span class="ident">compute_logL</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="hslist"><p>Computes the log-likelihood function given the set parameters, arrival times and process end time T.</p>
+<div class="hslist"><p>Computes the log-likelihood function given the process parameters, arrival times and process end time T.</p>
 <p>The log-likelihood function of a Hawkes process is given by:
 <span><span class="MathJax_Preview"> logL(t_1,..., t_n) = -\int_0^T \lambda(t) du + \sum_{t=1}^n log(\lambda(t_i))</span><script type="math/tex; mode=display"> logL(t_1,..., t_n) = -\int_0^T \lambda(t) du + \sum_{t=1}^n log(\lambda(t_i))</script></span></p>
 <h2 id="returns">Returns</h2>

@@ -118,7 +118,7 @@ class TestSumExpo_estimate_grid(TestCase):
 
     def test_check_attributes(self):
         """ Check if all attributes set after succeseful estimation """
-        SumExpoEst = SumExpHawkesProcessInference(self.P)
+        SumExpoEst = SumExpHawkesProcessInference(self.P, self.rng)
         SumExpoEst.estimate_grid(self.timestamps, self.T, "random")
         self.assertTrue(hasattr(SumExpoEst, "mu"))
         self.assertTrue(hasattr(SumExpoEst, "eta"))
@@ -266,3 +266,27 @@ class TestSumExpo_compute_logL(TestCase):
         self.assertEqual(logL1, logL2)
 
 
+class TestSumExpoInference_getter(TestCase):
+    """ Tests the getter equals estimate return and attribute"""
+    def setUp(self):
+        self.timestamps = np.array([2.3083755,  2.32075025, 2.45105384, 2.70743681, 3.26019467,
+                                    3.27231931, 9.53121707, 9.56803776, 9.59677089]) 
+        self.T = 10.0
+        self.P = 3
+        self.rng = np.random.default_rng(242)
+
+    def test_getter(self):
+        SumExpEstimator = SumExpHawkesProcessInference(self.P, self.rng)
+        mu, eta, theta_vec = SumExpEstimator.estimate(self.timestamps, self.T, return_params=True)
+
+        # check attributes equal
+        self.assertEqual(mu, SumExpEstimator.mu)
+        self.assertEqual(eta, SumExpEstimator.eta)
+        np.testing.assert_array_equal(theta_vec, SumExpEstimator.theta_vec)
+
+        # check getter equal
+        mu, eta, theta_vec = SumExpEstimator.get_params()
+        self.assertEqual(mu, SumExpEstimator.mu)
+        self.assertEqual(eta, SumExpEstimator.eta)
+        np.testing.assert_array_equal(theta_vec, SumExpEstimator.theta_vec)
+        self.assertEqual(theta_vec.shape[0], self.P)

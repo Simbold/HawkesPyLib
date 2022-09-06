@@ -1,7 +1,6 @@
 # private testing folder
 _Testing/
 _old/
-_build_docs.sh
 
 # Caching / generated files
 __pycache__/
@@ -32,3 +31,7 @@ pdocs/
 
 # mypy
 .mypy_cache/
+
+# build
+build.sh
+dist/

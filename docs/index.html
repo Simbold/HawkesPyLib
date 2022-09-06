@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>HawkesPyLib API documentation</title>
+<title>HawkesPyLib documentation</title>
 <meta name="description" content="`HawkesPyLib` is a python package for simulation, and inference of Hawkes processes …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -31,7 +31,7 @@
 <p>The package is structured into three main modules:</p>
 <ul>
 <li>
-<p><code><a title="HawkesPyLib.simulation" href="simulation.html">HawkesPyLib.simulation</a></code> for simulation of Hawkes process</p>
+<p><code><a title="HawkesPyLib.simulation" href="simulation.html">HawkesPyLib.simulation</a></code> for simulation of Hawkes processes</p>
 </li>
 <li>
 <p><code><a title="HawkesPyLib.inference" href="inference.html">HawkesPyLib.inference</a></code> for fitting Hawkes processes</p>
@@ -41,6 +41,40 @@
 </li>
 </ul>
 <p>The module <code><a title="HawkesPyLib.core" href="core/index.html">HawkesPyLib.core</a></code> contains the functions underlying the simulation and fitting methods.</p>
+<hr>
+<h3 id="notes">Notes:</h3>
+<p>The inference module currently only supports model fitting using maximum likelihood estimation,
+and is using scipy's L-BFGS-B algorithm as its optimization routine.</p>
+<p>Hawkes process simulation is done via Ogata's modified thinning algorithm.
+For more details on the simulation algorithm see algorithm 2 in (Ogata 1981).</p>
+<p>The core simulation and estimation algorithms are optimized for speed
+by recursively calculating the state of the process and further accelerated by using
+<a href="https://numba.pydata.org/">numba's</a> JIT compiler.</p>
+<p>For more information on Hawkes processes, their simulation and inference find the references below.</p>
+<pre><code>References:
+</code></pre>
+<ul>
+<li>
+<p>Hawkes, A. G. (1971). Spectra of some self-exciting and mutually exciting point
+processes. Biometrika, 58(1):83 90.</p>
+</li>
+<li>
+<p>Ogata, Y. (1981). On lewis simulation method for point processes. IEEE transactions on information theory, 27(1):23 31.</p>
+</li>
+<li>
+<p>Ozaki, T. (1979). Maximum likelihood estimation of hawkes self-exciting point
+processes. Annals of the Institute of Statistical Mathematics, 31(1):145 155.</p>
+</li>
+<li>
+<p>C. Zhu, R. H. Byrd and J. Nocedal. L-BFGS-B: Algorithm 778: L-BFGS-B, FORTRAN routines
+for large scale bound constrained optimization (1997), ACM Transactions on Mathematical Software, 23, 4, pp. 550 - 560.</p>
+</li>
+<li>
+<p>Filimonov, V. and Sornette, D. (2015). Apparent criticality and calibration issues in
+the hawkes self-excited point process model: application to high-frequency finan-
+cial data. Quantitative Finance, 15(8):1293 1314.</p>
+</li>
+</ul>
 </section>
 <section>
 <h2 class="section-title" id="header-submodules">Sub-modules</h2>
@@ -78,7 +112,9 @@
 </header>
 <h1>Index</h1>
 <div class="toc">
-<ul></ul>
+<ul>
+<li><a href="#notes">Notes:</a></li>
+</ul>
 </div>
 <ul id="index">
 <li><h3><a href="#header-submodules">Sub-modules</a></h3>
