@@ -35,7 +35,7 @@
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="HawkesPyLib.core.simulation.uvhp_approx_powl_cutoff_simulator"><code class="name flex">
-<span>def <span class="ident">uvhp_approx_powl_cutoff_simulator</span></span>(<span>T: float, mu: float, eta: float, alpha: float, tau: float, m: float, M: int, seed: int = None) ‑> numpy.ndarray</span>
+<span>def <span class="ident">uvhp_approx_powl_cutoff_simulator</span></span>(<span>T: float, mu: float, eta: float, alpha: float, tau: float, m: float, M: int, seed: int = 0) ‑> numpy.ndarray</span>
 </code></dt>
 <dd>
 <div class="hslist"><p>Simulates a Hawkes process with approximate power-law memory kernel.
@@ -62,7 +62,7 @@ Implements Ogata's modified thinning algorithm as described in algorithm 2 in (O
 <dt><strong><code>M</code></strong> :&ensp;<code>int</code></dt>
 <dd>Memory kernel variable. M &gt; 0</dd>
 <dt><strong><code>seed</code></strong> :&ensp;<code>int</code>, optional</dt>
-<dd>Seed for numba's random number generator. Defaults to None.</dd>
+<dd>Seed for numba's random number generator. Defaults to 0 (no seed).</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -71,7 +71,7 @@ Implements Ogata's modified thinning algorithm as described in algorithm 2 in (O
 </dl></div>
 </dd>
 <dt id="HawkesPyLib.core.simulation.uvhp_expo_simulator"><code class="name flex">
-<span>def <span class="ident">uvhp_expo_simulator</span></span>(<span>T: float, mu: float, eta: float, theta: float, seed: int = None) ‑> numpy.ndarray</span>
+<span>def <span class="ident">uvhp_expo_simulator</span></span>(<span>T: float, mu: float, eta: float, theta: float, seed: int = 0) ‑> numpy.ndarray</span>
 </code></dt>
 <dd>
 <div class="hslist"><p>Simulates a Hawkes process with single exponential memory kernel.
@@ -92,7 +92,7 @@ Implements Ogata's modified thinning algorithm as described in algorithm 2 in (O
 <dt><strong><code>theta</code></strong> :&ensp;<code>float</code></dt>
 <dd>Decay speed of kernel. theta &gt; 0</dd>
 <dt><strong><code>seed</code></strong> :&ensp;<code>_type_</code>, optional</dt>
-<dd>Seed numbda's random number generator. Defaults to None.</dd>
+<dd>Seed numbda's random number generator. Defaults to 0 (no seed).</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -101,7 +101,7 @@ Implements Ogata's modified thinning algorithm as described in algorithm 2 in (O
 </dl></div>
 </dd>
 <dt id="HawkesPyLib.core.simulation.uvhp_approx_powl_simulator"><code class="name flex">
-<span>def <span class="ident">uvhp_approx_powl_simulator</span></span>(<span>T: float, mu: float, eta: float, alpha: float, tau: float, m: float, M: int, seed: int = None) ‑> numpy.ndarray</span>
+<span>def <span class="ident">uvhp_approx_powl_simulator</span></span>(<span>T: float, mu: float, eta: float, alpha: float, tau: float, m: float, M: int, seed: int = 0) ‑> numpy.ndarray</span>
 </code></dt>
 <dd>
 <div class="hslist"><p>Simulates a Hawkes process with approximate power-law memory kernel.
@@ -128,7 +128,7 @@ Implements Ogata's modified thinning algorithmas described in algorithm 2 in (Og
 <dt><strong><code>M</code></strong> :&ensp;<code>int</code></dt>
 <dd>Memory kernel variable. M &gt; 0</dd>
 <dt><strong><code>seed</code></strong> :&ensp;<code>int</code>, optional</dt>
-<dd>Seed for numba's random number generator. Defaults to None.</dd>
+<dd>Seed for numba's random number generator. Defaults to 0 (no seed).</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -137,7 +137,7 @@ Implements Ogata's modified thinning algorithmas described in algorithm 2 in (Og
 </dl></div>
 </dd>
 <dt id="HawkesPyLib.core.simulation.uvhp_sum_expo_simulator"><code class="name flex">
-<span>def <span class="ident">uvhp_sum_expo_simulator</span></span>(<span>T: float, mu: float, eta: float, theta_vec: numpy.ndarray, seed: int = None) ‑> numpy.ndarray</span>
+<span>def <span class="ident">uvhp_sum_expo_simulator</span></span>(<span>T: float, mu: float, eta: float, theta_vec: numpy.ndarray, seed: int = 0) ‑> numpy.ndarray</span>
 </code></dt>
 <dd>
 <div class="hslist"><p>Simulates a Hawkes process with P-sum expoential memory kernel.
@@ -158,7 +158,7 @@ Implements Ogata's modified thinning algorithmas described in algorithm 2 in (Og
 <dt><strong><code>theta_vec</code></strong> :&ensp;<code>np.ndarray</code></dt>
 <dd>Array of P exponential decay speeds. theta_vec &gt; 0</dd>
 <dt><strong><code>seed</code></strong> :&ensp;<code>int</code>, optional</dt>
-<dd>Seed for numba's random number generator. Defaults to None.</dd>
+<dd>Seed for numba's random number generator. Defaults to 0 (no seed).</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>

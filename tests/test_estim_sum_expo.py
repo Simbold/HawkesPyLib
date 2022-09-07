@@ -5,7 +5,7 @@ from HawkesPyLib.core.intensity import generate_eval_grid
 import os 
 
 file_path = fpath = os.path.join(os.path.dirname(__file__), "timestamp_fixture.csv")
-# np.loadtxt(file_path, delimiter=",", dtype=float)
+timestamps = np.loadtxt(file_path, delimiter=",", dtype=float)
 
 class TestSumExpo_estimate(TestCase):
     """ 
@@ -269,11 +269,10 @@ class TestSumExpo_compute_logL(TestCase):
 class TestSumExpoInference_getter(TestCase):
     """ Tests the getter equals estimate return and attribute"""
     def setUp(self):
-        self.timestamps = np.array([2.3083755,  2.32075025, 2.45105384, 2.70743681, 3.26019467,
-                                    3.27231931, 9.53121707, 9.56803776, 9.59677089]) 
-        self.T = 10.0
+        self.timestamps = timestamps
+        self.T = timestamps[-1]
         self.P = 3
-        self.rng = np.random.default_rng(242)
+        self.rng = np.random.default_rng(252)
 
     def test_getter(self):
         SumExpEstimator = SumExpHawkesProcessInference(self.P, self.rng)
