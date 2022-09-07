@@ -1,8 +1,8 @@
 import numpy as np
-import numba
+from numba import jit
 
 
-@numba.jit(nopython=True)
+@jit(nopython=True, cache=True, nogil=True)
 def uvhp_expo_compensator(sample_vec: np.ndarray, mu: float, eta: float, theta: float) -> np.ndarray:
     """Computes the compensator for a Hawkes procss with single exponential kernel.
 
@@ -31,7 +31,7 @@ def uvhp_expo_compensator(sample_vec: np.ndarray, mu: float, eta: float, theta: 
     return it
 
 
-@numba.jit(nopython=True)
+@jit(nopython=True, cache=True, nogil=True)
 def uvhp_approx_powl_compensator(sample_vec: np.ndarray, mu: float, eta: float, alpha: float, tau: float, m: float, M: int) -> np.ndarray:
     """Computes the compensator for a Hawkes procss with approximate power-law kernel.
 
@@ -75,7 +75,7 @@ def uvhp_approx_powl_compensator(sample_vec: np.ndarray, mu: float, eta: float, 
     return it
 
 
-@numba.jit(nopython=True)
+@jit(nopython=True, cache=True, nogil=True)
 def uvhp_approx_powl_cut_compensator(sample_vec, mu, eta, alpha, tau, m, M) -> np.ndarray:
     """Computes the compensator for a Hawkes procss with approximate power-law kernel with cutoff.
 
@@ -125,7 +125,7 @@ def uvhp_approx_powl_cut_compensator(sample_vec, mu, eta, alpha, tau, m, M) -> n
     return it
 
 
-@numba.jit(nopython=True)
+@jit(nopython=True, cache=True, nogil=True)
 def uvhp_sum_expo_compensator(sample_vec: np.ndarray, mu: float, eta: float, theta_vec: np.ndarray) -> np.ndarray:
     """Computes the compensator for a Hawkes procss with P-sum exponential kernel.
 

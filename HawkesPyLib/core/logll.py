@@ -1,8 +1,8 @@
 import numpy as np
-import numba
+from numba import jit
 
 
-@numba.jit(nopython=True)
+@jit(nopython=True, cache=True, nogil=True)
 def uvhp_expo_logL(param_vec: np.ndarray, sample_vec: np.ndarray, tn: float) -> float:
     """ Log-likelihood function for a Hawkes Process with single exponential kernel
 
@@ -38,7 +38,7 @@ def uvhp_expo_logL(param_vec: np.ndarray, sample_vec: np.ndarray, tn: float) -> 
     return -logL
 
 
-@numba.jit(nopython=True)
+@jit(nopython=True, cache=True, nogil=True)
 def uvhp_expo_logL_grad(param_vec: np.ndarray, sample_vec: np.ndarray, tn: float) -> np.ndarray:
     """ Gradient of the log-likelihood function for a Hawkes Process with single exponential kernel
 
@@ -94,7 +94,7 @@ def uvhp_expo_logL_grad(param_vec: np.ndarray, sample_vec: np.ndarray, tn: float
     return np.array([-mu_grad, -eta_grad, -theta_grad])
 
 
-@numba.jit(nopython=True)
+@jit(nopython=True, cache=True, nogil=True)
 def uvhp_sum_expo_logL(param_vec: np.ndarray, sample_vec: np.ndarray, tn: float) -> float:
     """ Log-likelihood function for a Hawkes Process with P-sum exponential kernel
 
@@ -141,7 +141,7 @@ def uvhp_sum_expo_logL(param_vec: np.ndarray, sample_vec: np.ndarray, tn: float)
     return -logL
 
 
-@numba.jit(nopython=True)
+@jit(nopython=True, cache=True, nogil=True)
 def uvhp_sum_expo_logL_grad(param_vec: np.ndarray, sample_vec: np.ndarray, tn: float) -> np.ndarray:
     """ Gradient of the log-likelihood function for a Hawkes Process with P-sum exponential kernel
 
@@ -215,7 +215,7 @@ def uvhp_sum_expo_logL_grad(param_vec: np.ndarray, sample_vec: np.ndarray, tn: f
     return np.append(np.append(-mu_grad, -eta_grad), -theta_grad)
 
 
-@numba.jit(nopython=True)
+@jit(nopython=True, cache=True, nogil=True)
 def uvhp_approx_powl_cut_logL(param_vec: np.ndarray, sample_vec: np.ndarray, tn: float, m: float, M: int) -> float:
     """Log-likelihood function for a Hawkes Process with approximate power-law kernel with cutoff component
 
@@ -293,7 +293,7 @@ def uvhp_approx_powl_cut_logL(param_vec: np.ndarray, sample_vec: np.ndarray, tn:
     return -logL
 
 
-@numba.jit(nopython=True)
+@jit(nopython=True, cache=True, nogil=True)
 def uvhp_approx_powl_logL(param_vec: np.ndarray, sample_vec: np.ndarray, tn: float, m: float, M: int) -> float:
     """Log-likelihood function for a Hawkes Process with approximate power-law kernel without cutoff component
 

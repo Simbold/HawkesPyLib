@@ -1,8 +1,8 @@
 import numpy as np
-import numba
+from numba import jit
 
 
-@numba.jit(nopython=True, fastmath=True)
+@jit(nopython=True, cache=True, nogil=True, fastmath=True)
 def uvhp_approx_powl_cutoff_simulator(T: float, mu: float, eta: float, alpha: float, tau: float, m: float, M: int, seed: int = None) -> np.ndarray:
     """Simulates a Hawkes process with approximate power-law memory kernel.
         Implements Ogata's modified thinning algorithm as described in algorithm 2 in (Ogata 1981) .
@@ -89,7 +89,7 @@ def uvhp_approx_powl_cutoff_simulator(T: float, mu: float, eta: float, alpha: fl
     return t_arr[0:(i+1)]
 
 
-@numba.jit(nopython=True, fastmath=True)
+@jit(nopython=True, cache=True, nogil=True, fastmath=True)
 def uvhp_expo_simulator(T: float, mu: float, eta: float, theta: float, seed: int = None) -> np.ndarray:
     """Simulates a Hawkes process with single exponential memory kernel.
         Implements Ogata's modified thinning algorithm as described in algorithm 2 in (Ogata 1981).
@@ -151,7 +151,7 @@ def uvhp_expo_simulator(T: float, mu: float, eta: float, theta: float, seed: int
     return t_arr[0:(i+1)]
 
 
-@numba.jit(nopython=True, fastmath=True)
+@jit(nopython=True, cache=True, nogil=True, fastmath=True)
 def uvhp_approx_powl_simulator(T: float, mu: float, eta: float, alpha: float, tau: float, m: float, M: int, seed: int = None) -> np.ndarray:
     """Simulates a Hawkes process with approximate power-law memory kernel.
         Implements Ogata's modified thinning algorithmas described in algorithm 2 in (Ogata 1981).
@@ -230,7 +230,7 @@ def uvhp_approx_powl_simulator(T: float, mu: float, eta: float, alpha: float, ta
     return t_arr[0:(i+1)]
 
 
-@numba.jit(nopython=True, fastmath=True)
+@jit(nopython=True, cache=True, nogil=True, fastmath=True)
 def uvhp_sum_expo_simulator(T: float, mu: float, eta: float, theta_vec: np.ndarray, seed: int = None) -> np.ndarray:
     """Simulates a Hawkes process with P-sum expoential memory kernel.
         Implements Ogata's modified thinning algorithmas described in algorithm 2 in (Ogata 1981).
