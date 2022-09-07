@@ -1,10 +1,65 @@
 [build-system]
-requires = ["setuptools>=61.2.0", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling>=1.8.1"]
+build-backend = "hatchling.build"
+
+[project]
+name = "HawkesPyLib"
+dynamic = ["version"]
+description = "Python library for simulation and inference of Hawkes processes"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.8"
+authors = [
+    { name = "Simon Grimm" },
+]
+keywords = [
+    "hawkes",
+    "hawkes-process",
+    "point-process",
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research"
+]
+dependencies = [
+    "numba>=0.55",
+    "numpy>=1.21",
+    "scipy>=1.7",
+]
+
+[project.optional-dependencies]
+testing = [
+    "flake8>=3.9",
+    "tox>=3.24",
+]
+
+[project.urls]
+Homepage = "https://simbold.github.io/HawkesPyLib/"
+Source = "https://github.com/Simbold/HawkesPyLib"
+
+
+[tool.hatch.version]
+path = "HawkesPyLib/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/HawkesPyLib",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["HawkesPyLib"]
 
 [tool.pytest.ini_options]
 addopts = "--cov=HawkesPyLib"
-testpaths = [
-    "tests",
-]
+testpaths = ["tests"]
 
+[tool.hatch.publish.index]
+disable = true

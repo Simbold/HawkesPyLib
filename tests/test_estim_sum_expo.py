@@ -5,7 +5,7 @@ from HawkesPyLib.core.intensity import generate_eval_grid
 import os 
 
 file_path = fpath = os.path.join(os.path.dirname(__file__), "timestamp_fixture.csv")
-# np.loadtxt(file_path, delimiter=",", dtype=float)
+timestamps = np.loadtxt(file_path, delimiter=",", dtype=float)
 
 class TestSumExpo_estimate(TestCase):
     """ 
@@ -118,7 +118,7 @@ class TestSumExpo_estimate_grid(TestCase):
 
     def test_check_attributes(self):
         """ Check if all attributes set after succeseful estimation """
-        SumExpoEst = SumExpHawkesProcessInference(self.P)
+        SumExpoEst = SumExpHawkesProcessInference(self.P, self.rng)
         SumExpoEst.estimate_grid(self.timestamps, self.T, "random")
         self.assertTrue(hasattr(SumExpoEst, "mu"))
         self.assertTrue(hasattr(SumExpoEst, "eta"))
@@ -266,3 +266,26 @@ class TestSumExpo_compute_logL(TestCase):
         self.assertEqual(logL1, logL2)
 
 
+class TestSumExpoInference_getter(TestCase):
+    """ Tests the getter equals estimate return and attribute"""
+    def setUp(self):
+        self.timestamps = timestamps
+        self.T = timestamps[-1]
+        self.P = 3
+        self.rng = np.random.default_rng(252)
+
+    def test_getter(self):
+        SumExpEstimator = SumExpHawkesProcessInference(self.P, self.rng)
+        mu, eta, theta_vec = SumExpEstimator.estimate(self.timestamps, self.T, return_params=True)
+
+        # check attributes equal
+        self.assertEqual(mu, SumExpEstimator.mu)
+        self.assertEqual(eta, SumExpEstimator.eta)
+        np.testing.assert_array_equal(theta_vec, SumExpEstimator.theta_vec)
+
+        # check getter equal
+        mu, eta, theta_vec = SumExpEstimator.get_params()
+        self.assertEqual(mu, SumExpEstimator.mu)
+        self.assertEqual(eta, SumExpEstimator.eta)
+        np.testing.assert_array_equal(theta_vec, SumExpEstimator.theta_vec)
+        self.assertEqual(theta_vec.shape[0], self.P)

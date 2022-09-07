@@ -25,14 +25,10 @@ class ExpHawkesProcessSimulation():
         The conditional intensity function is defined as:
         $$ \lambda(t) = \mu + \dfrac{\eta}{\theta} \sum_{t_i < t} e^{(-(t - t_i)/\theta)} $$
 
-        where \(\mu\) (`mu`) is the constant background intensity,\(\eta \) (`eta`)
+        where \(\mu\) (`mu`) is the constant background intensity, \(\eta\) (`eta`)
         is the branching ratio and \(\theta\) (`theta`) is the exponential decay parameter.
 
-        The implemented simulation algorithm is based on Ogata's modified thinning algorithm (see Ogata 1981 for details).
-
-        References:
-
-        - Ogata, Y. (1981). On lewis simulation method for point processes. IEEE transactions on information theory, 27(1):2331.
+        The implemented simulation algorithm is based on Ogata's modified thinning algorithm.
     """
     mu = FloatInExRange("mu", lower_bound=0)
     eta = FloatInExRange("eta", lower_bound=0, upper_bound=1)
@@ -109,25 +105,21 @@ class ExpHawkesProcessSimulation():
             times (np.ndarray): 1d array of time values for which to compute the value of the memory kernel.
 
         Returns:
-            np.ndarray: 1d array containing the values of the memory kernel value at the given times.
+            np.ndarray: 1d array containing the values of the memory kernel value at the given time(s).
         """
         kernel_values = uvhp_expo_kernel(times, self.eta, self.theta)
         return kernel_values
 
 
 class SumExpHawkesProcessSimulation():
-    r""" Class for simulation of univariate Hawkes processes with single exponential memory kernel.
+    r""" Class for simulation of univariate Hawkes processes with P-sum exponential memory kernel.
         The conditional intensity function is defined as:
         $$ \lambda(t) = \mu + \dfrac{\eta}{P} \sum_{t_i < t} \sum_{k=1}^{P} \dfrac{1}{\theta_k} e^{(-(t - t_i)/\theta_k)} $$
 
         where \(\mu\) (`mu`) is the constant background intensity, \(\eta \) (`eta`)
         is the branching ratio and \(\theta_k\) is the k'th exponential decay parameter in (`theta_vec`).
 
-        The implemented simulation algorithm is based on Ogata's modified thinning algorithm (see Ogata 1981 for details).
-
-        References:
-
-        - Ogata, Y. (1981). On lewis simulation method for point processes. IEEE transactions on information theory, 27(1):2331.
+        The implemented simulation algorithm is based on Ogata's modified thinning algorithm.
     """
     mu = FloatInExRange("mu", lower_bound=0)
     eta = FloatInExRange("eta", lower_bound=0, upper_bound=1)
@@ -204,7 +196,7 @@ class SumExpHawkesProcessSimulation():
             times (np.ndarray): 1d array of time values for which to compute the value of the memory kernel.
 
         Returns:
-            np.ndarray: 1d array containing the values of the memory kernel value at the given times.
+            np.ndarray: 1d array containing the values of the memory kernel value at the given time(s).
         """
         kernel_values = uvhp_sum_expo_kernel(times, self.eta, self.theta_vec)
         return kernel_values
@@ -221,7 +213,7 @@ class ApproxPowerlawHawkesProcessSimulation():
         \[\lambda(t) = \mu + \sum_{t_i < t} \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} - S e^{(-(t - t_i)/a_{-1})} \bigg],\]
 
         where \(\mu\) (`mu`) is the constant background intensity, \(\eta \) (`eta`)
-        is the branching ratio, \(\alpha\) (`alpha`) is the tail index and \(\tau_0\) a scale parameter that
+        is the branching ratio, \(\alpha\) (`alpha`) is the tail exponent and \(\tau_0\) a scale parameter that
         also controls the decay timescale as well as the location of the smooth cutoff (i.e. the time at which the memory kernel reaches its maximum).
 
         The true power-law is approximtated by a sum of \(M\) exponential function with power-law weights
@@ -230,12 +222,7 @@ class ApproxPowerlawHawkesProcessSimulation():
         decays exponentially. S and Z are scaling factors that ensure that the memory kernel integrates to \(\eta\)
         and that the kernel value at time zero is zero (for the smooth cutoff version). S and Z are computed automatically.
 
-        The implemented simulation algorithm is based on Ogata's modified thinning algorithm (see Ogata 1981 for details).
-
-        References:
-
-        - Ogata, Y. (1981). On lewis simulation method for point processes. IEEE transactions on information theory, 27(1):2331.
-
+        The implemented simulation algorithm is based on Ogata's modified thinning algorithm.
     """
     mu = FloatInExRange("mu", lower_bound=0)
     eta = FloatInExRange("eta", lower_bound=0, upper_bound=1)
@@ -253,7 +240,7 @@ class ApproxPowerlawHawkesProcessSimulation():
             kernel (str): Can be one of: 'powlaw' or 'powlaw-cutoff'.
             mu (float): The background intensity, \(\mu > 0\).
             eta (float): The branching ratio, \(0 < \eta > 1\).
-            alpha (float): Tail index of the power-law decay, \(\alpha > 0\).
+            alpha (float): Tail exponent of the power-law decay, \(\alpha > 0\).
             tau0 (float): Timescale parameter, \(\tau_0 > 0\).
             m (float): Scale parameter of the power-law weights, \(m > 0 \).
             M (int): Number of weighted exponential functions that approximate the power-law.
@@ -261,7 +248,7 @@ class ApproxPowerlawHawkesProcessSimulation():
         Attributes:
             mu (float): The background intensity, \(\mu > 0\).
             eta (float): The branching ratio, \(0 < \eta > 1\).
-            alpha (float): Tail index of the power-law decay, \(\alpha > 0\).
+            alpha (float): Tail exponent of the power-law decay, \(\alpha > 0\).
             tau0 (float): Timescale parameter, \(\tau_0 > 0\).
             m (float): Scale parameter of the power-law weights, \(m > 0 \).
             M (int): Number of weighted exponential functions that approximate the power-law.
@@ -342,7 +329,7 @@ class ApproxPowerlawHawkesProcessSimulation():
             times (np.ndarray): 1d array of time values for which to compute the value of the memory kernel.
 
         Returns:
-            np.ndarray: 1d array containing the values of the memory kernel value at the given times.
+            np.ndarray: 1d array containing the values of the memory kernel value at the given time(s).
         """
         if self.kernel == "powlaw-cutoff":
             return uvhp_approx_powl_cutoff_kernel(times, self.eta, self.alpha, self.tau0, self.m, self.M)

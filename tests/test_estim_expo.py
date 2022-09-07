@@ -5,7 +5,7 @@ from HawkesPyLib.processes import generate_eval_grid
 import os 
 
 file_path = fpath = os.path.join(os.path.dirname(__file__), "timestamp_fixture.csv")
-# np.loadtxt(file_path, delimiter=",", dtype=float)
+timestamps =  np.loadtxt(file_path, delimiter=",", dtype=float)
 
 class TestExpo_estimate(TestCase):
     """ 
@@ -117,7 +117,7 @@ class TestExpo_estimate_grid(TestCase):
 
     def test_check_attributes(self):
         """ Check if all attributes set after succeseful estimation """
-        ExpoEst = ExpHawkesProcessInference()
+        ExpoEst = ExpHawkesProcessInference(rng=self.rng)
         ExpoEst.estimate_grid(self.timestamps, self.T, "random")
         self.assertTrue(hasattr(ExpoEst, "mu"))
         self.assertTrue(hasattr(ExpoEst, "eta"))
@@ -229,3 +229,26 @@ class TestExpo_compute_logL(TestCase):
         logL2 = ExpoEst.compute_logL()
         logL1 = ExpoEst.logL
         self.assertEqual(logL1, logL2)
+
+
+class TestExpoInference_getter(TestCase):
+    """ Tests the getter equals estimate return and attribute"""
+    def setUp(self):
+        self.timestamps = timestamps
+        self.T = timestamps[-1]
+        self.rng = np.random.default_rng(242)
+
+    def test_getter(self):
+        ExpEstimator = ExpHawkesProcessInference(self.rng)
+        mu, eta, theta = ExpEstimator.estimate(self.timestamps, self.T, return_params=True)
+
+        # check attributes equal
+        self.assertEqual(mu, ExpEstimator.mu)
+        self.assertEqual(eta, ExpEstimator.eta)
+        self.assertEqual(theta, ExpEstimator.theta)
+
+        # check getter equal
+        mu, eta, theta= ExpEstimator.get_params()
+        self.assertEqual(mu, ExpEstimator.mu)
+        self.assertEqual(eta, ExpEstimator.eta)
+        self.assertEqual(theta, ExpEstimator.theta)

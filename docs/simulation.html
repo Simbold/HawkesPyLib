@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>HawkesPyLib.simulation API documentation</title>
+<title>HawkesPyLib.simulation documentation</title>
 <meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -44,13 +44,9 @@
 <div class="hslist"><p>Class for simulation of univariate Hawkes processes with single exponential memory kernel.
 The conditional intensity function is defined as:
 <span><span class="MathJax_Preview"> \lambda(t) = \mu + \dfrac{\eta}{\theta} \sum_{t_i &lt; t} e^{(-(t - t_i)/\theta)} </span><script type="math/tex; mode=display"> \lambda(t) = \mu + \dfrac{\eta}{\theta} \sum_{t_i < t} e^{(-(t - t_i)/\theta)} </script></span></p>
-<p>where <span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span> (<code>mu</code>) is the constant background intensity,(\eta ) (<code>eta</code>)
+<p>where <span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span> (<code>mu</code>) is the constant background intensity, <span><span class="MathJax_Preview">\eta</span><script type="math/tex">\eta</script></span> (<code>eta</code>)
 is the branching ratio and <span><span class="MathJax_Preview">\theta</span><script type="math/tex">\theta</script></span> (<code>theta</code>) is the exponential decay parameter.</p>
-<p>The implemented simulation algorithm is based on Ogata's modified thinning algorithm (see Ogata 1981 for details).</p>
-<p>References:</p>
-<ul>
-<li>Ogata, Y. (1981). On lewis simulation method for point processes. IEEE transactions on information theory, 27(1):2331.</li>
-</ul>
+<p>The implemented simulation algorithm is based on Ogata's modified thinning algorithm.</p>
 <p>To initlize the class provide the following parameters that specify the single exponential Hawkes process.</p>
 <h2 id="args">Args</h2>
 <dl>
@@ -139,7 +135,7 @@ e^{(-t/\theta)} </script></span></p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>np.ndarray</code></dt>
-<dd>1d array containing the values of the memory kernel value at the given times.</dd>
+<dd>1d array containing the values of the memory kernel value at the given time(s).</dd>
 </dl></div>
 </dd>
 </dl>
@@ -149,16 +145,12 @@ e^{(-t/\theta)} </script></span></p>
 <span>(</span><span>mu: float, eta: float, theta_vec: numpy.ndarray)</span>
 </code></dt>
 <dd>
-<div class="hslist"><p>Class for simulation of univariate Hawkes processes with single exponential memory kernel.
+<div class="hslist"><p>Class for simulation of univariate Hawkes processes with P-sum exponential memory kernel.
 The conditional intensity function is defined as:
 <span><span class="MathJax_Preview"> \lambda(t) = \mu + \dfrac{\eta}{P} \sum_{t_i &lt; t} \sum_{k=1}^{P} \dfrac{1}{\theta_k} e^{(-(t - t_i)/\theta_k)} </span><script type="math/tex; mode=display"> \lambda(t) = \mu + \dfrac{\eta}{P} \sum_{t_i < t} \sum_{k=1}^{P} \dfrac{1}{\theta_k} e^{(-(t - t_i)/\theta_k)} </script></span></p>
 <p>where <span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span> (<code>mu</code>) is the constant background intensity, <span><span class="MathJax_Preview">\eta </span><script type="math/tex">\eta </script></span> (<code>eta</code>)
 is the branching ratio and <span><span class="MathJax_Preview">\theta_k</span><script type="math/tex">\theta_k</script></span> is the k'th exponential decay parameter in (<code>theta_vec</code>).</p>
-<p>The implemented simulation algorithm is based on Ogata's modified thinning algorithm (see Ogata 1981 for details).</p>
-<p>References:</p>
-<ul>
-<li>Ogata, Y. (1981). On lewis simulation method for point processes. IEEE transactions on information theory, 27(1):2331.</li>
-</ul>
+<p>The implemented simulation algorithm is based on Ogata's modified thinning algorithm.</p>
 <p>To initlize the class provide the following parameters that specify the P-sum exponential Hawkes process.</p>
 <h2 id="args">Args</h2>
 <dl>
@@ -245,7 +237,7 @@ memory kernel is defined as:
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>np.ndarray</code></dt>
-<dd>1d array containing the values of the memory kernel value at the given times.</dd>
+<dd>1d array containing the values of the memory kernel value at the given time(s).</dd>
 </dl></div>
 </dd>
 </dl>
@@ -263,18 +255,14 @@ The conditional intensity function for the approximate power-law kernel is defin
 <p>and the conditional intensity function for the approximate power-law kernel with smooth cutoff is defined as:</p>
 <p><span><span class="MathJax_Preview">\lambda(t) = \mu + \sum_{t_i &lt; t} \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} - S e^{(-(t - t_i)/a_{-1})} \bigg],</span><script type="math/tex; mode=display">\lambda(t) = \mu + \sum_{t_i < t} \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} - S e^{(-(t - t_i)/a_{-1})} \bigg],</script></span></p>
 <p>where <span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span> (<code>mu</code>) is the constant background intensity, <span><span class="MathJax_Preview">\eta </span><script type="math/tex">\eta </script></span> (<code>eta</code>)
-is the branching ratio, <span><span class="MathJax_Preview">\alpha</span><script type="math/tex">\alpha</script></span> (<code>alpha</code>) is the tail index and <span><span class="MathJax_Preview">\tau_0</span><script type="math/tex">\tau_0</script></span> a scale parameter that
+is the branching ratio, <span><span class="MathJax_Preview">\alpha</span><script type="math/tex">\alpha</script></span> (<code>alpha</code>) is the tail exponent and <span><span class="MathJax_Preview">\tau_0</span><script type="math/tex">\tau_0</script></span> a scale parameter that
 also controls the decay timescale as well as the location of the smooth cutoff (i.e. the time at which the memory kernel reaches its maximum).</p>
 <p>The true power-law is approximtated by a sum of <span><span class="MathJax_Preview">M</span><script type="math/tex">M</script></span> exponential function with power-law weights
 <span><span class="MathJax_Preview">a_k = \tau_0 m^k</span><script type="math/tex">a_k = \tau_0 m^k</script></span>. <span><span class="MathJax_Preview">M</span><script type="math/tex">M</script></span> is the number of exponentials used for the approximation and <span><span class="MathJax_Preview">m</span><script type="math/tex">m</script></span> is a scale
 parameter. The power-law approximation holds for times up to <span><span class="MathJax_Preview">m^{M-1}</span><script type="math/tex">m^{M-1}</script></span> after which the memory kernel
 decays exponentially. S and Z are scaling factors that ensure that the memory kernel integrates to <span><span class="MathJax_Preview">\eta</span><script type="math/tex">\eta</script></span>
 and that the kernel value at time zero is zero (for the smooth cutoff version). S and Z are computed automatically.</p>
-<p>The implemented simulation algorithm is based on Ogata's modified thinning algorithm (see Ogata 1981 for details).</p>
-<p>References:</p>
-<ul>
-<li>Ogata, Y. (1981). On lewis simulation method for point processes. IEEE transactions on information theory, 27(1):2331.</li>
-</ul>
+<p>The implemented simulation algorithm is based on Ogata's modified thinning algorithm.</p>
 <p>Initilize class by setting the processes parameters.</p>
 <h2 id="args">Args</h2>
 <dl>
@@ -285,7 +273,7 @@ and that the kernel value at time zero is zero (for the smooth cutoff version). 
 <dt><strong><code>eta</code></strong> :&ensp;<code>float</code></dt>
 <dd>The branching ratio, <span><span class="MathJax_Preview">0 &lt; \eta &gt; 1</span><script type="math/tex">0 < \eta > 1</script></span>.</dd>
 <dt><strong><code>alpha</code></strong> :&ensp;<code>float</code></dt>
-<dd>Tail index of the power-law decay, <span><span class="MathJax_Preview">\alpha &gt; 0</span><script type="math/tex">\alpha > 0</script></span>.</dd>
+<dd>Tail exponent of the power-law decay, <span><span class="MathJax_Preview">\alpha &gt; 0</span><script type="math/tex">\alpha > 0</script></span>.</dd>
 <dt><strong><code>tau0</code></strong> :&ensp;<code>float</code></dt>
 <dd>Timescale parameter, <span><span class="MathJax_Preview">\tau_0 &gt; 0</span><script type="math/tex">\tau_0 > 0</script></span>.</dd>
 <dt><strong><code>m</code></strong> :&ensp;<code>float</code></dt>
@@ -300,7 +288,7 @@ and that the kernel value at time zero is zero (for the smooth cutoff version). 
 <dt><strong><code>eta</code></strong> :&ensp;<code>float</code></dt>
 <dd>The branching ratio, <span><span class="MathJax_Preview">0 &lt; \eta &gt; 1</span><script type="math/tex">0 < \eta > 1</script></span>.</dd>
 <dt><strong><code>alpha</code></strong> :&ensp;<code>float</code></dt>
-<dd>Tail index of the power-law decay, <span><span class="MathJax_Preview">\alpha &gt; 0</span><script type="math/tex">\alpha > 0</script></span>.</dd>
+<dd>Tail exponent of the power-law decay, <span><span class="MathJax_Preview">\alpha &gt; 0</span><script type="math/tex">\alpha > 0</script></span>.</dd>
 <dt><strong><code>tau0</code></strong> :&ensp;<code>float</code></dt>
 <dd>Timescale parameter, <span><span class="MathJax_Preview">\tau_0 &gt; 0</span><script type="math/tex">\tau_0 > 0</script></span>.</dd>
 <dt><strong><code>m</code></strong> :&ensp;<code>float</code></dt>
@@ -377,7 +365,7 @@ power-law memory kernel is defined as:
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>np.ndarray</code></dt>
-<dd>1d array containing the values of the memory kernel value at the given times.</dd>
+<dd>1d array containing the values of the memory kernel value at the given time(s).</dd>
 </dl></div>
 </dd>
 </dl>

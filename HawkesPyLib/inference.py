@@ -17,11 +17,6 @@ def uvhp_expo_mle(timestamps: np.ndarray, T: float, param_vec0: np.ndarray) -> l
         Uses scipy's l_bfgs_b optimization routine to minimize the negative log-likelihood.
         The gradient of the log-likelihood function is passed explicitly to the minimization routine.
 
-        Reference:
-
-        - C. Zhu, R. H. Byrd and J. Nocedal. L-BFGS-B: Algorithm 778: L-BFGS-B, FORTRAN routines
-         for large scale bound constrained optimization (1997), ACM Transactions on Mathematical Software, 23, 4, pp. 550 - 560.
-
     Args:
         timestamps (np.ndarray): 1d array of arrival times of the process. Arrival times must be positive and ordered.
         T (float): End time of the process. T must be larger or equal to the last arrival time.
@@ -31,7 +26,7 @@ def uvhp_expo_mle(timestamps: np.ndarray, T: float, param_vec0: np.ndarray) -> l
         list: A list of values: list[0] optimal paramters, list[1] min function value, list[2] optim info
             (also see scipy.optimize.fmin_l_bfgs_b for more info).
     """
-    bnds = [(1e-8, np.inf), (1e-8, 1.0), (1e-8, np.inf)]
+    bnds = [(1e-10, np.inf), (1e-10, 9.9999999e-1), (1e-10, np.inf)]
     opt_result = fmin_l_bfgs_b(func=uvhp_expo_logL, x0=param_vec0, fprime=uvhp_expo_logL_grad,
                                args=(timestamps, T), approx_grad=False, bounds=bnds,
                                m=10, factr=100, pgtol=1e-05, iprint=-1, maxfun=15000,
@@ -44,11 +39,6 @@ def uvhp_sum_expo_mle(timestamps: np.ndarray, T: float, P: int, param_vec0: np.n
         Uses scipy's l_bfgs_b optimization routine to minimize the negative log-likelihood.
         The gradient of the log-likelihood function is passed explicitly to the minimization routine.
 
-    Reference:
-
-        - C. Zhu, R. H. Byrd and J. Nocedal. L-BFGS-B: Algorithm 778: L-BFGS-B, FORTRAN routines
-         for large scale bound constrained optimization (1997), ACM Transactions on Mathematical Software, 23, 4, pp. 550 - 560.
-
     Args:
         timestamps (np.ndarray): 1d array of arrival times of the process. Arrival times must be positive and ordered.
         T (float): End time of the process. T must be larger or equal to the last arrival time.
@@ -59,9 +49,9 @@ def uvhp_sum_expo_mle(timestamps: np.ndarray, T: float, P: int, param_vec0: np.n
         list: A list of values: list[0] optimal paramters, list[1] min function value, list[2] optim info
             (also see scipy.optimize.fmin_l_bfgs_b for more info)
     """
-    bnds = [(1e-8, np.inf), (1e-8, 1)]
+    bnds = [(1e-10, np.inf), (1e-10, 9.9999999e-1)]
     for k in range(0, P):
-        bnds.append((1e-8, np.inf))
+        bnds.append((1e-10, np.inf))
     opt_result = fmin_l_bfgs_b(func=uvhp_sum_expo_logL, x0=param_vec0, fprime=uvhp_sum_expo_logL_grad,
                                args=(timestamps, T), approx_grad=False, bounds=bnds,
                                m=10, factr=100, pgtol=1e-05, iprint=- 1, maxfun=15000,
@@ -74,11 +64,6 @@ def uvhp_powlaw_mle(timestamps: np.ndarray, T: float, m: float, M: int, param_ve
         Uses scipy's l_bfgs_b optimization routine to minimize the negative log-likelihood.
         The gradient of the log-likelihood function is approximated by the l_bfgs_b routine.
 
-        Reference:
-
-        - C. Zhu, R. H. Byrd and J. Nocedal. L-BFGS-B: Algorithm 778: L-BFGS-B, FORTRAN
-         for large scale bound constrained optimization (1997), ACM Transactions on Mathematical Software, 23, 4, pp. 550 - 560.
-
     Args:
         timestamps (np.ndarray): 1d array of arrival times of the process. Arrival times must be positive and ordered.
         T (float): End time of the process. T must be larger or equal to the last arrival time.
@@ -90,7 +75,7 @@ def uvhp_powlaw_mle(timestamps: np.ndarray, T: float, m: float, M: int, param_ve
         list: A list of values: list[0] optimal paramters, list[1] min function value, list[2] optim info
             (also see scipy.optimize.fmin_l_bfgs_b for more info)
     """
-    bnds = [(1e-8, np.inf), (1e-8, 1.0), (1e-8, 10), (1e-8, np.inf)]
+    bnds = [(1e-10, np.inf), (1e-10, 9.9999999e-1), (1e-10, 10), (1e-10, np.inf)]
     opt_result = fmin_l_bfgs_b(func=uvhp_approx_powl_logL, x0=param_vec0, fprime=None,
                                args=(timestamps, T, m, M), approx_grad=True, bounds=bnds,
                                m=10, factr=100, epsilon=1e-07, pgtol=1e-05, iprint=- 1,
@@ -103,11 +88,6 @@ def uvhp_powlaw_cut_mle(timestamps: np.ndarray, T: float, m: float, M: int, para
         Uses scipy's l_bfgs_b optimization routine to minimize the negative log-likelihood.
         The gradient of the log-likelihood function is approximated by the l_bfgs_b routine.
 
-        Reference:
-
-        - C. Zhu, R. H. Byrd and J. Nocedal. L-BFGS-B: Algorithm 778: L-BFGS-B, FORTRAN routines
-         for large scale bound constrained optimization (1997), ACM Transactions on Mathematical Software, 23, 4, pp. 550 - 560.
-
     Args:
         timestamps (np.ndarray): 1d array of arrival times of the process. Arrival times must be positive and ordered.
         T (float): End time of the process. T must be larger or equal to the last arrival time.
@@ -119,7 +99,7 @@ def uvhp_powlaw_cut_mle(timestamps: np.ndarray, T: float, m: float, M: int, para
         list: A list of values: list[0] optimal paramters, list[1] min function value, list[2] optim info
             (also see scipy.optimize.fmin_l_bfgs_b for more info)
     """
-    bnds = [(1e-8, np.inf), (1e-8, 1.0), (1e-8, 10), (1e-8, np.inf)]
+    bnds = [(1e-10, np.inf), (1e-8, 9.9999999e-1), (1e-10, 10), (1e-10, np.inf)]
     opt_result = fmin_l_bfgs_b(func=uvhp_approx_powl_cut_logL, x0=param_vec0, fprime=None,
                                args=(timestamps, T, m, M), approx_grad=True, bounds=bnds,
                                m=10, factr=100, epsilon=1e-07, pgtol=1e-05, iprint=- 1,
@@ -128,25 +108,28 @@ def uvhp_powlaw_cut_mle(timestamps: np.ndarray, T: float, m: float, M: int, para
 
 
 class ExpHawkesProcessInference(UnivariateHawkesProcess):
-    r""" Inference of unvivariate Hawkes processes with single exponentials memory kernel.
-        Hawkes process with single exponential memory kernel ('expo' kernel), is defined by the conditional intensity function:
+    r""" Fitting of unvivariate Hawkes processes with single exponentials memory kernel.
+        The Hawkes process with single exponential memory kernel ('expo' kernel),
+        is defined by the conditional intensity function:
 
         \[\lambda(t) = \mu + \dfrac{\eta}{\theta} \sum_{t_i < t} e^{(-(t - t_i)/\theta)}\]
 
-        Two maximum liklihood based inference methods are currently available:
+        Two maximum likelihood based inference methods are currently available:
 
          - `ExpHawkesProcessInference.estimate()` maximizes the log-likelihood given a sample of arrival times.
 
          - `ExpHawkesProcessInference.estimate_grid()` maximizes the log-likelihood on a grid of different starting values
             and returns the best model out of all fitted models (i.e. the model with the highest log-likelihood).
-            The log-likelihood function of Hawkes processes can be very flat and a single optimization run may get stuck in a local
-            supoptimal maximum.
+            A single optimization run may get stuck in a local supoptimal maximum. The grid estimation increases
+            the chance of finding the global maximum but also significantly increases the computational cost.
 
-        This class inherets from `HawkesPyLib.processes.UnivariateHawkesProcess` and provides methods for further analysis of the fitted model:
+        This class inherets from `HawkesPyLib.processes.UnivariateHawkesProcess`
+        and provides methods for further analysis of the fitted model:
 
-        - ExpHawkesProcessInference.compensator() computes the compensator and may be used as a starting point for a 'residual' analysis.
+        - ExpHawkesProcessInference.compensator() computes the compensator and
+            may be used as a starting point for a 'residual' analysis.
         - ExpHawkesProcessInference.intensity() evaluates the estimated conditional intensity.
-        - ExpHawkesProcessInference.kernel_values() returns values of the estimated memory kernel.
+        - ExpHawkesProcessInference.kernel_values() returns values for the estimated memory kernel.
         - ExpHawkesProcessInference.ic() computes information criteria of the estimated model.
     """
     _grid_type = OneOf("random", "equidistant", "custom", "no-grid")
@@ -155,12 +138,13 @@ class ExpHawkesProcessInference(UnivariateHawkesProcess):
     def __init__(self, rng=rng) -> None:
         """
         Args:
-            rng (optional): numpy random number generator. For reproducible results use: rng=np.random.default_rng(seed)
+            rng (optional): numpy random number generator.
+            For reproducible results use: rng=np.random.default_rng(seed)
 
         Attributes:
             mu (float): The estimated background intensity.
             eta (float): The estimated branching ratio.
-            theta (float): Estimated decay speed of single exponential kernel, theta > 0.
+            theta (float): Estimated decay speed of the single exponential kernel.
             timestamps (np.ndarray): 1d array of arrival times that were used in the most recent fitting routine.
             T: (float): End time of the estimated process.
             logL (Float): The log-likelihood value of the fitted process.
@@ -173,20 +157,21 @@ class ExpHawkesProcessInference(UnivariateHawkesProcess):
 
     def estimate(self, timestamps: np.ndarray, T: float, return_params: bool = False, max_attempts: int = 5,
                  custom_param_vec0: bool = False, **kwargs) -> None:
-        """ Estimates the Hawkes process parameters using maximum likelihood estimation.
+        """ Estimates process parameters using maximum likelihood estimation.
 
         Args:
             timestamps (np.ndarray): 1d array of arrival times.
                                      Must be sorted and only positive timestamps are allowed!
             T (float): The end time of the Hawkes process.
-            return_params (bool, optional): If True returns a tuple of fitted parameters in the order: mu, eta, alpha, tau0
+                        Must be larger or equal the last arrival time in argument `timestamps`.
+            return_params (bool, optional): If True, returns a tuple of fitted parameters in the order: mu, eta, alpha, tau0
             max_attempts (int, optional): Number of times the maximum likelihood estimation repeats with new starting values
                                             if the optimization routine does not exit successfully. Defaults to 5.
             custom_param_vec0 (bool, optional): If custom initial values should be used. Defaults to False.
-                                                If true you must supply an addtional variable 'param_vec0' a 1d numpy array
-                                                containing the initial starting values: param_vec0 = [mu0 > 0, 0 < eta0 <1, theta > 0].
+                                                If True you must supply an addtional variable to **kwargs called `param_vec0` a 1d numpy array
+                                                containing the initial starting values: param_vec0 = [mu0 > 0, 0 < eta0 < 1, theta > 0].
         Returns:
-            tuple: (optional) if `return_params`=True returns tuple of fitted parameters: mu, eta, theta
+            tuple: (optional) if `return_params=True` returns a tuple of fitted parameters: `mu`, `eta`, `theta`
         """
         self.timestamps = timestamps
         self.T = self._check_valid_T(T, timestamps[-1])
@@ -224,19 +209,20 @@ class ExpHawkesProcessInference(UnivariateHawkesProcess):
             print(f"WARNING: Optimization not successful: {opt_result[2]['task']}")
 
     def estimate_grid(self, timestamps: np.ndarray, T: float, grid_type: str = 'equidistant', grid_size: int = 20, return_params: bool = False, **kwargs):
-        """ Estimates the Hawkes process parameters using maximum likelihood estimation. Fits the model multiple times using different
-            initial parameter values. Subsequently the fitted model with the largest logL value is returned.
+        """ Estimates the Hawkes process parameters using maximum likelihood estimation.
+        Fits the model multiple times using different initial parameter values.
+        Subsequently the fitted model with the largest log-likelihood value is returned.
 
-        The grid applied only to the initial value of eta in the mle routine,
-            mu0 is set in using the unconditonal mean of the process and theta is always chosed randomly.
+        The grid applies only to the initial value of eta in the MLE routine,
+            mu0 is set by using the unconditonal mean of the process and theta is chosen randomly.
 
         There are three options for the type of eta0 starting value grid:
 
-        - ('random') starting values for eta0 are chosen randomly.
+        - 'random': starting values for eta0 are chosen randomly.
 
-        - ('equidistant') starting values for eta0 are equidistant between 0 and 1
+        - 'equidistant': starting values for eta0 are equidistant between 0 and 1.
 
-        - ('custom') A custom eta0 grid of starting value is supplied to 'custom-grid' variable:
+        - 'custom': A custom eta0 grid of starting values is supplied to **kwargs argument called `custom-grid`.
                        You must supply an addtional variable 'custom-grid' a 1d numpy array
                         containing a grid of initial starting values with constraint 0 < eta0 < 1.
 
@@ -244,12 +230,13 @@ class ExpHawkesProcessInference(UnivariateHawkesProcess):
             timestamps (np.ndarray): 1d array of arrival times.
                                      Must be sorted and only positive timestamps are allowed!
             T (float): The end time of the Hawkes process.
-            grid_type (str, optional): Type of grid for eta0 starting values, one of: 'random', 'equidistant' or 'custom'. Default to 'equidistant'
+                        Must be larger or equal the last arrival time in argument `timestamps`.
+            grid_type (str, optional): Type of grid for eta0 starting values, one of: 'random', 'equidistant' or 'custom'. Default to 'equidistant'.
             grid_size (int, optional): The number of optimizations to run. Defaults to 20.
-            return_params (bool, optional): If True returns a tuple of fitted parameters in the order: mu, eta, alpha, tau0
+            return_params (bool, optional): If True returns a tuple of fitted parameters in the order: mu, eta, theta
 
         Returns:
-            tuple: (optional) if `return_params`=True returns tuple of fitted parameters: mu, eta, theta
+            tuple: (optional) if `return_params=True` returns a tuple of fitted parameters: `mu`, `eta`, `theta`
         """
         self.timestamps = timestamps
         self.T = self._check_valid_T(T, timestamps[-1])
@@ -297,6 +284,8 @@ class ExpHawkesProcessInference(UnivariateHawkesProcess):
 
     def set_params(self, mu: float, eta: float, theta: float) -> None:
         """ Set parameters manually.
+        This function is overriden and disabled for the inference class.
+        To manually set up and analyse a process use the parent class UnivariateHawkesProcess.
 
         Args:
             mu (float): The background intensity, mu > 0
@@ -312,35 +301,35 @@ class ExpHawkesProcessInference(UnivariateHawkesProcess):
         """Returns the fitted model parameters:
 
         Returns:
-            tuple: Tuple of parameter values such as:
+            tuple: Tuple of parameter values that are ordered as follows:
 
-        - `mu` (float), `eta` (float), `theta` (float)
+         `mu` (float), `eta` (float), `theta` (float)
         """
         return self.mu, self.eta, self.theta
 
 
 class SumExpHawkesProcessInference(UnivariateHawkesProcess):
-    r""" Inference of unvivariate Hawkes processes with P-sum exponentials memory kernel.
-        The Hawkes process with P-sum exponential memory kernel ('sum-expo' kernel), is defined by the conditional intensity function:
+    r""" Fitting of unvivariate Hawkes processes with P-sum exponentials memory kernels.
+        A Hawkes process with P-sum exponential memory kernel ('sum-expo' kernel), is defined by the conditional intensity function:
         \[\lambda(t) = \mu + \dfrac{\eta}{P} \sum_{t_i < t} \sum_{k=1}^{P} \dfrac{1}{\theta_k} e^{(-(t - t_i)/\theta_k)}\]
 
-        Two maximum liklihood based inference methods are currently available:
+        Two maximum likelihood based inference methods are currently available:
 
          - `ExpHawkesProcessInference.estimate()` maximizes the log-likelihood given a sample of arrival times.
 
          - `ExpHawkesProcessInference.estimate_grid()` maximizes the log-likelihood on a grid of different starting values
             and returns the best model out of all fitted models (i.e. the model with the highest log-likelihood).
-            The log-likelihood function of Hawkes processes can be very flat and a single optimization run may get stuck in a local
-            supoptimal maximum.
+            A single optimization run may get stuck in a local supoptimal maximum. The grid estimation increases
+            the chance of finding the global maximum but also significantly increases the computational cost.
 
         This class inherets from `HawkesPyLib.processes.UnivariateHawkesProcess`
         and provides methods for further analysis of the fitted model:
 
-        - SumExpHawkesProcessInference.compensator() computes the compensator and may be used as a starting point for a 'residual' analysis.
-        - SumExpHawkesProcessInference.intensity() evaluates the estimated conditional intensity.
-        - SumExpHawkesProcessInference.kernel_values() returns values of the estimated memory kernel.
-        - SumExpHawkesProcessInference.ic() computes information criteria of the estimated model.
-
+        - ExpHawkesProcessInference.compensator() computes the compensator and
+            may be used as a starting point for a 'residual' analysis.
+        - ExpHawkesProcessInference.intensity() evaluates the estimated conditional intensity.
+        - ExpHawkesProcessInference.kernel_values() returns values for the estimated memory kernel.
+        - ExpHawkesProcessInference.ic() computes information criteria of the estimated model.
     """
     _P = IntInExRange("P", lower_bound=0)
     _grid_type = OneOf("random", "equidistant", "custom", "no-grid")
@@ -355,11 +344,10 @@ class SumExpHawkesProcessInference(UnivariateHawkesProcess):
         Attributes:
             mu (float): The estimated background intensity.
             eta (float): The estimated branching ratio.
-            theta_vec (np.ndarray, optional): Estimated decay speeds of P-sum, exponential kernel.
+            theta_vec (np.ndarray, optional): Estimated decay speeds of the P exponential kernels.
             timestamps (np.ndarray): 1d array of arrival times that were used in the most recent fitting routine.
             T (float): End time of the Hawkes process.
             logL (Float): The log-likelihood value of the fitted process.
-
         """
         self._P = P
         self._kernel = "sum-expo"
@@ -374,14 +362,16 @@ class SumExpHawkesProcessInference(UnivariateHawkesProcess):
             timestamps (np.ndarray): 1d array of arrival times.
                                      Must be sorted and only positive timestamps are allowed!
             T (float): The end time of the Hawkes process.
-            return_params (bool, optional): If True returns a tuple of fitted parameters in the order: mu, eta, alpha, tau0
+                        Must be larger or equal the last arrival time in argument `timestamps`.
+            return_params (bool, optional): If True, returns a tuple of fitted parameters in the order: mu, eta, alpha, tau0
             max_attempts (int, optional): Number of times the maximum likelihood estimation repeats with new starting values
                                             if the optimization routine does not exit successfully. Defaults to 5.
             custom_param_vec0 (bool, optional): If custom initial values should be used. Defaults to False.
-                                                If true you must supply an addtional variable 'param_vec0' a 1d numpy array
-                                                containing the initial starting values: param_vec0 = [mu0 > 0, 0 < eta0 <1, theta > 0].
+                                                If true you must supply an addtional variable to **kwargs
+                                                called `param_vec0` a 1d numpy array containing the initial
+                                                starting values: param_vec0 = [mu0 > 0, 0 < eta0 <1, theta1_0 > 0, ..., theta1_0].
         Returns:
-            tuple: (optional) if `return_params`=True returns tuple of fitted parameters: mu, eta, theta
+            tuple: (optional) if `return_params=True` returns a tuple of fitted parameters: `mu`, `eta`, `theta_vec`
         """
         self.timestamps = timestamps
         self.T = self._check_valid_T(T, timestamps[-1])
@@ -421,19 +411,19 @@ class SumExpHawkesProcessInference(UnivariateHawkesProcess):
     def estimate_grid(self, timestamps: np.ndarray, T: float, grid_type: str = 'equidistant',
                       grid_size: int = 20, return_params: bool = False, rng=rng, **kwargs):
         """ Estimates the Hawkes process parameters using maximum likelihood estimation.
-            Fits the model multiple times using different
-            initial parameter values. Subsequently the fitted model with the largest logL value is returned.
+        Fits the model multiple times using different initial parameter values.
+        Subsequently the fitted model with the largest log-likelihood value is returned.
 
-        The grid applied only to the initial value of eta in the mle routine,
-            mu0 is set in using the unconditonal mean of the process and theta is always chosed randomly.
+        The grid applies only to the initial value of eta in the MLE routine,
+            mu0 is set by using the unconditonal mean of the process and theta is chosen randomly.
 
         There are three options for the type of eta0 starting value grid:
 
-        - ('random') starting values for eta0 are chosen randomly.
+        - 'random': starting values for eta0 are chosen randomly.
 
-        - ('equidistant') starting values for eta0 are equidistant between 0 and 1
+        - 'equidistant': starting values for eta0 are equidistant between 0 and 1.
 
-        - ('custom') A custom eta0 grid of starting value is supplied to 'custom-grid' variable:
+        - 'custom': A custom eta0 grid of starting values is supplied to **kwargs argument called 'custom-grid'.
                        You must supply an addtional variable 'custom-grid' a 1d numpy array
                         containing a grid of initial starting values with constraint 0 < eta0 < 1.
 
@@ -441,12 +431,13 @@ class SumExpHawkesProcessInference(UnivariateHawkesProcess):
             timestamps (np.ndarray): 1d array of arrival times.
                                      Must be sorted and only positive timestamps are allowed!
             T (float): The end time of the Hawkes process.
+                        Must be larger or equal the last arrival time in argument `timestamps`.
             grid_type (str, optional): Type of grid for eta0 starting values, one of: 'random', 'equidistant' or 'custom'. Default to 'equidistant'
             grid_size (int, optional): The number of optimizations to run. Defaults to 20.
             return_params (bool, optional): If True returns a tuple of fitted parameters in the order: mu, eta, alpha, tau0
 
         Returns:
-            tuple: (optional) if `return_params`=True returns tuple of fitted parameters: mu, eta, theta
+            tuple: (optional) if `return_params=True` returns a tuple of fitted parameters: `mu`, `eta`, `theta_vec`
         """
         self.timestamps = timestamps
         self.T = self._check_valid_T(T, timestamps[-1])
@@ -496,9 +487,9 @@ class SumExpHawkesProcessInference(UnivariateHawkesProcess):
         """Returns the fitted model parameters:
 
         Returns:
-            tuple: Tuple of parameter values such as:
+            tuple: Tuple of parameter values with order and types:
 
-        - `mu` (float), `eta` (float), `theta_vec` (np.ndarray)
+         `mu` (float), `eta` (float), `theta_vec` (np.ndarray)
         """
 
         return self.mu, self.eta, self.theta_vec
@@ -519,8 +510,8 @@ class SumExpHawkesProcessInference(UnivariateHawkesProcess):
 
 
 class ApproxPowerlawHawkesProcessInference(UnivariateHawkesProcess):
-    r""" Inference of unvivariate Hawkes processes with approximate power-law memory kernel.
-        The Hawkes process with approximate power-law kernel ('powlaw' `kernel`), is defined by the conditional intenstiy fnuction:
+    r""" Fitting of unvivariate Hawkes processes with approximate power-law memory kernel.
+        The Hawkes process with approximate power-law kernel ('powlaw' `kernel`), is defined by the conditional intensity fnuction:
         \[\lambda(t) = \mu + \sum_{t_i < t}  \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} \bigg],\]
 
         where \(\mu\) (`mu`) is the constant background intensity, \(\eta \) (`eta`)
@@ -533,27 +524,29 @@ class ApproxPowerlawHawkesProcessInference(UnivariateHawkesProcess):
         is the branching ratio, \(\alpha\) (`alpha`) is the power-law tail exponent and \(\tau_0\) a scale parameter controlling the decay timescale and
         the location of the smooth cutoff point (i.e. the time duration after each jump at which the intensity reaches a maximum).
 
-        The true power-law is approximtated by a sum of \(M\) exponential function with power-law weights
+        The true power-law is approximtated by a sum of \(M\) exponential functions with power-law weights
         \(a_k = \tau_0 m^k\). \(M\) is the number of exponentials used for the approximation and \(m\) is a scale
         parameter. The power-law approximation holds for times up to \(m^{M-1}\) after which the memory kernel
         decays exponentially. S and Z are scaling factors that ensure that the memory kernel integrates to \(\eta\)
         and that the kernel value at time zero is zero (for the smooth cutoff version). S and Z are computed automatically.
 
-        Two maximum liklihood based inference methods are currently available:
+        Two maximum likelihood based inference methods are currently available:
 
-         - `ApproxPowerlawHawkesProcessInference.estimate()` maximizes the log-likelihood given a sample of arrival times.
+         - `ExpHawkesProcessInference.estimate()` maximizes the log-likelihood given a sample of arrival times.
 
-         - `ApproxPowerlawHawkesProcessInference.estimate_grid()` maximizes the log-likelihood on a grid of different starting values
+         - `ExpHawkesProcessInference.estimate_grid()` maximizes the log-likelihood on a grid of different starting values
             and returns the best model out of all fitted models (i.e. the model with the highest log-likelihood).
-            The log-likelihood function of Hawkes processes can be very flat and a single optimization run may get stuck in a local
-            supoptimal maximum.
+            A single optimization run may get stuck in a local supoptimal maximum. The grid estimation increases
+            the chance of finding the global maximum but also significantly increases the computational cost.
 
-        This class inherets from `HawkesPyLib.processes.UnivariateHawkesProcess` and provides methods for further analysis of the fitted model:
+        This class inherets from `HawkesPyLib.processes.UnivariateHawkesProcess`
+        and provides methods for further analysis of the fitted model:
 
-        - ApproxPowerlawHawkesProcessInference.compensator() computes the compensator and may be used as a starting point for a 'residual' analysis.
-        - ApproxPowerlawHawkesProcessInference.intensity() evaluates the estimated conditional intensity.
-        - ApproxPowerlawHawkesProcessInference.kernel_values() returns values of the estimated memory kernel.
-        - ApproxPowerlawHawkesProcessInference.ic() computes information criteria of the estimated model.
+        - ExpHawkesProcessInference.compensator() computes the compensator and
+            may be used as a starting point for a 'residual' analysis.
+        - ExpHawkesProcessInference.intensity() evaluates the estimated conditional intensity.
+        - ExpHawkesProcessInference.kernel_values() returns values for the estimated memory kernel.
+        - ExpHawkesProcessInference.ic() computes information criteria of the estimated model.
     """
     _kernel = OneOf("powlaw", "powlaw-cutoff")
     _grid_type = OneOf("random", "equidistant", "custom", "no-grid")
@@ -563,7 +556,7 @@ class ApproxPowerlawHawkesProcessInference(UnivariateHawkesProcess):
         """
         Args:
             kernel (str): Must be one of: 'powlaw', 'powlaw-cutoff'. Specifies the shape of the approximate power-law kernel
-            m (float): Specifies the approximation of the true power-law. Must be positive
+            m (float): Scale parameter that that specifies the approximation of the true power-law. Must be positive.
             M (int): The number of weighted exponential kernels that specifies the approximation of the true power-law. Must be positive.
             rng (optional): numpy numba generator. For reproducible results use: np.random.default_rng(seed)
 
@@ -572,7 +565,7 @@ class ApproxPowerlawHawkesProcessInference(UnivariateHawkesProcess):
             eta (float): The estimated branching ratio.
             alpha (float): Estimated tail exponent of the power-law decay.
             tau0 (float): Estimated timescale parameter.
-            timestamps (np.ndarray): 1d array of arrival times.
+            timestamps (np.ndarray): 1d array of arrival times that were used in the most recent fitting routine.
             T: (float): End time of the process.
             logL (Float): The log-likelihood value of the fitted process
         """
@@ -591,14 +584,15 @@ class ApproxPowerlawHawkesProcessInference(UnivariateHawkesProcess):
             timestamps (np.ndarray): 1d array of arrival times.
                                      Must be sorted and only positive timestamps are allowed!
             T (float): The end time of the Hawkes process.
+                        Must be larger or equal the last arrival time in argument `timestamps`.
             return_params (bool, optional): If True returns a tuple of fitted parameters in the order: mu, eta, alpha, tau0
             max_attempts (int, optional): Number of times the maximum likelihood estimation repeats with new starting values
                                             if the optimization routine does not exit successfully. Defaults to 5.
             custom_param_vec0 (bool, optional): If custom initial values should be used. Defaults to False.
-                                                If true you must supply an addtional variable 'param_vec0' a 1d numpy array
-                                                containing the initial starting values: param_vec0 = [mu0 > 0, 0 < eta0 <1, theta > 0].
+                                                If true you must supply an addtional variable to **kwargs called `param_vec0` a 1d numpy array
+                                                containing the initial starting values: param_vec0 = [mu0 > 0, 0 < eta0 <1, alpha0 > 0, tau0_0].
         Returns:
-            tuple: (optional) if `return_params`=True returns tuple of fitted parameters: mu, eta, theta
+            tuple: (optional) if `return_params=True` returns tuple of fitted parameters: `mu`, `eta`, `alpha`, `tau0`
         """
         self.timestamps = timestamps
         self.T = self._check_valid_T(T, timestamps[-1])
@@ -648,19 +642,19 @@ class ApproxPowerlawHawkesProcessInference(UnivariateHawkesProcess):
     def estimate_grid(self, timestamps: np.ndarray, T: float, grid_type: str = 'equidistant',
                       grid_size: int = 20, return_params: bool = False, rng=rng, **kwargs) -> None:
         """ Estimates the Hawkes process parameters using maximum likelihood estimation.
-            Fits the model multiple times using different
-            initial parameter values. Subsequently the fitted model with the largest logL value is returned.
+        Fits the model multiple times using different initial parameter values.
+        Subsequently the fitted model with the largest log-likelihood value is returned.
 
-        The grid applied only to the initial value of eta in the mle routine,
-            mu0 is set in using the unconditonal mean of the process and theta is always chosed randomly.
+        The grid applies only to the initial value of eta in the MLE routine,
+            mu0 is set by using the unconditonal mean of the process and theta is chosen randomly.
 
         There are three options for the type of eta0 starting value grid:
 
-        - ('random') starting values for eta0 are chosen randomly.
+        - 'random': starting values for eta0 are chosen randomly.
 
-        - ('equidistant') starting values for eta0 are equidistant between 0 and 1
+        - 'equidistant': starting values for eta0 are equidistant between 0 and 1.
 
-        - ('custom') A custom eta0 grid of starting value is supplied to 'custom-grid' variable:
+        - 'custom': A custom eta0 grid of starting values is supplied to **kwargs argument called `custom-grid`.
                        You must supply an addtional variable 'custom-grid' a 1d numpy array
                         containing a grid of initial starting values with constraint 0 < eta0 < 1.
 
@@ -668,12 +662,13 @@ class ApproxPowerlawHawkesProcessInference(UnivariateHawkesProcess):
             timestamps (np.ndarray): 1d array of arrival times.
                                      Must be sorted and only positive timestamps are allowed!
             T (float): The end time of the Hawkes process.
+                        Must be larger or equal the last arrival time in argument `timestamps`.
             grid_type (str, optional): Type of grid for eta0 starting values, one of: 'random', 'equidistant' or 'custom'. Default to 'equidistant'
             grid_size (int, optional): The number of optimizations to run. Defaults to 20.
             return_params (bool, optional): If True returns a tuple of fitted parameters in the order: mu, eta, alpha, tau0
 
         Returns:
-            tuple: (optional) if `return_params`=True returns tuple of fitted parameters: mu, eta, theta
+            tuple: (optional) if `return_params=True` returns tuple of fitted parameters: `mu`, `eta`, `alpha`, `tau0`
         """
         self.timestamps = timestamps
         self.T = self._check_valid_T(T, timestamps[-1])
@@ -725,6 +720,7 @@ class ApproxPowerlawHawkesProcessInference(UnivariateHawkesProcess):
 
     def set_params(self, mu: float, eta: float, alpha: float, tau0: float) -> None:
         """ Set parameters, timestamps and the end time T of the model manually.
+            This method is disabled for the inference class. Use UnivariateHawkesProcess class!
 
         Args:
             mu (float): The background intensity, mu > 0
@@ -743,9 +739,9 @@ class ApproxPowerlawHawkesProcessInference(UnivariateHawkesProcess):
         """Returns the fitted model parameters:
 
         Returns:
-            tuple: Tuple of parameter values such as:
+            tuple: Tuple of parameter with order and types:
 
-        - `mu` (float), `eta` (float), `alpha` (float), `tau0` (float), `m` (float), `M` (int)
+        `mu` (float), `eta` (float), `alpha` (float), `tau0` (float), `m` (float), `M` (int)
 
         """
         return self.mu, self.eta, self.alpha, self.tau0, self._m, self._M

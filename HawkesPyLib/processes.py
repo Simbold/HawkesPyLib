@@ -48,13 +48,15 @@ class UnivariateHawkesProcess:
             where \(\mu\) (`mu`) is the constant background intensity, \(\eta \) (`eta`)
             is the branching ratio and \(\theta_k\) is the k'th exponential decay parameter in (`theta_vec`).
 
-        - Hawkes process with approximate power-law kernel ('powlaw' `kernel`), defined by the conditional intenstiy fnuction:
+        - Hawkes process with approximate power-law kernel ('powlaw' `kernel`), defined by the conditional intenstiy function:
             \[\lambda(t) = \mu + \sum_{t_i < t}  \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} \bigg],\]
 
             where \(\mu\) (`mu`) is the constant background intensity, \(\eta \) (`eta`)
-            is the branching ratio, \(\alpha\) (`alpha`) is the power-law tail exponent and \(\tau_0\) a scale parameter controlling the decay timescale.
+            is the branching ratio, \(\alpha\) (`alpha`) is the power-law tail exponent and \(\tau_0\)
+            a scale parameter controlling the decay timescale.
 
-        - Hawkes process with approximate power-law kernel with smooth cutoff ('powlaw-cutoff' `kernel`), defined by the conditional intenstiy fnuction:
+        - Hawkes process with approximate power-law kernel with smooth cutoff ('powlaw-cutoff' `kernel`),
+          defined by the conditional intenstiy function:
             \[\lambda(t) = \mu + \sum_{t_i < t} \dfrac{\eta}{Z}
             \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} - S e^{(-(t - t_i)/a_{-1})} \bigg],\]
 
@@ -72,11 +74,14 @@ class UnivariateHawkesProcess:
 
         - `UnivariateHawkesProcess.intensity` evaluates the conditional intensity function \(\lambda(t)\).
 
-        - `UnivariateHawkesProcess.compensator` computes the compensator process \(\Lambda(t)\).
+        - `UnivariateHawkesProcess.compensator` computes the compensator process \(\Lambda(t) = \int_0^t \lambda(u) du\).
 
         - `UnivariateHawkesProcess.kernel_values` returns values for the memory kernel.
 
         - `UnivariateHawkesProcess.compute_logL` computes the log-likelihood function.
+
+        The class works by first initlizing with the desired kernel type and secondly by setting the corresponding parameters
+        and arrival times using the `set_params()` and `set_arrival_times()` methods.
 
      """
 
@@ -95,16 +100,17 @@ class UnivariateHawkesProcess:
     eta = FloatInExRange("eta", lower_bound=0, upper_bound=1)
 
     def __init__(self, kernel: str) -> None:
-        r""" Initilize the class by specifying the memory kernel type.
+        r"""
         Args:
             kernel (str): Type of Hawkes process memory kernel, one of 'expo', 'sum-expo', 'powlaw', 'powlaw-cutoff'
 
         Attributes:
             mu (float): The background intensity, \(\mu > 0\).
-            eta (float): The branching ratio, \(0 < \eta > 1\).
-            theta (float): Decay speed of single exponential kernel, theta > 0. Only set if `kernel` is set to 'expo'.
-            theta_vec (np.ndarray, optional): Decay speed of P-sum, exponential kernel, theta_k > 0. Only set if `kernel` is set to 'sum-expo'.
-            alpha (float): Tail index of the power-law decay, \(\alpha > 0\). Only set if `kernel` is set to 'powlaw' or 'powlaw-cutoff'.
+            eta (float): The branching ratio, \(0 < eta > 1\).
+            theta (float): Decay speed of single exponential kernel, \(\theta > 0\). Only set if `kernel` is set to 'expo'.
+            theta_vec (np.ndarray, optional): Decay speeds of the P-sum, exponential kernel, \(\theta_k > 0\).
+                                                Only set if `kernel` is set to 'sum-expo'.
+            alpha (float): Tail exponent of the power-law decay, \(\alpha > 0\). Only set if `kernel` is set to 'powlaw' or 'powlaw-cutoff'.
             tau0 (float): Timescale parameter, \(\tau_0 > 0\). Only set if `kernel` is set to 'powlaw' or 'powlaw-cutoff'.
             T (float): End time of the Hawkes process.
             timestamps (np.ndarray): 1d array of arrival times.
@@ -115,11 +121,13 @@ class UnivariateHawkesProcess:
 
     def set_params(self, mu: float, eta: float, **kwargs) -> None:
         r"""Set Hawkes process model parameters.
+            Arguments `mu` and `eta` are always requiered.
+            The other arguements depend on the chosen `kernel` and are supplied to **kwargs.
 
         Args:
             mu (float): The background intensity, \(\mu > 0\).
             eta (float): The branching ratio, \(0 < \eta > 1\).
-            theta (float): Decay speed of single exponential kernel, theta > 0. Must be set if `kernel` is set to 'expo'.
+            theta (float): Decay speed of single exponential kernel, \(\theta\) > 0. Must be set if `kernel` is set to 'expo'.
             theta_vec (np.ndarray, optional): Decay speed of P-sum, exponential kernel, theta_k > 0. Must be set if `kernel` is set to 'sum-expo'.
             alpha (float): Tail index of the power-law decay, \(\alpha > 0\). Must be set if `kernel` is set to 'powlaw' or 'powlaw-cutoff'.
             tau0 (float): Timescale parameter, \(\tau_0 > 0\). Must be set if `kernel` is set to 'powlaw' or 'powlaw-cutoff'.
@@ -199,7 +207,7 @@ class UnivariateHawkesProcess:
             return self.mu, self.eta, self.theta_vec
 
         else:  # _kernel can only be set to one off the four
-            return self.mu, self.eta, self.alpha, self.tau0, self._m, self._M
+            return self.mu, self.eta, self.alpha, self.tau0, self.m, self.M
 
     def _check_valid_T(self, T: float, min_value) -> float:
         """Checks if input 'T' is valid
@@ -310,7 +318,7 @@ class UnivariateHawkesProcess:
             times (np.ndarray): 1d array of time values for which to compute the value of the memory kernel.
 
         Returns:
-            np.ndarray: 1d array containing the values of the memory kernel value at the given times.
+            np.ndarray: 1d array containing the values of the memory kernel value at the given time(s).
         """
 
         if self._params_set is True:
@@ -333,7 +341,7 @@ class UnivariateHawkesProcess:
             raise Exception("ERROR: Cannot compute kernel values, model has, parameters are not set!")
 
     def compute_logL(self):
-        r""" Computes the log-likelihood function given the set parameters, arrival times and process end time T.
+        r""" Computes the log-likelihood function given the process parameters, arrival times and process end time T.
 
          The log-likelihood function of a Hawkes process is given by:
             $$ logL(t_1,..., t_n) = -\int_0^T \lambda(t) du + \sum_{t=1}^n log(\lambda(t_i))$$

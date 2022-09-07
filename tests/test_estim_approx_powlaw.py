@@ -242,7 +242,7 @@ class TestApproxPowlaw_intensity(TestCase):
         self.assertEqual(PowlawEst.tau0, patched_function.call_args[0][5])
 
 
-class TestExpo_kernel_values(TestCase):
+class TestApproxPowl_kernel_values(TestCase):
     """ Tests the kernel_values method"""
     def setUp(self):
         self.timestamps = np.array([2.3083755,  2.32075025, 2.45105384, 2.70743681, 3.26019467,
@@ -292,7 +292,7 @@ class TestExpo_kernel_values(TestCase):
         self.assertEqual(self.M, patched_function.call_args[0][5])
 
 
-class TestExpo_compute_logL(TestCase):
+class TestAproxPowl_compute_logL(TestCase):
     """ Tests the compute logL method"""
     def setUp(self):
         self.timestamps = np.array([2.3083755,  2.32075025, 2.45105384, 2.70743681, 3.26019467,
@@ -301,17 +301,18 @@ class TestExpo_compute_logL(TestCase):
         self.step_size = 0.1
         self.m = 5.
         self.M = 4
+        self.rng = np.random.default_rng(242)
         self.times = np.linspace(0, 2, 100)
 
     def test_params_set_check(self):
         """ test if method refuses if model parameters not set """
-        PowlawEst = ApproxPowerlawHawkesProcessInference("powlaw", self.m, self.M)
+        PowlawEst = ApproxPowerlawHawkesProcessInference("powlaw", self.m, self.M, self.rng)
         with self.assertRaises(Exception):
             PowlawEst.compute_logL()
 
     def test_calls_correct_logL(self):
         """ Check if compute_logL function called correct and the  correct params """
-        PowlawEst = ApproxPowerlawHawkesProcessInference("powlaw", self.m, self.M)
+        PowlawEst = ApproxPowerlawHawkesProcessInference("powlaw", self.m, self.M, self.rng)
         PowlawEst.estimate(self.timestamps, self.T)
 
         logL2 = PowlawEst.compute_logL()
@@ -325,3 +326,32 @@ class TestExpo_compute_logL(TestCase):
         logL2 = PowlawEst.compute_logL()
         logL1 = PowlawEst.logL
         self.assertEqual(logL1, logL2)
+
+class TestApproxPowlaw_getter(TestCase):
+    """ Tests the getter equals estimate return and attribute"""
+    def setUp(self):
+        self.timestamps = timestamps
+        self.T = timestamps[-1]
+        self.m = 5.
+        self.M = 4
+        self.rng = np.random.default_rng(242)
+
+    def test_getter(self):
+        PowlawEst = ApproxPowerlawHawkesProcessInference("powlaw", self.m, self.M, self.rng)
+        mu, eta, alpha, tau0 = PowlawEst.estimate(self.timestamps, self.T, return_params=True)
+
+        # check attributes equal
+        self.assertEqual(mu, PowlawEst.mu)
+        self.assertEqual(eta, PowlawEst.eta)
+        self.assertEqual(alpha, PowlawEst.alpha)
+        self.assertEqual(tau0, PowlawEst.tau0)
+
+        # check getter equal
+        mu, eta, alpha, tau0, m, M = PowlawEst.get_params()
+        self.assertEqual(mu, PowlawEst.mu)
+        self.assertEqual(eta, PowlawEst.eta)
+        self.assertEqual(alpha, PowlawEst.alpha)
+        self.assertEqual(tau0, PowlawEst.tau0)
+        self.assertEqual(m, self.m)
+        self.assertEqual(M, self.M)
+

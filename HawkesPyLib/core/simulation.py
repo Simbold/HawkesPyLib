@@ -1,9 +1,10 @@
 import numpy as np
-import numba
+from numba import jit, float64
+from numba.types import int32
 
 
-@numba.jit(nopython=True, fastmath=True)
-def uvhp_approx_powl_cutoff_simulator(T: float, mu: float, eta: float, alpha: float, tau: float, m: float, M: int, seed: int = None) -> np.ndarray:
+@jit(float64[:](float64, float64, float64, float64, float64, float64, int32, int32), nopython=False, cache=False, nogil=True, fastmath=True)
+def uvhp_approx_powl_cutoff_simulator(T: float, mu: float, eta: float, alpha: float, tau: float, m: float, M: int, seed: int = 0) -> np.ndarray:
     """Simulates a Hawkes process with approximate power-law memory kernel.
         Implements Ogata's modified thinning algorithm as described in algorithm 2 in (Ogata 1981) .
 
@@ -18,12 +19,12 @@ def uvhp_approx_powl_cutoff_simulator(T: float, mu: float, eta: float, alpha: fl
         tau (float): Memory kernel parameter. tau > 0
         m (float):  Memory kernel variable. m > 0
         M (int):  Memory kernel variable. M > 0
-        seed (int, optional): Seed for numba's random number generator. Defaults to None.
+        seed (int, optional): Seed for numba's random number generator. Defaults to 0 (no seed).
 
     Returns:
         np.ndarray: Array of simulated timestamps
     """
-    if seed is not None:
+    if seed != 0:
         np.random.seed(seed)
 
     # generate the first event
@@ -89,8 +90,8 @@ def uvhp_approx_powl_cutoff_simulator(T: float, mu: float, eta: float, alpha: fl
     return t_arr[0:(i+1)]
 
 
-@numba.jit(nopython=True, fastmath=True)
-def uvhp_expo_simulator(T: float, mu: float, eta: float, theta: float, seed: int = None) -> np.ndarray:
+@jit(float64[:](float64, float64, float64, float64, int32), nopython=True, cache=False, nogil=True, fastmath=True)
+def uvhp_expo_simulator(T: float, mu: float, eta: float, theta: float, seed: int = 0) -> np.ndarray:
     """Simulates a Hawkes process with single exponential memory kernel.
         Implements Ogata's modified thinning algorithm as described in algorithm 2 in (Ogata 1981).
 
@@ -103,12 +104,12 @@ def uvhp_expo_simulator(T: float, mu: float, eta: float, theta: float, seed: int
         mu (float): Background intensity of the Hawkes process. mu > 0
         eta (float): Branching ratio of the Hawkes process. 0 < eta < 1
         theta (float): Decay speed of kernel. theta > 0
-        seed (_type_, optional): Seed numbda's random number generator. Defaults to None.
+        seed (_type_, optional): Seed numbda's random number generator. Defaults to 0 (no seed).
 
     Returns:
         np.ndarray: Array of simulated timestamps
     """
-    if seed is not None:
+    if seed != 0:
         np.random.seed(seed)
 
     # generate the first event
@@ -151,8 +152,8 @@ def uvhp_expo_simulator(T: float, mu: float, eta: float, theta: float, seed: int
     return t_arr[0:(i+1)]
 
 
-@numba.jit(nopython=True, fastmath=True)
-def uvhp_approx_powl_simulator(T: float, mu: float, eta: float, alpha: float, tau: float, m: float, M: int, seed: int = None) -> np.ndarray:
+@jit(float64[:](float64, float64, float64, float64, float64, float64, int32, int32), nopython=True, cache=False, nogil=True, fastmath=True)
+def uvhp_approx_powl_simulator(T: float, mu: float, eta: float, alpha: float, tau: float, m: float, M: int, seed: int = 0) -> np.ndarray:
     """Simulates a Hawkes process with approximate power-law memory kernel.
         Implements Ogata's modified thinning algorithmas described in algorithm 2 in (Ogata 1981).
 
@@ -168,12 +169,12 @@ def uvhp_approx_powl_simulator(T: float, mu: float, eta: float, alpha: float, ta
         tau (float): Memory kernel parameter. tau > 0
         m (float):  Memory kernel variable. m > 0
         M (int):  Memory kernel variable. M > 0
-        seed (int, optional): Seed for numba's random number generator. Defaults to None.
+        seed (int, optional): Seed for numba's random number generator. Defaults to 0 (no seed).
 
     Returns:
         np.ndarray: Array of simulated timestamps
     """
-    if seed is not None:
+    if seed != 0:
         np.random.seed(seed)
 
     # generate the first event
@@ -230,8 +231,8 @@ def uvhp_approx_powl_simulator(T: float, mu: float, eta: float, alpha: float, ta
     return t_arr[0:(i+1)]
 
 
-@numba.jit(nopython=True, fastmath=True)
-def uvhp_sum_expo_simulator(T: float, mu: float, eta: float, theta_vec: np.ndarray, seed: int = None) -> np.ndarray:
+@jit(float64[:](float64, float64, float64, float64[:], int32), nopython=True, cache=False, nogil=True, fastmath=True)
+def uvhp_sum_expo_simulator(T: float, mu: float, eta: float, theta_vec: np.ndarray, seed: int = 0) -> np.ndarray:
     """Simulates a Hawkes process with P-sum expoential memory kernel.
         Implements Ogata's modified thinning algorithmas described in algorithm 2 in (Ogata 1981).
 
@@ -244,12 +245,12 @@ def uvhp_sum_expo_simulator(T: float, mu: float, eta: float, theta_vec: np.ndarr
         mu (float): Background intensity of the Hawkes process. mu > 0
         eta (float): Branching ratio of the Hawkes process. 0 < eta < 1
         theta_vec (np.ndarray): Array of P exponential decay speeds. theta_vec > 0
-        seed (int, optional): Seed for numba's random number generator. Defaults to None.
+        seed (int, optional): Seed for numba's random number generator. Defaults to 0 (no seed).
 
     Returns:
         np.ndarray: Array of simulated timestamps
     """
-    if seed is not None:
+    if seed != 0:
         np.random.seed(seed)
 
     # generate the first event
