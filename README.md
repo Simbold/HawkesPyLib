@@ -17,7 +17,7 @@ A detailed description of the package can be found in the [documentation](https:
 ## Description
 The library allows for simulation and fitting of Hawkes processes. Hawkes processes are self-exciting point processes and can be used to model or analyse event arrivals. Hawkes processes can be defined in terms of the conditional intensity function:
 
-$$ \lambda(t) = \mu + \sum_{t_i < t} g(t-t_i)}, $$
+$$ \lambda(t) = \mu + \sum_{t_i < t} g(t-t_i), $$
 
 where $\mu$ is a constant background intensity and the memory kernel function $g(t)$ specifies how past event arrivals influence the current state of the process. 
 
