@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/pypi/l/HawkesPyLib?color=blue)](https://opensource.org/licenses/MIT)
 
 # HawkesPyLib
-A simple Python Library for simulation and inference of Hawkes processes. The library is currently under active development. More methods and functionality will be introduced shortly.
+A simple Python Package for simulation and inference of Hawkes processes. The library is currently under active development. More methods and functionality will be introduced shortly.
 
 ## Installation
 
@@ -33,7 +33,7 @@ The estimator class allows for maximum likelihood estimation of the model as wel
 A quick example of simulating and estimating Hawkes processes can be found in the Examples folder.
 
 The core simulation and estimation algorithms are optimized for speed
-by recursively calculating the state of the memory kernel and further accelerated by using
+by recursive calculation of the model and further accelerated by
 [numba's](https://numba.pydata.org/) JIT compiler.
 
 ## License

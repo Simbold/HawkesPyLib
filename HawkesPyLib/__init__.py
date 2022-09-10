@@ -46,7 +46,7 @@ For more information on Hawkes processes, their simulation and inference find th
     the hawkes self-excited point process model: application to high-frequency finan-
     cial data. Quantitative Finance, 15(8):1293 1314.
 """
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 __pdoc__ = {}
 __pdoc__["HawkesPyLib.simulation.ExpHawkesProcessSimulation.mu"] = False
