@@ -3,7 +3,7 @@ name: Publish package to PyPi or TestPyPi
 on:
   push:
     tags:        
-      - '*'     
+      - '**'  
 
 jobs:
   deploy:
