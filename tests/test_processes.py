@@ -1,5 +1,3 @@
-from multiprocessing.sharedctypes import Value
-from typing import Type
 import numpy as np
 from unittest import TestCase
 from HawkesPyLib.processes import UnivariateHawkesProcess

@@ -26,6 +26,7 @@ The following Hawkes process models are currently available:
 - Univariate Hawkes process with P-sum exponential memory kernel
 - Univariate Hawkes process with approximate power-law memory kernel
 - Univariate Hawkes process with approximate power-law memory kernel with smooth cutoff
+- Homogenous Poisson process
 
 For each of the models there is a simulator class for generating Hawkes process samples using Ogata's thining algorithm.
 The estimator class allows for maximum likelihood estimation of the model as well as the calculation of the corresponding compensator, and evaluation of the conditional intensity function.

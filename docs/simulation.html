@@ -254,10 +254,13 @@ The conditional intensity function for the approximate power-law kernel is defin
 \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} \bigg],</span><script type="math/tex; mode=display">\lambda(t) = \mu + \sum_{t_i < t}
 \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} \bigg],</script></span></p>
 <p>and the conditional intensity function for the approximate power-law kernel with smooth cutoff is defined as:</p>
-<p><span><span class="MathJax_Preview">\lambda(t) = \mu + \sum_{t_i &lt; t} \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} - S e^{(-(t - t_i)/a_{-1})} \bigg],</span><script type="math/tex; mode=display">\lambda(t) = \mu + \sum_{t_i < t} \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} - S e^{(-(t - t_i)/a_{-1})} \bigg],</script></span></p>
+<p><span><span class="MathJax_Preview">\lambda(t) = \mu + \sum_{t_i &lt; t} \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} -
+S e^{(-(t - t_i)/a_{-1})} \bigg],</span><script type="math/tex; mode=display">\lambda(t) = \mu + \sum_{t_i < t} \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} -
+S e^{(-(t - t_i)/a_{-1})} \bigg],</script></span></p>
 <p>where <span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span> (<code>mu</code>) is the constant background intensity, <span><span class="MathJax_Preview">\eta </span><script type="math/tex">\eta </script></span> (<code>eta</code>)
 is the branching ratio, <span><span class="MathJax_Preview">\alpha</span><script type="math/tex">\alpha</script></span> (<code>alpha</code>) is the tail exponent and <span><span class="MathJax_Preview">\tau_0</span><script type="math/tex">\tau_0</script></span> a scale parameter that
-also controls the decay timescale as well as the location of the smooth cutoff (i.e. the time at which the memory kernel reaches its maximum).</p>
+also controls the decay timescale as well as the location of the smooth cutoff
+(i.e. the time at which the memory kernel reaches its maximum).</p>
 <p>The true power-law is approximtated by a sum of <span><span class="MathJax_Preview">M</span><script type="math/tex">M</script></span> exponential function with power-law weights
 <span><span class="MathJax_Preview">a_k = \tau_0 m^k</span><script type="math/tex">a_k = \tau_0 m^k</script></span>. <span><span class="MathJax_Preview">M</span><script type="math/tex">M</script></span> is the number of exponentials used for the approximation and <span><span class="MathJax_Preview">m</span><script type="math/tex">m</script></span> is a scale
 parameter. The power-law approximation holds for times up to <span><span class="MathJax_Preview">m^{M-1}</span><script type="math/tex">m^{M-1}</script></span> after which the memory kernel
@@ -371,6 +374,43 @@ power-law memory kernel is defined as:
 </dd>
 </dl>
 </dd>
+<dt id="HawkesPyLib.simulation.PoissonProcessSimulation"><code class="flex name class">
+<span>class <span class="ident">PoissonProcessSimulation</span></span>
+<span>(</span><span>mu: float)</span>
+</code></dt>
+<dd>
+<div class="hslist"><p>Class for simulation a homogenous Poisson process with rate parameter <code>mu</code>.
+The Poisson process is simulated over the half open intervall (0, T].
+In contrast to Hawkes processes, the intensity function <span><span class="MathJax_Preview"> \lambda(t) </span><script type="math/tex"> \lambda(t) </script></span>,
+is constant and does not depend on <span><span class="MathJax_Preview"> t </span><script type="math/tex"> t </script></span>: <span><span class="MathJax_Preview"> \lambda(t) = \mu, \; \forall t </span><script type="math/tex"> \lambda(t) = \mu, \; \forall t </script></span></p>
+<p>The simulation is performed by generating exponentially distributed inter-arrival times.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>mu</code></strong> :&ensp;<code>float</code></dt>
+<dd>Constant intensity rate parameter, mu &gt; 0.</dd>
+</dl></div>
+<h3>Methods</h3>
+<dl>
+<dt id="HawkesPyLib.simulation.PoissonProcessSimulation.simulate"><code class="name flex">
+<span>def <span class="ident">simulate</span></span>(<span>self, T: float, seed: int = 0) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="hslist"><p>Generates a realization of the specified homogenous Poisson process.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
+<dd>Maximum time until which the Poisson process will be simulated.</dd>
+<dt><strong><code>seed</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Seed the random number generator.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>1d array of simulated arrival times.</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
 </dl>
 </section>
 </article>
@@ -414,6 +454,12 @@ power-law memory kernel is defined as:
 <li><code><a title="HawkesPyLib.simulation.ApproxPowerlawHawkesProcessSimulation.simulate" href="#HawkesPyLib.simulation.ApproxPowerlawHawkesProcessSimulation.simulate">simulate</a></code></li>
 <li><code><a title="HawkesPyLib.simulation.ApproxPowerlawHawkesProcessSimulation.intensity" href="#HawkesPyLib.simulation.ApproxPowerlawHawkesProcessSimulation.intensity">intensity</a></code></li>
 <li><code><a title="HawkesPyLib.simulation.ApproxPowerlawHawkesProcessSimulation.kernel_values" href="#HawkesPyLib.simulation.ApproxPowerlawHawkesProcessSimulation.kernel_values">kernel_values</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="HawkesPyLib.simulation.PoissonProcessSimulation" href="#HawkesPyLib.simulation.PoissonProcessSimulation">PoissonProcessSimulation</a></code></h4>
+<ul class="">
+<li><code><a title="HawkesPyLib.simulation.PoissonProcessSimulation.simulate" href="#HawkesPyLib.simulation.PoissonProcessSimulation.simulate">simulate</a></code></li>
 </ul>
 </li>
 </ul>
