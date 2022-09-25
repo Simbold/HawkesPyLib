@@ -1,5 +1,6 @@
 ![Tests](https://github.com/Simbold/HawkesPyLib/actions/workflows/tests.yml/badge.svg)
-[![PyPI version](https://img.shields.io/pypi/v/HawkesPyLib?color=green&label=pypi%20package)](https://pypi.org/project/HawkesPyLib/)
+![Build](https://github.com/Simbold/HawkesPyLib/actions/workflows/deploy.yml/badge.svg)
+[![PyPI package](https://img.shields.io/pypi/v/HawkesPyLib?color=green&label=pypi%20package)](https://pypi.org/project/HawkesPyLib/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/HawkesPyLib)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/pypi/l/HawkesPyLib?color=blue)](https://opensource.org/licenses/MIT)
 

@@ -26,7 +26,6 @@ htmlcov/
 HawkesPyLib.egg-info
 
 # custom pdoc3 templates
-_pdoc_templates/
 pdocs/
 
 # mypy
