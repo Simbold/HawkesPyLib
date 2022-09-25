@@ -25,12 +25,8 @@ htmlcov/
 .tox/
 HawkesPyLib.egg-info
 
-# custom pdoc3 templates
-pdocs/
-
 # mypy
 .mypy_cache/
 
 # build
-build.sh
 dist/
