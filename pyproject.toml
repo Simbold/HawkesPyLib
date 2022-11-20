@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "HawkesPyLib"
-version = "0.2.0"
+version = "0.2.0rc5"
 description = "Python library for simulation and inference of Hawkes processes"
 readme = "README.md"
 license = {text = "MIT"}
