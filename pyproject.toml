@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "HawkesPyLib"
-version = "0.2.0rc4"
+version = "0.2.0"
 description = "Python library for simulation and inference of Hawkes processes"
 readme = "README.md"
 license = {text = "MIT"}
@@ -30,13 +30,15 @@ classifiers = [
     "Intended Audience :: Science/Research"
 ]
 dependencies = [
-    "numba>=0.55",
-    "numpy>=1.21",
-    "scipy>=1.7",
+
+    "numba>=0.56",
+    "numpy>=1.23",
+    "scipy>=1.9",
 ]
 
 [project.optional-dependencies]
 testing = [
+    "pytest>=7.2",
     "flake8>=3.9",
     "tox>=3.24",
 ]
