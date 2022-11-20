@@ -18,6 +18,7 @@
 <style>.homelink{display:block;font-size:2em;font-weight:bold;color:#555;padding-bottom:0.7em;border-bottom:1px solid silver}.homelink:hover{color:inherit}.homelink img{max-width:40%;max-height:20em;margin:auto;margin-bottom:.2em}</style>
 <link rel="canonical" href="https://simbold.github.io/HawkesPyLib/HawkesPyLib/core/intensity.html">
 <link rel="icon" href="https://simbold.github.io/HawkesPyLib/logo.png">
+<meta name="google-site-verification" content="UCGhKLVyQvQFsZiNZcKzrWsKdsdJMHr3427rABF6eGE" />
 </head>
 <body>
 <main>
@@ -61,9 +62,11 @@ with step size given by step_size.</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>sample_vec</code></strong> :&ensp;<code>np.ndarray</code></dt>
-<dd>Jump times of the Hawkes process. Must be non-negative and in ascending order!</dd>
+<dd>Jump times of the Hawkes process.
+Must be non-negative and in ascending order!</dd>
 <dt><strong><code>grid</code></strong> :&ensp;<code>np.ndarray</code></dt>
-<dd>Times at which the intensity function is evaluated at. Must be non-negative and in ascending order</dd>
+<dd>Times at which the intensity function is evaluated at.
+Must be non-negative and in ascending order</dd>
 <dt><strong><code>mu</code></strong> :&ensp;<code>float</code></dt>
 <dd>Background intensity of the Hawkes process, mu &gt; 0</dd>
 <dt><strong><code>eta</code></strong> :&ensp;<code>float</code></dt>
@@ -81,13 +84,16 @@ with step size given by step_size.</p>
 <span>def <span class="ident">uvhp_sum_expo_intensity</span></span>(<span>sample_vec: numpy.ndarray, grid: numpy.ndarray, mu: float, eta: float, theta_vec: numpy.ndarray) ‑> numpy.ndarray</span>
 </code></dt>
 <dd>
-<div class="hslist"><p>Evaluation of the intensity function of a univariate Hawkes process with P-sum exponential kernel</p>
+<div class="hslist"><p>Evaluation of the intensity function of a univariate Hawkes process
+with P-sum exponential kernel</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>sample_vec</code></strong> :&ensp;<code>np.ndarray</code></dt>
-<dd>Jump times of the Hawkes process. Must be non-negative and in ascending order!</dd>
+<dd>Jump times of the Hawkes process.
+Must be non-negative and in ascending order!</dd>
 <dt><strong><code>grid</code></strong> :&ensp;<code>np.ndarray</code></dt>
-<dd>Times at which the intensity function is evaluated at. Must be non-negative and in ascending order</dd>
+<dd>Times at which the intensity function is evaluated at.
+Must be non-negative and in ascending order</dd>
 <dt><strong><code>mu</code></strong> :&ensp;<code>float</code></dt>
 <dd>Background intensity of the Hawkes process, mu &gt; 0</dd>
 <dt><strong><code>eta</code></strong> :&ensp;<code>float</code></dt>
@@ -105,13 +111,15 @@ with step size given by step_size.</p>
 <span>def <span class="ident">uvhp_approx_powl_cutoff_intensity</span></span>(<span>sample_vec: numpy.ndarray, grid: numpy.ndarray, mu: float, eta: float, alpha: float, tau: float, m: float, M: int) ‑> numpy.ndarray</span>
 </code></dt>
 <dd>
-<div class="hslist"><p>Evaluation of the intensity function of a univariate Hawkes process with approximate power-law kernel with smooth cutoff component</p>
+<div class="hslist"><p>Evaluation of the intensity function of a univariate Hawkes process
+with approximate power-law kernel with smooth cutoff component</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>sample_vec</code></strong> :&ensp;<code>np.ndarray</code></dt>
 <dd>Jump times of the Hawkes process. Must be non-negative and in ascending order!</dd>
 <dt><strong><code>grid</code></strong> :&ensp;<code>np.ndarray</code></dt>
-<dd>Times at which the intensity function is evaluated at. Must be non-negative and in ascending order</dd>
+<dd>Times at which the intensity function is evaluated at.
+Must be non-negative and in ascending order</dd>
 <dt><strong><code>mu</code></strong> :&ensp;<code>float</code></dt>
 <dd>Background intensity of the Hawkes process, mu &gt; 0</dd>
 <dt><strong><code>eta</code></strong> :&ensp;<code>float</code></dt>
@@ -141,7 +149,8 @@ with step size given by step_size.</p>
 <dt><strong><code>sample_vec</code></strong> :&ensp;<code>np.ndarray</code></dt>
 <dd>Jump times of the Hawkes process. Must be non-negative and in ascending order!</dd>
 <dt><strong><code>grid</code></strong> :&ensp;<code>np.ndarray</code></dt>
-<dd>Times at which the intensity function is evaluated at. Must be non-negative and in ascending order</dd>
+<dd>Times at which the intensity function is evaluated at.
+Must be non-negative and in ascending order.</dd>
 <dt><strong><code>mu</code></strong> :&ensp;<code>float</code></dt>
 <dd>Background intensity of the Hawkes process, mu &gt; 0</dd>
 <dt><strong><code>eta</code></strong> :&ensp;<code>float</code></dt>

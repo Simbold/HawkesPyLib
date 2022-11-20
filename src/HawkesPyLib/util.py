@@ -39,7 +39,8 @@ class OneOf(Validator):
 
 class FloatInExRange(Validator):
     """
-    Validator class that validates if a given value is of type float or int and in the the exclusive range: lower_bound < value < upper_bound
+    Validator class that validates if a given value is of type float or int and in the the exclusive range:
+    lower_bound < value < upper_bound
     if the value is an int it will be converted to float
     """
 

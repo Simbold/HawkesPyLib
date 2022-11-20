@@ -18,6 +18,7 @@
 <style>.homelink{display:block;font-size:2em;font-weight:bold;color:#555;padding-bottom:0.7em;border-bottom:1px solid silver}.homelink:hover{color:inherit}.homelink img{max-width:40%;max-height:20em;margin:auto;margin-bottom:.2em}</style>
 <link rel="canonical" href="https://simbold.github.io/HawkesPyLib/HawkesPyLib/inference.html">
 <link rel="icon" href="https://simbold.github.io/HawkesPyLib/logo.png">
+<meta name="google-site-verification" content="UCGhKLVyQvQFsZiNZcKzrWsKdsdJMHr3427rABF6eGE" />
 </head>
 <body>
 <main>
@@ -113,8 +114,9 @@ Must be larger or equal the last arrival time in argument <code>timestamps</code
 if the optimization routine does not exit successfully. Defaults to 5.</dd>
 <dt><strong><code>custom_param_vec0</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>If custom initial values should be used. Defaults to False.
-If True you must supply an addtional variable to **kwargs called <code>param_vec0</code> a 1d numpy array
-containing the initial starting values: param_vec0 = [mu0 &gt; 0, 0 &lt; eta0 &lt; 1, theta &gt; 0].</dd>
+If True you must supply an addtional variable to **kwargs
+called <code>param_vec0</code> a 1d numpy array containing the initial starting values:
+param_vec0 = [mu0 &gt; 0, 0 &lt; eta0 &lt; 1, theta &gt; 0].</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -154,7 +156,8 @@ Must be sorted and only positive timestamps are allowed!</dd>
 <dd>The end time of the Hawkes process.
 Must be larger or equal the last arrival time in argument <code>timestamps</code>.</dd>
 <dt><strong><code>grid_type</code></strong> :&ensp;<code>str</code>, optional</dt>
-<dd>Type of grid for eta0 starting values, one of: 'random', 'equidistant' or 'custom'. Default to 'equidistant'.</dd>
+<dd>Type of grid for eta0 starting values, one of: 'random', 'equidistant' or 'custom'.
+Default to 'equidistant'.</dd>
 <dt><strong><code>grid_size</code></strong> :&ensp;<code>int</code>, optional</dt>
 <dd>The number of optimizations to run. Defaults to 20.</dd>
 <dt><strong><code>return_params</code></strong> :&ensp;<code>bool</code>, optional</dt>
@@ -410,7 +413,8 @@ Must be sorted and only positive timestamps are allowed!</dd>
 <dd>The end time of the Hawkes process.
 Must be larger or equal the last arrival time in argument <code>timestamps</code>.</dd>
 <dt><strong><code>grid_type</code></strong> :&ensp;<code>str</code>, optional</dt>
-<dd>Type of grid for eta0 starting values, one of: 'random', 'equidistant' or 'custom'. Default to 'equidistant'</dd>
+<dd>Type of grid for eta0 starting values, one of: 'random', 'equidistant' or 'custom'.
+Default to 'equidistant'</dd>
 <dt><strong><code>grid_size</code></strong> :&ensp;<code>int</code>, optional</dt>
 <dd>The number of optimizations to run. Defaults to 20.</dd>
 <dt><strong><code>return_params</code></strong> :&ensp;<code>bool</code>, optional</dt>
@@ -558,12 +562,18 @@ The Hawkes process with approximate power-law kernel ('powlaw' <code>kernel</cod
 \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} \bigg],</span><script type="math/tex; mode=display">\lambda(t) = \mu + \sum_{t_i < t}
 \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} \bigg],</script></span></p>
 <p>where <span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span> (<code>mu</code>) is the constant background intensity, <span><span class="MathJax_Preview">\eta </span><script type="math/tex">\eta </script></span> (<code>eta</code>)
-is the branching ratio, <span><span class="MathJax_Preview">\alpha</span><script type="math/tex">\alpha</script></span> (<code>alpha</code>) is the power-law tail exponent and <span><span class="MathJax_Preview">\tau_0</span><script type="math/tex">\tau_0</script></span> a scale parameter controlling the decay timescale.</p>
-<p>The Hawkes process with approximate power-law kernel with smooth cutoff ('powlaw-cutoff' <code>kernel</code>), defined by the conditional intenstiy fnuction:
-<span><span class="MathJax_Preview">\lambda(t) = \mu + \sum_{t_i &lt; t} \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} - S e^{(-(t - t_i)/a_{-1})} \bigg],</span><script type="math/tex; mode=display">\lambda(t) = \mu + \sum_{t_i < t} \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} - S e^{(-(t - t_i)/a_{-1})} \bigg],</script></span></p>
+is the branching ratio, <span><span class="MathJax_Preview">\alpha</span><script type="math/tex">\alpha</script></span> (<code>alpha</code>) is the power-law tail exponent and <span><span class="MathJax_Preview">\tau_0</span><script type="math/tex">\tau_0</script></span>
+a scale parameter controlling the decay timescale.</p>
+<p>The Hawkes process with approximate power-law kernel with smooth cutoff ('powlaw-cutoff' <code>kernel</code>),
+defined by the conditional intenstiy fnuction:
+<span><span class="MathJax_Preview">\lambda(t) = \mu + \sum_{t_i &lt; t} \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} -
+S e^{(-(t - t_i)/a_{-1})} \bigg],</span><script type="math/tex; mode=display">\lambda(t) = \mu + \sum_{t_i < t} \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} -
+S e^{(-(t - t_i)/a_{-1})} \bigg],</script></span></p>
 <p>where <span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span> (<code>mu</code>) is the constant background intensity, <span><span class="MathJax_Preview">\eta </span><script type="math/tex">\eta </script></span> (<code>eta</code>)
-is the branching ratio, <span><span class="MathJax_Preview">\alpha</span><script type="math/tex">\alpha</script></span> (<code>alpha</code>) is the power-law tail exponent and <span><span class="MathJax_Preview">\tau_0</span><script type="math/tex">\tau_0</script></span> a scale parameter controlling the decay timescale and
-the location of the smooth cutoff point (i.e. the time duration after each jump at which the intensity reaches a maximum).</p>
+is the branching ratio, <span><span class="MathJax_Preview">\alpha</span><script type="math/tex">\alpha</script></span> (<code>alpha</code>) is the power-law tail exponent and <span><span class="MathJax_Preview">\tau_0</span><script type="math/tex">\tau_0</script></span>
+a scale parameter controlling the decay timescale and
+the location of the smooth cutoff point (i.e. the time duration after each jump at
+which the intensity reaches a maximum).</p>
 <p>The true power-law is approximtated by a sum of <span><span class="MathJax_Preview">M</span><script type="math/tex">M</script></span> exponential functions with power-law weights
 <span><span class="MathJax_Preview">a_k = \tau_0 m^k</span><script type="math/tex">a_k = \tau_0 m^k</script></span>. <span><span class="MathJax_Preview">M</span><script type="math/tex">M</script></span> is the number of exponentials used for the approximation and <span><span class="MathJax_Preview">m</span><script type="math/tex">m</script></span> is a scale
 parameter. The power-law approximation holds for times up to <span><span class="MathJax_Preview">m^{M-1}</span><script type="math/tex">m^{M-1}</script></span> after which the memory kernel
@@ -597,7 +607,8 @@ may be used as a starting point for a 'residual' analysis.</li>
 <dt><strong><code>m</code></strong> :&ensp;<code>float</code></dt>
 <dd>Scale parameter that that specifies the approximation of the true power-law. Must be positive.</dd>
 <dt><strong><code>M</code></strong> :&ensp;<code>int</code></dt>
-<dd>The number of weighted exponential kernels that specifies the approximation of the true power-law. Must be positive.</dd>
+<dd>The number of weighted exponential kernels that specifies the approximation of the true power-law.
+Must be positive.</dd>
 <dt><strong><code>rng</code></strong> :&ensp;<code>optional</code></dt>
 <dd>numpy numba generator. For reproducible results use: np.random.default_rng(seed)</dd>
 </dl>
@@ -644,8 +655,9 @@ Must be larger or equal the last arrival time in argument <code>timestamps</code
 if the optimization routine does not exit successfully. Defaults to 5.</dd>
 <dt><strong><code>custom_param_vec0</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>If custom initial values should be used. Defaults to False.
-If true you must supply an addtional variable to **kwargs called <code>param_vec0</code> a 1d numpy array
-containing the initial starting values: param_vec0 = [mu0 &gt; 0, 0 &lt; eta0 &lt;1, alpha0 &gt; 0, tau0_0].</dd>
+If true you must supply an addtional variable to **kwargs called <code>param_vec0</code>
+a 1d numpy array containing the initial starting values:
+param_vec0 = [mu0 &gt; 0, 0 &lt; eta0 &lt;1, alpha0 &gt; 0, tau0_0].</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -685,7 +697,8 @@ Must be sorted and only positive timestamps are allowed!</dd>
 <dd>The end time of the Hawkes process.
 Must be larger or equal the last arrival time in argument <code>timestamps</code>.</dd>
 <dt><strong><code>grid_type</code></strong> :&ensp;<code>str</code>, optional</dt>
-<dd>Type of grid for eta0 starting values, one of: 'random', 'equidistant' or 'custom'. Default to 'equidistant'</dd>
+<dd>Type of grid for eta0 starting values, one of: 'random', 'equidistant' or 'custom'.
+Default to 'equidistant'</dd>
 <dt><strong><code>grid_size</code></strong> :&ensp;<code>int</code>, optional</dt>
 <dd>The number of optimizations to run. Defaults to 20.</dd>
 <dt><strong><code>return_params</code></strong> :&ensp;<code>bool</code>, optional</dt>
@@ -822,6 +835,77 @@ information criteria</p>
 </dd>
 </dl>
 </dd>
+<dt id="HawkesPyLib.inference.PoissonProcessInference"><code class="flex name class">
+<span>class <span class="ident">PoissonProcessInference</span></span>
+</code></dt>
+<dd>
+<div class="hslist"><p>Class for fitting of a homogenous Poisson process with constant rate parameter <code>mu</code>.
+The Poisson process is fitted given arrival times in the half open intervall (0, T].
+In contrast to Hawkes processes, the intensity function <span><span class="MathJax_Preview"> \lambda(t) </span><script type="math/tex"> \lambda(t) </script></span>,
+is constant and does not depend on <span><span class="MathJax_Preview"> t </span><script type="math/tex"> t </script></span>: <span><span class="MathJax_Preview"> \lambda(t) = \mu, \; \forall t </span><script type="math/tex"> \lambda(t) = \mu, \; \forall t </script></span></p>
+<p>The class may be used to compare the more complicated Hawkes process model fits with
+a basic 'trivial' model of random arrival times.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Maximum likelihood inference of homogenous Poisson processes
+is trivial. Simply calculate the number of event arrivales per unit time in
+order to estimate the constant intensity rate parameter of the process.</p>
+</div></div>
+<h3>Methods</h3>
+<dl>
+<dt id="HawkesPyLib.inference.PoissonProcessInference.estimate"><code class="name flex">
+<span>def <span class="ident">estimate</span></span>(<span>self, timestamps: numpy.ndarray, T: float, return_result: bool = False) ‑> None</span>
+</code></dt>
+<dd>
+<div class="hslist"><p>Estimate the constant intensity rate parameter of the homogenous Poisson process.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>timestamps</code></strong> :&ensp;<code>np.ndarray</code></dt>
+<dd>1d array of arrival times.
+Must be sorted and only positive timestamps are allowed!</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
+<dd>The end time of the Hawkes process.
+Must be larger or equal the last arrival time in argument <code>timestamps</code>.</dd>
+<dt><strong><code>return_result</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Should result be returned?. Defaults to False.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tuple</code></dt>
+<dd>If return_result=True returns a tuple: mu, logL</dd>
+</dl></div>
+</dd>
+<dt id="HawkesPyLib.inference.PoissonProcessInference.compensator"><code class="name flex">
+<span>def <span class="ident">compensator</span></span>(<span>self) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="hslist"><p>Computes the compensator of the estimated Poisson process</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>1d array of compensator timestamps.</dd>
+</dl></div>
+</dd>
+<dt id="HawkesPyLib.inference.PoissonProcessInference.intensity"><code class="name flex">
+<span>def <span class="ident">intensity</span></span>(<span>self, step_size: float) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="hslist"><p>Evaluates the intensity function <span><span class="MathJax_Preview"> \lambda(t) </span><script type="math/tex"> \lambda(t) </script></span> on a grid of equidistant timestamps over the
+closed interval [0, T] with step size <code>step_size</code>. In the case of the homogenous Poisson process
+this is trivial (i.e. the constant estimated rate <code>mu</code>).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>step_size</code></strong> :&ensp;<code>float</code></dt>
+<dd>Step size of the time grid.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>2d array of timestamps (column 0) and corresponding intensity values (column 1)</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
 </dl>
 </section>
 </article>
@@ -880,6 +964,14 @@ information criteria</p>
 <li><code><a title="HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.kernel_values" href="processes.html#HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.kernel_values">kernel_values</a></code></li>
 <li><code><a title="HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.compute_logL" href="processes.html#HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.compute_logL">compute_logL</a></code></li>
 <li><code><a title="HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.ic" href="processes.html#HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.ic">ic</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="HawkesPyLib.inference.PoissonProcessInference" href="#HawkesPyLib.inference.PoissonProcessInference">PoissonProcessInference</a></code></h4>
+<ul class="">
+<li><code><a title="HawkesPyLib.inference.PoissonProcessInference.estimate" href="#HawkesPyLib.inference.PoissonProcessInference.estimate">estimate</a></code></li>
+<li><code><a title="HawkesPyLib.inference.PoissonProcessInference.compensator" href="#HawkesPyLib.inference.PoissonProcessInference.compensator">compensator</a></code></li>
+<li><code><a title="HawkesPyLib.inference.PoissonProcessInference.intensity" href="#HawkesPyLib.inference.PoissonProcessInference.intensity">intensity</a></code></li>
 </ul>
 </li>
 </ul>

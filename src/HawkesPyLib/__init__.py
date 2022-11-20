@@ -15,7 +15,7 @@ The module `HawkesPyLib.core` contains the functions underlying the simulation a
 
 ----------------------------------------------------------------------------------------------------------
 
-### Notes:
+### Notes
 
 The inference module currently only supports model fitting using maximum likelihood estimation,
 and is using scipy's L-BFGS-B algorithm as its optimization routine.
@@ -46,8 +46,9 @@ For more information on Hawkes processes, their simulation and inference find th
     the hawkes self-excited point process model: application to high-frequency finan-
     cial data. Quantitative Finance, 15(8):1293 1314.
 """
-__version__ = "0.1.0"
+import importlib.metadata
 
+__version__ = importlib.metadata.version("HawkesPyLib")
 __pdoc__ = {}
 __pdoc__["HawkesPyLib.simulation.ExpHawkesProcessSimulation.mu"] = False
 __pdoc__["HawkesPyLib.simulation.ExpHawkesProcessSimulation.eta"] = False
@@ -68,6 +69,9 @@ __pdoc__["HawkesPyLib.simulation.ApproxPowerlawHawkesProcessSimulation.M"] = Fal
 __pdoc__["HawkesPyLib.simulation.ApproxPowerlawHawkesProcessSimulation.T"] = False
 __pdoc__["HawkesPyLib.simulation.ApproxPowerlawHawkesProcessSimulation.kernel"] = False
 
+__pdoc__["HawkesPyLib.simulation.PoissonProcessSimulation.mu"] = False
+__pdoc__["HawkesPyLib.simulation.PoissonProcessSimulation.T"] = False
+
 __pdoc__["HawkesPyLib.util"] = False
 
 __pdoc__["HawkesPyLib.inference.ExpHawkesProcessInference.set_params"] = False
@@ -76,6 +80,7 @@ __pdoc__["HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.set_params"
 __pdoc__["HawkesPyLib.inference.ExpHawkesProcessInference.set_arrival_times"] = False
 __pdoc__["HawkesPyLib.inference.SumExpHawkesProcessInference.set_arrival_times"] = False
 __pdoc__["HawkesPyLib.inference.ApproxPowerlawHawkesProcessInference.set_arrival_times"] = False
+__pdoc__["HawkesPyLib.inference.PoissonProcessInference.timestamps"] = False
 
 __pdoc__["HawkesPyLib.processes.UnivariateHawkesProcess.mu"] = False
 __pdoc__["HawkesPyLib.processes.UnivariateHawkesProcess.eta"] = False

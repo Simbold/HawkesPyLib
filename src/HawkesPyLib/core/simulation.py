@@ -3,13 +3,54 @@ from numba import jit, float64
 from numba.types import int32
 
 
-@jit(float64[:](float64, float64, float64, float64, float64, float64, int32, int32), nopython=False, cache=False, nogil=True, fastmath=True)
-def uvhp_approx_powl_cutoff_simulator(T: float, mu: float, eta: float, alpha: float, tau: float, m: float, M: int, seed: int = 0) -> np.ndarray:
+@jit(float64[:](float64, float64, int32), nopython=False, cache=False, nogil=True)
+def homogenous_poisson_simulator(T: float, mu: float, seed: int = 0) -> np.ndarray:
+    """Simulates a homogenous Poisson process with constant intensity mu.
+
+    Args:
+        T (float): Time until which the Poisson process will be simulated. T > 0
+        mu (float): Constant intensity of the homogenous Poisson process. mu > 0
+        seed (int, optional): Seed for numba's random number generator. Defaults to 0 (no seed).
+
+    Returns:
+        np.ndarray: Array of simulated timestamps
+    """
+    if seed != 0:
+        np.random.seed(seed)
+
+    # generate first event
+    u = 1 - np.random.rand(1)[0]
+    s = -np.log(u) / mu
+    if s > T:
+        return np.empty(0)
+
+    arr_size = np.int64(mu * T * 2)  # Allocate two times the expected number of arrival times (memory is cheap?)
+    t_arr = np.empty(arr_size, np.float64)
+    t_arr[0] = s
+    n = 0
+    while s < T:
+        n += 1
+        u = 1 - np.random.rand(1)[0]
+        w = -np.log(u) / mu
+        s = s + w
+        t_arr[n] = s
+
+    if t_arr[n] > T:
+        return t_arr[0:n]
+    else:
+        return t_arr[0:(n+1)]
+
+
+@jit(float64[:](float64, float64, float64, float64, float64, float64, int32, int32),
+     nopython=False, cache=False, nogil=True, fastmath=True)
+def uvhp_approx_powl_cutoff_simulator(T: float, mu: float, eta: float, alpha: float,
+                                      tau: float, m: float, M: int, seed: int = 0) -> np.ndarray:
     """Simulates a Hawkes process with approximate power-law memory kernel.
         Implements Ogata's modified thinning algorithm as described in algorithm 2 in (Ogata 1981) .
 
         References:
-    - Ogata, Y. (1981). On lewis simulation method for point processes. IEEE transactions on information theory, 27(1):2331.
+    - Ogata, Y. (1981). On lewis simulation method for point processes.
+      IEEE transactions on information theory, 27(1):2331.
 
     Args:
         T (float): Time until which the Hawkes process will be simulated. T > 0
@@ -97,7 +138,8 @@ def uvhp_expo_simulator(T: float, mu: float, eta: float, theta: float, seed: int
 
         References:
 
-    - Ogata, Y. (1981). On lewis simulation method for point processes. IEEE transactions on information theory, 27(1):2331.
+    - Ogata, Y. (1981). On lewis simulation method for point processes.
+      IEEE transactions on information theory, 27(1):2331.
 
     Args:
         T (float): Time until which the Hawkes process will be simulated. T > 0
@@ -152,14 +194,17 @@ def uvhp_expo_simulator(T: float, mu: float, eta: float, theta: float, seed: int
     return t_arr[0:(i+1)]
 
 
-@jit(float64[:](float64, float64, float64, float64, float64, float64, int32, int32), nopython=True, cache=False, nogil=True, fastmath=True)
-def uvhp_approx_powl_simulator(T: float, mu: float, eta: float, alpha: float, tau: float, m: float, M: int, seed: int = 0) -> np.ndarray:
+@jit(float64[:](float64, float64, float64, float64, float64, float64, int32, int32),
+     nopython=True, cache=False, nogil=True, fastmath=True)
+def uvhp_approx_powl_simulator(T: float, mu: float, eta: float, alpha: float,
+                               tau: float, m: float, M: int, seed: int = 0) -> np.ndarray:
     """Simulates a Hawkes process with approximate power-law memory kernel.
         Implements Ogata's modified thinning algorithmas described in algorithm 2 in (Ogata 1981).
 
         References:
 
-    - Ogata, Y. (1981). On lewis simulation method for point processes. IEEE transactions on information theory, 27(1):2331.
+    - Ogata, Y. (1981). On lewis simulation method for point processes.
+      IEEE transactions on information theory, 27(1):2331.
 
     Args:
         T (float): Time until which the Hawkes process will be simulated. T > 0
@@ -238,7 +283,8 @@ def uvhp_sum_expo_simulator(T: float, mu: float, eta: float, theta_vec: np.ndarr
 
         References:
 
-    - Ogata, Y. (1981). On lewis simulation method for point processes. IEEE transactions on information theory, 27(1):2331.
+    - Ogata, Y. (1981). On lewis simulation method for point processes.
+      IEEE transactions on information theory, 27(1):2331.
 
     Args:
         T (float): Time until which the Hawkes process will be simulated. T > 0

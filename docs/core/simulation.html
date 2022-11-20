@@ -18,6 +18,7 @@
 <style>.homelink{display:block;font-size:2em;font-weight:bold;color:#555;padding-bottom:0.7em;border-bottom:1px solid silver}.homelink:hover{color:inherit}.homelink img{max-width:40%;max-height:20em;margin:auto;margin-bottom:.2em}</style>
 <link rel="canonical" href="https://simbold.github.io/HawkesPyLib/HawkesPyLib/core/simulation.html">
 <link rel="icon" href="https://simbold.github.io/HawkesPyLib/logo.png">
+<meta name="google-site-verification" content="UCGhKLVyQvQFsZiNZcKzrWsKdsdJMHr3427rABF6eGE" />
 </head>
 <body>
 <main>
@@ -34,6 +35,26 @@
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
+<dt id="HawkesPyLib.core.simulation.homogenous_poisson_simulator"><code class="name flex">
+<span>def <span class="ident">homogenous_poisson_simulator</span></span>(<span>T: float, mu: float, seed: int = 0) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="hslist"><p>Simulates a homogenous Poisson process with constant intensity mu.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
+<dd>Time until which the Poisson process will be simulated. T &gt; 0</dd>
+<dt><strong><code>mu</code></strong> :&ensp;<code>float</code></dt>
+<dd>Constant intensity of the homogenous Poisson process. mu &gt; 0</dd>
+<dt><strong><code>seed</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Seed for numba's random number generator. Defaults to 0 (no seed).</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>Array of simulated timestamps</dd>
+</dl></div>
+</dd>
 <dt id="HawkesPyLib.core.simulation.uvhp_approx_powl_cutoff_simulator"><code class="name flex">
 <span>def <span class="ident">uvhp_approx_powl_cutoff_simulator</span></span>(<span>T: float, mu: float, eta: float, alpha: float, tau: float, m: float, M: int, seed: int = 0) ‑> numpy.ndarray</span>
 </code></dt>
@@ -43,7 +64,8 @@ Implements Ogata's modified thinning algorithm as described in algorithm 2 in (O
 <pre><code>References:
 </code></pre>
 <ul>
-<li>Ogata, Y. (1981). On lewis simulation method for point processes. IEEE transactions on information theory, 27(1):2331.</li>
+<li>Ogata, Y. (1981). On lewis simulation method for point processes.
+IEEE transactions on information theory, 27(1):2331.</li>
 </ul>
 <h2 id="args">Args</h2>
 <dl>
@@ -79,7 +101,8 @@ Implements Ogata's modified thinning algorithm as described in algorithm 2 in (O
 <pre><code>References:
 </code></pre>
 <ul>
-<li>Ogata, Y. (1981). On lewis simulation method for point processes. IEEE transactions on information theory, 27(1):2331.</li>
+<li>Ogata, Y. (1981). On lewis simulation method for point processes.
+IEEE transactions on information theory, 27(1):2331.</li>
 </ul>
 <h2 id="args">Args</h2>
 <dl>
@@ -109,7 +132,8 @@ Implements Ogata's modified thinning algorithmas described in algorithm 2 in (Og
 <pre><code>References:
 </code></pre>
 <ul>
-<li>Ogata, Y. (1981). On lewis simulation method for point processes. IEEE transactions on information theory, 27(1):2331.</li>
+<li>Ogata, Y. (1981). On lewis simulation method for point processes.
+IEEE transactions on information theory, 27(1):2331.</li>
 </ul>
 <h2 id="args">Args</h2>
 <dl>
@@ -145,7 +169,8 @@ Implements Ogata's modified thinning algorithmas described in algorithm 2 in (Og
 <pre><code>References:
 </code></pre>
 <ul>
-<li>Ogata, Y. (1981). On lewis simulation method for point processes. IEEE transactions on information theory, 27(1):2331.</li>
+<li>Ogata, Y. (1981). On lewis simulation method for point processes.
+IEEE transactions on information theory, 27(1):2331.</li>
 </ul>
 <h2 id="args">Args</h2>
 <dl>
@@ -189,6 +214,7 @@ Implements Ogata's modified thinning algorithmas described in algorithm 2 in (Og
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
+<li><code><a title="HawkesPyLib.core.simulation.homogenous_poisson_simulator" href="#HawkesPyLib.core.simulation.homogenous_poisson_simulator">homogenous_poisson_simulator</a></code></li>
 <li><code><a title="HawkesPyLib.core.simulation.uvhp_approx_powl_cutoff_simulator" href="#HawkesPyLib.core.simulation.uvhp_approx_powl_cutoff_simulator">uvhp_approx_powl_cutoff_simulator</a></code></li>
 <li><code><a title="HawkesPyLib.core.simulation.uvhp_expo_simulator" href="#HawkesPyLib.core.simulation.uvhp_expo_simulator">uvhp_expo_simulator</a></code></li>
 <li><code><a title="HawkesPyLib.core.simulation.uvhp_approx_powl_simulator" href="#HawkesPyLib.core.simulation.uvhp_approx_powl_simulator">uvhp_approx_powl_simulator</a></code></li>

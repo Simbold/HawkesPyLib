@@ -61,7 +61,8 @@ class UnivariateHawkesProcess:
             \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} - S e^{(-(t - t_i)/a_{-1})} \bigg],\]
 
             where \(\mu\) (`mu`) is the constant background intensity, \(\eta \) (`eta`)
-            is the branching ratio, \(\alpha\) (`alpha`) is the power-law tail exponent and \(\tau_0\) a scale parameter controlling the decay timescale and
+            is the branching ratio, \(\alpha\) (`alpha`) is the power-law tail exponent and \(\tau_0\)
+            a scale parameter controlling the decay timescale and
             the location of the smooth cutoff point (i.e. the time duration after each jump at which the intensity reaches a maximum).
 
         The true power-law is approximtated by a sum of \(M\) exponential function with power-law weights
@@ -128,10 +129,12 @@ class UnivariateHawkesProcess:
             mu (float): The background intensity, \(\mu > 0\).
             eta (float): The branching ratio, \(0 < \eta > 1\).
             theta (float): Decay speed of single exponential kernel, \(\theta\) > 0. Must be set if `kernel` is set to 'expo'.
-            theta_vec (np.ndarray, optional): Decay speed of P-sum, exponential kernel, theta_k > 0. Must be set if `kernel` is set to 'sum-expo'.
+            theta_vec (np.ndarray, optional): Decay speed of P-sum, exponential kernel, theta_k > 0.
+                                              Must be set if `kernel` is set to 'sum-expo'.
             alpha (float): Tail index of the power-law decay, \(\alpha > 0\). Must be set if `kernel` is set to 'powlaw' or 'powlaw-cutoff'.
             tau0 (float): Timescale parameter, \(\tau_0 > 0\). Must be set if `kernel` is set to 'powlaw' or 'powlaw-cutoff'.
-            m (float, optional): Scale parameter of the power-law weights, m > 0. Must be set if `kernel` is set to 'powlaw' or 'powlaw-cutoff'.
+            m (float, optional): Scale parameter of the power-law weights, m > 0.
+                                 Must be set if `kernel` is set to 'powlaw' or 'powlaw-cutoff'.
             M (int, optional): Number of weighted exponential kernels used in the approximate power-law kernel.
              Must be set if `kernel` is set to 'powlaw' or 'powlaw-cutoff'.
         """
@@ -247,13 +250,15 @@ class UnivariateHawkesProcess:
             grid = generate_eval_grid(step_size, self.T)
 
             if self._kernel == "powlaw-cutoff":
-                intensity = uvhp_approx_powl_cutoff_intensity(self.timestamps, grid, self.mu, self.eta, self.alpha, self.tau0, self._m, self._M)
+                intensity = uvhp_approx_powl_cutoff_intensity(self.timestamps, grid, self.mu, self.eta,
+                                                              self.alpha, self.tau0, self._m, self._M)
 
             elif self._kernel == "expo":
                 intensity = uvhp_expo_intensity(self.timestamps, grid, self.mu, self.eta, self.theta)
 
             elif self._kernel == "powlaw":
-                intensity = uvhp_approx_powl_intensity(self.timestamps, grid, self.mu, self.eta, self.alpha, self.tau0, self._m, self._M)
+                intensity = uvhp_approx_powl_intensity(self.timestamps, grid, self.mu, self.eta,
+                                                       self.alpha, self.tau0, self._m, self._M)
 
             elif self._kernel == "sum-expo":
                 intensity = uvhp_sum_expo_intensity(self.timestamps, grid, self.mu, self.eta, self.theta_vec)

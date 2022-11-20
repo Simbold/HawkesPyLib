@@ -2,7 +2,8 @@ import numpy as np
 from HawkesPyLib.core.simulation import (uvhp_approx_powl_cutoff_simulator,
                                          uvhp_expo_simulator,
                                          uvhp_approx_powl_simulator,
-                                         uvhp_sum_expo_simulator)
+                                         uvhp_sum_expo_simulator,
+                                         homogenous_poisson_simulator)
 from HawkesPyLib.core.intensity import (uvhp_approx_powl_cutoff_intensity,
                                         uvhp_approx_powl_intensity,
                                         uvhp_expo_intensity,
@@ -17,7 +18,45 @@ from HawkesPyLib.core.kernel import (uvhp_approx_powl_cutoff_kernel,
                                      uvhp_expo_kernel,
                                      uvhp_sum_expo_kernel)
 
-__all__ = ["ExpHawkesProcessSimulation", "SumExpHawkesProcessSimulation", "ApproxPowerlawHawkesProcessSimulation"]
+__all__ = ["ExpHawkesProcessSimulation", "SumExpHawkesProcessSimulation",
+           "ApproxPowerlawHawkesProcessSimulation", "PoissonProcessSimulation"]
+
+
+class PoissonProcessSimulation():
+    r""" Class for simulation a homogenous Poisson process with rate parameter `mu`.
+         The Poisson process is simulated over the half open intervall (0, T].
+         In contrast to Hawkes processes, the intensity function \( \lambda(t) \),
+         is constant and does not depend on \( t \): \( \lambda(t) = \mu, \; \forall t \)
+
+         The simulation is performed by generating exponentially distributed inter-arrival times.
+    """
+    mu = FloatInExRange("mu", lower_bound=0)
+    T = FloatInExRange("T", lower_bound=0)
+
+    def __init__(self, mu: float) -> None:
+        """
+
+        Args:
+            mu (float): Constant intensity rate parameter, mu > 0.
+        """
+        self.mu = mu
+        self._simulated = False
+
+    def simulate(self, T: float, seed: int = 0) -> np.ndarray:
+        """ Generates a realization of the specified homogenous Poisson process.
+
+        Args:
+            T (float): Maximum time until which the Poisson process will be simulated.
+            seed (int, optional): Seed the random number generator.
+
+        Returns:
+            np.ndarray: 1d array of simulated arrival times.
+        """
+        self.T = T
+        self.timestamps = homogenous_poisson_simulator(self.T, self.mu, seed=seed)
+        self.n_jumps = len(self.timestamps)
+        self._simulated = True
+        return self.timestamps
 
 
 class ExpHawkesProcessSimulation():
@@ -210,11 +249,13 @@ class ApproxPowerlawHawkesProcessSimulation():
 
         and the conditional intensity function for the approximate power-law kernel with smooth cutoff is defined as:
 
-        \[\lambda(t) = \mu + \sum_{t_i < t} \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} - S e^{(-(t - t_i)/a_{-1})} \bigg],\]
+        \[\lambda(t) = \mu + \sum_{t_i < t} \dfrac{\eta}{Z} \bigg[ \sum_{k=0}^{M-1} a_k^{-(1+\alpha)} e^{(-(t - t_i)/a_k)} -
+        S e^{(-(t - t_i)/a_{-1})} \bigg],\]
 
         where \(\mu\) (`mu`) is the constant background intensity, \(\eta \) (`eta`)
         is the branching ratio, \(\alpha\) (`alpha`) is the tail exponent and \(\tau_0\) a scale parameter that
-        also controls the decay timescale as well as the location of the smooth cutoff (i.e. the time at which the memory kernel reaches its maximum).
+        also controls the decay timescale as well as the location of the smooth cutoff
+        (i.e. the time at which the memory kernel reaches its maximum).
 
         The true power-law is approximtated by a sum of \(M\) exponential function with power-law weights
         \(a_k = \tau_0 m^k\). \(M\) is the number of exponentials used for the approximation and \(m\) is a scale
@@ -308,9 +349,11 @@ class ApproxPowerlawHawkesProcessSimulation():
             grid = generate_eval_grid(step_size, self.T)
 
             if self.kernel == "powlaw-cutoff":
-                intensity = uvhp_approx_powl_cutoff_intensity(self.timestamps, grid, self.mu, self.eta, self.alpha, self.tau0, self.m, self.M)
+                intensity = uvhp_approx_powl_cutoff_intensity(self.timestamps, grid, self.mu, self.eta,
+                                                              self.alpha, self.tau0, self.m, self.M)
             elif self.kernel == "powlaw":
-                intensity = uvhp_approx_powl_intensity(self.timestamps, grid, self.mu, self.eta, self.alpha, self.tau0, self.m, self.M)
+                intensity = uvhp_approx_powl_intensity(self.timestamps, grid, self.mu, self.eta,
+                                                       self.alpha, self.tau0, self.m, self.M)
 
             return intensity
 

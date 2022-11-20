@@ -1,10 +1,11 @@
-![Tests](https://github.com/Simbold/HawkesPyLib/actions/workflows/tests.yml/badge.svg)
-[![PyPI version](https://img.shields.io/pypi/v/HawkesPyLib?color=green&label=pypi%20package)](https://pypi.org/project/HawkesPyLib/)
+![Tests](https://github.com/Simbold/HawkesPyLib/actions/workflows/tests.yml/badge.svg?branch=master)
+![Build](https://github.com/Simbold/HawkesPyLib/actions/workflows/build.yml/badge.svg?branch=master)
+[![PyPI package](https://img.shields.io/pypi/v/HawkesPyLib?color=green&label=pypi%20package)](https://pypi.org/project/HawkesPyLib/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/HawkesPyLib)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/pypi/l/HawkesPyLib?color=blue)](https://opensource.org/licenses/MIT)
 
 # HawkesPyLib
-A simple Python Library for simulation and inference of Hawkes processes. The library is currently under active development. More methods and functionality will be introduced shortly.
+A simple Python Package for simulation and inference of Hawkes processes. The library is currently under active development. More methods and functionality will be introduced shortly.
 
 ## Installation
 
@@ -26,6 +27,7 @@ The following Hawkes process models are currently available:
 - Univariate Hawkes process with P-sum exponential memory kernel
 - Univariate Hawkes process with approximate power-law memory kernel
 - Univariate Hawkes process with approximate power-law memory kernel with smooth cutoff
+- Homogenous Poisson process
 
 For each of the models there is a simulator class for generating Hawkes process samples using Ogata's thining algorithm.
 The estimator class allows for maximum likelihood estimation of the model as well as the calculation of the corresponding compensator, and evaluation of the conditional intensity function.
@@ -33,7 +35,7 @@ The estimator class allows for maximum likelihood estimation of the model as wel
 A quick example of simulating and estimating Hawkes processes can be found in the Examples folder.
 
 The core simulation and estimation algorithms are optimized for speed
-by recursively calculating the state of the memory kernel and further accelerated by using
+by recursive calculation of the model and further accelerated by
 [numba's](https://numba.pydata.org/) JIT compiler.
 
 ## License

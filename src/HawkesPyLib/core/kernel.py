@@ -5,7 +5,8 @@ def uvhp_expo_kernel(t: np.ndarray, eta: float, theta: float) -> np.ndarray:
     """ Computes values of the single exponential Hawkes process memory kernel.
 
     Args:
-        t (np.ndarray): Single time value or 1d array containing all the times at which the kernel value will be computed. Must be positive.
+        t (np.ndarray): Single time value or 1d array containing all the times
+                        at which the kernel value will be computed. Must be positive.
         eta (float): The branching ratio, 0 < eta > 1
         theta (float): 1d array of theta decay parameters, theta > 0
 
@@ -21,7 +22,8 @@ def uvhp_sum_expo_kernel(t: np.ndarray, eta: float, theta_vec: float) -> np.ndar
     """ Computes values of the P-sum exponential Hawkes process memory kernel.
 
     Args:
-        t (np.ndarray): Single time value or 1d array containing all the times at which the kernel value will be computed. Must be positive.
+        t (np.ndarray): Single time value or 1d array containing all the times
+                        at which the kernel value will be computed. Must be positive.
         eta (float): The branching ratio, 0 < eta > 1
         theta_vec (float): 1d array of theta decay parameters, theta_k > 0
 
@@ -42,7 +44,8 @@ def uvhp_approx_powl_cutoff_kernel(t: np.ndarray, eta: float, alpha: float, tau:
     """ Computes values of the Approximate power-law memory kernel with smooth cutoff component.
 
     Args:
-        t (np.ndarray): Single time value or 1d array containing all the times at which the kernel value will be computed. Must be positive.
+        t (np.ndarray): Single time value or 1d array containing all the times
+                        at which the kernel value will be computed. Must be positive.
         eta (float): Branching ratio of the Hawkes process, 0 > eta < 1
         alpha (float): Power-law coefficient, alpha > 0
         tau (float): Approximate location of cutoff, tau > 0
@@ -71,7 +74,8 @@ def uvhp_approx_powl_kernel(t: np.ndarray, eta: float, alpha: float, tau: float,
     """ Computes values of the Approximate power-law memory kernel.
 
     Args:
-        t (np.ndarray): Single time value or 1d array containing all the times at which the kernel value will be computed. Must be positive.
+        t (np.ndarray): Single time value or 1d array containing all the times
+                        at which the kernel value will be computed. Must be positive.
         eta (float): Branching ratio of the Hawkes process, 0 > eta < 1
         alpha (float): Power-law coefficient, alpha > 0
         tau (float): Approximate location of cutoff, tau > 0

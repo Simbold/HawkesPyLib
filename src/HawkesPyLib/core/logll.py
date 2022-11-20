@@ -9,8 +9,10 @@ def uvhp_expo_logL(param_vec: np.ndarray, sample_vec: np.ndarray, tn: float) -> 
 
     Args:
         param_vec (np.ndarray): array of parameter: [mu, eta, theta]
-        sample_vec (np.ndarray): array of timestamps. Must be sorted in ascending order. All timestamps must be positive.
-        tn (float): End time of the Hawkes process. Must be larger or equal than the last timestamp i.e. tn >= sample_vec[-1]
+        sample_vec (np.ndarray): array of timestamps.
+                                 Must be sorted in ascending order. All timestamps must be positive.
+        tn (float): End time of the Hawkes process.
+                    Must be larger or equal than the last timestamp i.e. tn >= sample_vec[-1]
 
     Returns:
         float: The negative log-likelihood value
@@ -45,8 +47,10 @@ def uvhp_expo_logL_grad(param_vec: np.ndarray, sample_vec: np.ndarray, tn: float
 
     Args:
         param_vec (np.ndarray): array of parameter: [mu, eta, theta]
-        sample_vec (np.ndarray): array of timestamps. Must be sorted in ascending order. All timestamps must be positive.
-        tn (float): End time of the Hawkes process. Must be larger or equal than the last timestamp i.e. tn >= sample_vec[-1]
+        sample_vec (np.ndarray): array of timestamps.
+                                 Must be sorted in ascending order. All timestamps must be positive.
+        tn (float): End time of the Hawkes process.
+                    Must be larger or equal than the last timestamp i.e. tn >= sample_vec[-1]
 
     Returns:
         np.ndarray: The negative value of each gradient: [mu gradient, eta gradient, theta gradient]
@@ -101,8 +105,10 @@ def uvhp_sum_expo_logL(param_vec: np.ndarray, sample_vec: np.ndarray, tn: float)
 
     Args:
         param_vec (np.ndarray): array of parameter: [mu, eta, theta1, theta2, ..., thetaP]
-        sample_vec (np.ndarray): array of timestamps. Must be sorted in ascending order. All timestamps must be positive.
-        tn (float): End time of the Hawkes process. Must be larger or equal than the last timestamp i.e. tn >= sample_vec[-1]
+        sample_vec (np.ndarray): array of timestamps.
+                                 Must be sorted in ascending order. All timestamps must be positive.
+        tn (float): End time of the Hawkes process.
+                    Must be larger or equal than the last timestamp i.e. tn >= sample_vec[-1]
 
     Returns:
         float: The negative log-likelihood value
@@ -148,11 +154,14 @@ def uvhp_sum_expo_logL_grad(param_vec: np.ndarray, sample_vec: np.ndarray, tn: f
 
     Args:
         param_vec (np.ndarray): array of parameter: [mu, eta, theta1, theta2, ..., thetaP]
-        sample_vec (np.ndarray): array of timestamps. Must be sorted in ascending order. All timestamps must be positive.
-        tn (float): End time of the Hawkes process. Must be larger or equal than the last timestamp i.e. tn >= sample_vec[-1]
+        sample_vec (np.ndarray): array of timestamps. Must be sorted in ascending order.
+                                 All timestamps must be positive.
+        tn (float): End time of the Hawkes process.
+                    Must be larger or equal than the last timestamp i.e. tn >= sample_vec[-1]
 
     Returns:
-        np.ndarray: The negative value of each gradient: [mu gradient, eta gradient, theta1 gradient, ..., thetaP gradient]
+        np.ndarray: The negative value of each gradient:
+                    [mu gradient, eta gradient, theta1 gradient, ..., thetaP gradient]
     """
     n = len(sample_vec)
     mu = param_vec[0]
@@ -223,8 +232,10 @@ def uvhp_approx_powl_cut_logL(param_vec: np.ndarray, sample_vec: np.ndarray, tn:
 
     Args:
         param_vec (np.ndarray): array of parameter: [mu, eta, theta1, theta2, ..., thetaP]
-        sample_vec (np.ndarray): array of timestamps. Must be sorted in ascending order. All timestamps must be positive.
-        tn (float): End time of the Hawkes process. Must be larger or equal than the last timestamp i.e. tn >= sample_vec[-1]
+        sample_vec (np.ndarray): array of timestamps.
+                                 Must be sorted in ascending order. All timestamps must be positive.
+        tn (float): End time of the Hawkes process.
+                    Must be larger or equal than the last timestamp i.e. tn >= sample_vec[-1]
         m (float): Fixed kernel variable
         M (int): Fixed kernel variable
 
@@ -300,8 +311,10 @@ def uvhp_approx_powl_logL(param_vec: np.ndarray, sample_vec: np.ndarray, tn: flo
 
     Args:
         param_vec (np.ndarray): array of parameter: [mu, eta, theta1, theta2, ..., thetaP]
-        sample_vec (np.ndarray): array of timestamps. Must be sorted in ascending order. All timestamps must be positive.
-        tn (float): End time of the Hawkes process. Must be larger or equal than the last timestamp i.e. tn >= sample_vec[-1]
+        sample_vec (np.ndarray): array of timestamps. Must be sorted in ascending order.
+                                 All timestamps must be positive.
+        tn (float): End time of the Hawkes process.
+                    Must be larger or equal than the last timestamp i.e. tn >= sample_vec[-1]
         m (float): Fixed kernel variable
         M (int): Fixed kernel variable
 

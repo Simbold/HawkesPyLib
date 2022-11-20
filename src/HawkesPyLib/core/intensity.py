@@ -20,13 +20,17 @@ def generate_eval_grid(step_size: float, T: float) -> np.ndarray:
     return grid
 
 
-@jit(float64[:, :](float64[:], float64[:], float64, float64, float64), nopython=True, cache=False, nogil=True)
-def uvhp_expo_intensity(sample_vec: np.ndarray, grid: np.ndarray, mu: float, eta: float, theta: float) -> np.ndarray:
+@jit(float64[:, :](float64[:], float64[:], float64, float64, float64),
+     nopython=True, cache=False, nogil=True)
+def uvhp_expo_intensity(sample_vec: np.ndarray, grid: np.ndarray, mu: float,
+                        eta: float, theta: float) -> np.ndarray:
     """ Evaluation of the intensity function of a univariate Hawkes process with single exponential kernel
 
     Args:
-        sample_vec (np.ndarray): Jump times of the Hawkes process. Must be non-negative and in ascending order!
-        grid (np.ndarray): Times at which the intensity function is evaluated at. Must be non-negative and in ascending order
+        sample_vec (np.ndarray): Jump times of the Hawkes process.
+                                 Must be non-negative and in ascending order!
+        grid (np.ndarray): Times at which the intensity function is evaluated at.
+                           Must be non-negative and in ascending order
         mu (float): Background intensity of the Hawkes process, mu > 0
         eta (float): Branching ratio of the Hawkes process, 0 > eta < 1
         theta (float): Decay speed of the single exponential kernel, theta > 0
@@ -69,13 +73,18 @@ def uvhp_expo_intensity(sample_vec: np.ndarray, grid: np.ndarray, mu: float, eta
     return intensity
 
 
-@jit(float64[:, :](float64[:], float64[:], float64, float64, float64[:]), nopython=True, cache=False, nogil=True)
-def uvhp_sum_expo_intensity(sample_vec: np.ndarray, grid: np.ndarray, mu: float, eta: float, theta_vec: np.ndarray) -> np.ndarray:
-    """ Evaluation of the intensity function of a univariate Hawkes process with P-sum exponential kernel
+@jit(float64[:, :](float64[:], float64[:], float64, float64, float64[:]),
+     nopython=True, cache=False, nogil=True)
+def uvhp_sum_expo_intensity(sample_vec: np.ndarray, grid: np.ndarray, mu: float,
+                            eta: float, theta_vec: np.ndarray) -> np.ndarray:
+    """ Evaluation of the intensity function of a univariate Hawkes process
+        with P-sum exponential kernel
 
     Args:
-        sample_vec (np.ndarray): Jump times of the Hawkes process. Must be non-negative and in ascending order!
-        grid (np.ndarray): Times at which the intensity function is evaluated at. Must be non-negative and in ascending order
+        sample_vec (np.ndarray): Jump times of the Hawkes process.
+                                 Must be non-negative and in ascending order!
+        grid (np.ndarray): Times at which the intensity function is evaluated at.
+                           Must be non-negative and in ascending order
         mu (float): Background intensity of the Hawkes process, mu > 0
         eta (float): Branching ratio of the Hawkes process, 0 > eta < 1
         theta_vec (np.ndarray): Array of decay speeds of the P-sum exponential kernel, theta_k > 0
@@ -130,14 +139,17 @@ def uvhp_sum_expo_intensity(sample_vec: np.ndarray, grid: np.ndarray, mu: float,
     return intensity
 
 
-@jit(float64[:, :](float64[:], float64[:], float64, float64, float64, float64, float64, int32), nopython=True, cache=False, nogil=True)
+@jit(float64[:, :](float64[:], float64[:], float64, float64, float64, float64, float64, int32),
+     nopython=True, cache=False, nogil=True)
 def uvhp_approx_powl_cutoff_intensity(sample_vec: np.ndarray, grid: np.ndarray, mu: float, eta: float,
                                       alpha: float, tau: float, m: float, M: int) -> np.ndarray:
-    """ Evaluation of the intensity function of a univariate Hawkes process with approximate power-law kernel with smooth cutoff component
+    """ Evaluation of the intensity function of a univariate Hawkes process
+        with approximate power-law kernel with smooth cutoff component
 
     Args:
         sample_vec (np.ndarray): Jump times of the Hawkes process. Must be non-negative and in ascending order!
-        grid (np.ndarray): Times at which the intensity function is evaluated at. Must be non-negative and in ascending order
+        grid (np.ndarray): Times at which the intensity function is evaluated at.
+                           Must be non-negative and in ascending order
         mu (float): Background intensity of the Hawkes process, mu > 0
         eta (float): Branching ratio of the Hawkes process, 0 > eta < 1
         alpha (float): Power-law coefficient, alpha > 0
@@ -205,13 +217,16 @@ def uvhp_approx_powl_cutoff_intensity(sample_vec: np.ndarray, grid: np.ndarray, 
     return intensity
 
 
-@jit(float64[:, :](float64[:], float64[:], float64, float64, float64, float64, float64, int32), nopython=True, cache=False, nogil=True)
-def uvhp_approx_powl_intensity(sample_vec: np.ndarray, grid: np.ndarray, mu: float, eta: float, alpha: float, tau: float, m: float, M: int) -> np.ndarray:
+@jit(float64[:, :](float64[:], float64[:], float64, float64, float64, float64, float64, int32),
+     nopython=True, cache=False, nogil=True)
+def uvhp_approx_powl_intensity(sample_vec: np.ndarray, grid: np.ndarray, mu: float, eta: float,
+                               alpha: float, tau: float, m: float, M: int) -> np.ndarray:
     """ Evaluation of the intensity function of a univariate Hawkes process with approximate power-law kernel.
 
     Args:
         sample_vec (np.ndarray): Jump times of the Hawkes process. Must be non-negative and in ascending order!
-        grid (np.ndarray): Times at which the intensity function is evaluated at. Must be non-negative and in ascending order
+        grid (np.ndarray): Times at which the intensity function is evaluated at.
+                           Must be non-negative and in ascending order.
         mu (float): Background intensity of the Hawkes process, mu > 0
         eta (float): Branching ratio of the Hawkes process, 0 > eta < 1
         alpha (float): Power-law coefficient, alpha > 0

@@ -32,8 +32,10 @@ def uvhp_expo_compensator(sample_vec: np.ndarray, mu: float, eta: float, theta: 
     return it
 
 
-@jit(float64[:](float64[:], float64, float64, float64, float64, float64, int32), nopython=True, cache=False, nogil=True)
-def uvhp_approx_powl_compensator(sample_vec: np.ndarray, mu: float, eta: float, alpha: float, tau: float, m: float, M: int) -> np.ndarray:
+@jit(float64[:](float64[:], float64, float64, float64, float64, float64, int32),
+     nopython=True, cache=False, nogil=True)
+def uvhp_approx_powl_compensator(sample_vec: np.ndarray, mu: float, eta: float, alpha: float,
+                                 tau: float, m: float, M: int) -> np.ndarray:
     """Computes the compensator for a Hawkes procss with approximate power-law kernel.
 
     Args:

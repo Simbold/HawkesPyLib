@@ -1,11 +1,55 @@
 from unittest import TestCase, mock
 import numpy as np
+import sys, os
+sys.path.insert(0,  os.path.abspath(os.path.join(os.getcwd(), os.pardir, "src/HawkesPyLib")))
+
 from HawkesPyLib.simulation import (ApproxPowerlawHawkesProcessSimulation,
                                         ExpHawkesProcessSimulation,
-                                        SumExpHawkesProcessSimulation)
+                                        SumExpHawkesProcessSimulation,
+                                        PoissonProcessSimulation)
 from HawkesPyLib.core.intensity import generate_eval_grid
 
 
+class TestHomogenousPoissonSimulation(TestCase):
+    def setUp(self):
+        self.mu = 10.
+        self.T = 10000.
+        self.seed = 123
+
+    def test_calls_correct_simu(self):
+        """ Test calls correct simulator """
+        with mock.patch("HawkesPyLib.simulation.homogenous_poisson_simulator") as patched_function:
+            PoissonSimulator = PoissonProcessSimulation(self.mu)
+            timestamps = PoissonSimulator.simulate(self.T, self.seed)
+        patched_function.assert_called_once_with(self.T, self.mu, seed = self.seed)
+
+    def test_correct_number_samples(self):
+        """ Test simulator generates expected number of samples """
+        PoissonSimulator = PoissonProcessSimulation(self.mu)
+        timestamps = PoissonSimulator.simulate(self.T)
+        n_actual1 = PoissonSimulator.n_jumps
+        n_actual2 = len(timestamps)
+
+        n_expected = self.mu * self.T
+        self.assertEqual(n_actual1, n_actual2)
+        self.assertTrue((abs(n_expected - n_actual1) / n_expected) < 0.01) 
+    
+    def test_invalid_input(self):
+        """ Test refueses invalid inputs """
+        with self.assertRaises(ValueError):
+            PoisSimulator = PoissonProcessSimulation(0)
+        with self.assertRaises(ValueError):
+            PoisSimulator = PoissonProcessSimulation(-2.5)
+
+        PoisSimulator = PoissonProcessSimulation(self.mu)
+        with self.assertRaises(ValueError):
+            timestamps = PoisSimulator.simulate(0)
+        with self.assertRaises(ValueError):
+            timestamps = PoisSimulator.simulate(-4)
+        with self.assertRaises(TypeError):
+            timestamps = PoisSimulator.simulate("4.5")
+
+        
 class TestExpHawkesSimulation(TestCase):
     def setUp(self):
         self.mu = .5
