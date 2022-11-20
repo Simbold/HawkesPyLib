@@ -1,6 +1,7 @@
 # private testing folder
 _Testing/
 _old/
+venvs/
 
 # Caching / generated files
 __pycache__/
