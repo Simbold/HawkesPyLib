@@ -1,13 +1,15 @@
-import numpy as np
+import os
 from unittest import TestCase
+
+import numpy as np
+
 from HawkesPyLib.processes import UnivariateHawkesProcess
-import os 
 
 file_path = fpath = os.path.join(os.path.dirname(__file__), "timestamp_fixture.csv")
 timestamps = np.loadtxt(file_path, delimiter=",", dtype=float)
 
 class TestApproxPowlaw_process(TestCase):
-    """ 
+    """
     Test the ApproxPowerlawProcess Class.
     """
     def setUp(self):
@@ -86,7 +88,7 @@ class TestApproxPowlaw_process(TestCase):
 
 
 class TestExpoPowlaw_process(TestCase):
-    """ 
+    """
     Test the ApproxPowerlawProcess Class.
     """
     def setUp(self):
@@ -114,7 +116,7 @@ class TestExpoPowlaw_process(TestCase):
 
 
 class TestSumExpoPowlaw_process(TestCase):
-    """ 
+    """
     Test the ApproxPowerlawProcess Class.
     """
     def setUp(self):

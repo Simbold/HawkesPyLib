@@ -1,14 +1,16 @@
-import numpy as np
+import os
 from unittest import TestCase, mock
+
+import numpy as np
+
 from HawkesPyLib.inference import ApproxPowerlawHawkesProcessInference
 from HawkesPyLib.processes import generate_eval_grid
-import os 
 
 file_path = fpath = os.path.join(os.path.dirname(__file__), "timestamp_fixture.csv")
 timestamps = np.loadtxt(file_path, delimiter=",", dtype=float)
 
 class TestApproxPowlaw_estimate(TestCase):
-    """ 
+    """
     Test the ApproxPowerlawInference Class.
     """
     def setUp(self):
@@ -84,7 +86,7 @@ class TestApproxPowlaw_estimate_grid(TestCase):
     """ Class for testing the estimate_grid method """
     def setUp(self):
         self.timestamps = np.array([2.3083755,  2.32075025, 2.45105384, 2.70743681, 3.26019467,
-                                    3.27231931, 9.53121707, 9.56803776, 9.59677089]) 
+                                    3.27231931, 9.53121707, 9.56803776, 9.59677089])
         self.m = 5.
         self.M = 4
         self.T = 50.0
@@ -108,7 +110,7 @@ class TestApproxPowlaw_estimate_grid(TestCase):
             PowlawEst = ApproxPowerlawHawkesProcessInference("powlaw", self.m, self.M, self.rng)
             PowlawEst.estimate_grid(self.timestamps, self.T, "custom", custom_grid=custom_grid)
         self.assertEqual(patched_function.call_count, len(custom_grid))
-    
+
     def test_powlaw_cut_calls_correct_mle(self):
         """ Check if mle function called correct and the correct number of times """
         with mock.patch("HawkesPyLib.inference.uvhp_powlaw_cut_mle") as patched_function:
@@ -176,39 +178,41 @@ class TestApproxPowlaw_compensator(TestCase):
         PowlawEst = ApproxPowerlawHawkesProcessInference("powlaw", self.m, self.M)
         with self.assertRaises(Exception):
             PowlawEst.compensator()
-    
+
     def test_calls_correct_compensator(self):
         """ Check if compensator function called correct and the correct with correct params """
         with mock.patch("HawkesPyLib.processes.uvhp_approx_powl_compensator") as patched_function:
             PowlawEst = ApproxPowerlawHawkesProcessInference("powlaw", self.m, self.M)
             PowlawEst.estimate(self.timestamps, self.T)
             PowlawEst.compensator()
-        patched_function.assert_called_once_with(self.timestamps, PowlawEst.mu, PowlawEst.eta, PowlawEst.alpha, PowlawEst.tau0, self.m, self.M)
+        patched_function.assert_called_once_with(self.timestamps, PowlawEst.mu, PowlawEst.eta, PowlawEst.alpha,
+                                                 PowlawEst.tau0, self.m, self.M)
 
         with mock.patch("HawkesPyLib.processes.uvhp_approx_powl_cut_compensator") as patched_function:
             PowlawEst = ApproxPowerlawHawkesProcessInference("powlaw-cutoff", self.m, self.M)
             PowlawEst.estimate(self.timestamps, self.T)
             PowlawEst.compensator()
-        patched_function.assert_called_once_with(self.timestamps, PowlawEst.mu, PowlawEst.eta, PowlawEst.alpha, PowlawEst.tau0, self.m, self.M)
+        patched_function.assert_called_once_with(self.timestamps, PowlawEst.mu, PowlawEst.eta, PowlawEst.alpha,
+                                                 PowlawEst.tau0, self.m, self.M)
 
 
 class TestApproxPowlaw_intensity(TestCase):
     """ Tests the method intensity """
     def setUp(self):
         self.timestamps = np.array([2.3083755,  2.32075025, 2.45105384, 2.70743681, 3.26019467,
-                                    3.27231931, 9.53121707, 9.56803776, 9.59677089]) 
+                                    3.27231931, 9.53121707, 9.56803776, 9.59677089])
         self.T = 50.0
         self.step_size = 0.1
         self.m = 5.
         self.M = 4
-        
+
 
     def test_params_set_check(self):
         """ test if method refuses if model paramters not set """
         PowlawEst = ApproxPowerlawHawkesProcessInference("powlaw-cutoff", self.m, self.M)
         with self.assertRaises(Exception):
             PowlawEst.intensity()
-    
+
     def test_calls_correct_intensity(self):
         """ Check if intensity function called correct and the correct with correct params """
         # cutoff
@@ -216,7 +220,7 @@ class TestApproxPowlaw_intensity(TestCase):
             PowlawEst = ApproxPowerlawHawkesProcessInference("powlaw-cutoff", self.m, self.M)
             PowlawEst.estimate(self.timestamps, self.T)
             PowlawEst.intensity(self.step_size)
-        
+
         grid = generate_eval_grid(self.step_size, self.T)
         patched_function.assert_called_once()
         np.testing.assert_array_equal(self.timestamps, patched_function.call_args[0][0])
@@ -231,7 +235,7 @@ class TestApproxPowlaw_intensity(TestCase):
             PowlawEst = ApproxPowerlawHawkesProcessInference("powlaw", self.m, self.M)
             PowlawEst.estimate(self.timestamps, self.T)
             PowlawEst.intensity(self.step_size)
-        
+
         grid = generate_eval_grid(self.step_size, self.T)
         patched_function.assert_called_once()
         np.testing.assert_array_equal(self.timestamps, patched_function.call_args[0][0])
@@ -246,7 +250,7 @@ class TestApproxPowl_kernel_values(TestCase):
     """ Tests the kernel_values method"""
     def setUp(self):
         self.timestamps = np.array([2.3083755,  2.32075025, 2.45105384, 2.70743681, 3.26019467,
-                                    3.27231931, 9.53121707, 9.56803776, 9.59677089]) 
+                                    3.27231931, 9.53121707, 9.56803776, 9.59677089])
         self.T = 10.0
         self.step_size = 0.1
         self.m = 5.
@@ -296,7 +300,7 @@ class TestAproxPowl_compute_logL(TestCase):
     """ Tests the compute logL method"""
     def setUp(self):
         self.timestamps = np.array([2.3083755,  2.32075025, 2.45105384, 2.70743681, 3.26019467,
-                                    3.27231931, 9.53121707, 9.56803776, 9.59677089]) 
+                                    3.27231931, 9.53121707, 9.56803776, 9.59677089])
         self.T = 10.0
         self.step_size = 0.1
         self.m = 5.

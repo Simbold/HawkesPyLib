@@ -1,19 +1,21 @@
-import numpy as np
+import os
 from unittest import TestCase, mock
-from HawkesPyLib.inference import SumExpHawkesProcessInference
+
+import numpy as np
+
 from HawkesPyLib.core.intensity import generate_eval_grid
-import os 
+from HawkesPyLib.inference import SumExpHawkesProcessInference
 
 file_path = fpath = os.path.join(os.path.dirname(__file__), "timestamp_fixture.csv")
 timestamps = np.loadtxt(file_path, delimiter=",", dtype=float)
 
 class TestSumExpo_estimate(TestCase):
-    """ 
+    """
     Test the SumExpHawkesProcessInference .estimate method.
     """
     def setUp(self):
         self.timestamps = np.array([2.3083755,  2.32075025, 2.45105384, 2.70743681, 3.26019467,
-                                    3.27231931, 9.53121707, 9.56803776, 9.59677089]) 
+                                    3.27231931, 9.53121707, 9.56803776, 9.59677089])
         self.P = 3
         self.T = 50.0
         self.rng = np.random.default_rng(242)
@@ -71,7 +73,7 @@ class TestSumExpo_estimate_grid(TestCase):
     """ Class for testing the estimate_grid method """
     def setUp(self):
         self.timestamps = np.array([2.3083755,  2.32075025, 2.45105384, 2.70743681, 3.26019467,
-                                    3.27231931, 9.53121707, 9.56803776, 9.59677089]) 
+                                    3.27231931, 9.53121707, 9.56803776, 9.59677089])
         self.P = 3
         self.T = 50.0
         self.rng = np.random.default_rng(242)
@@ -130,34 +132,12 @@ class TestSumExpo_estimate_grid(TestCase):
         self.assertTrue(hasattr(SumExpoEst, "_timestamps_set"))
         self.assertTrue(hasattr(SumExpoEst, "_grid_size"))
 
-class TestSumExpo_compensator(TestCase):
-    """ Tests the method compensator """
-    def setUp(self):
-        self.timestamps = np.array([2.3083755,  2.32075025, 2.45105384, 2.70743681, 3.26019467,
-                                    3.27231931, 9.53121707, 9.56803776, 9.59677089]) 
-        self.P = 3
-        self.T = 50.0
-
-    def test_params_set_check(self):
-        """ test if method refuses if model not yet succesfully estimated """
-        SumExpoEst = SumExpHawkesProcessInference(self.P)
-        with self.assertRaises(Exception):
-            SumExpoEst.compensator()
-    
-    def test_calls_correct_comp(self):
-        """ Check if compensator function called correct and the correct with correct params """
-        with mock.patch("HawkesPyLib.inference.uvhp_sum_expo_compensator") as patched_function:
-            SumExpoEst = SumExpHawkesProcessInference(self.P)
-            SumExpoEst.estimate(self.timestamps, self.T)
-            SumExpoEst.compensator()
-        patched_function.assert_called_once_with(self.timestamps, SumExpoEst.mu, SumExpoEst.eta, SumExpoEst.theta_vec)
-
 
 class TestSumExpo_intensity(TestCase):
     """ Tests the intensity method"""
     def setUp(self):
         self.timestamps = np.array([2.3083755,  2.32075025, 2.45105384, 2.70743681, 3.26019467,
-                                    3.27231931, 9.53121707, 9.56803776, 9.59677089]) 
+                                    3.27231931, 9.53121707, 9.56803776, 9.59677089])
         self.P = 3
         self.T = 50.0
         self.step_size = 0.1
@@ -167,7 +147,7 @@ class TestSumExpo_intensity(TestCase):
         SumExpoEst = SumExpHawkesProcessInference(self.P)
         with self.assertRaises(Exception):
             SumExpoEst.intensity(self.step_size)
-    
+
     def test_calls_correct_intensity(self):
         """ Check if intensity function called correct and the with correct params """
         with mock.patch("HawkesPyLib.processes.uvhp_sum_expo_intensity") as patched_function:
@@ -189,7 +169,7 @@ class TestSumExpo_compensator(TestCase):
     """ Tests the compensator method"""
     def setUp(self):
         self.timestamps = np.array([2.3083755,  2.32075025, 2.45105384, 2.70743681, 3.26019467,
-                                    3.27231931, 9.53121707, 9.56803776, 9.59677089]) 
+                                    3.27231931, 9.53121707, 9.56803776, 9.59677089])
         self.P = 3
         self.T = 50.0
 
@@ -218,7 +198,7 @@ class TestSumExpo_kernel_values(TestCase):
     """ Tests the kernel_values method"""
     def setUp(self):
         self.timestamps = np.array([2.3083755,  2.32075025, 2.45105384, 2.70743681, 3.26019467,
-                                    3.27231931, 9.53121707, 9.56803776, 9.59677089]) 
+                                    3.27231931, 9.53121707, 9.56803776, 9.59677089])
         self.P = 3
         self.T = 50.0
         self.times = np.linspace(0, 2, 100)
@@ -246,7 +226,7 @@ class TestSumExpo_compute_logL(TestCase):
     """ Tests the compute logL method"""
     def setUp(self):
         self.timestamps = np.array([2.3083755,  2.32075025, 2.45105384, 2.70743681, 3.26019467,
-                                    3.27231931, 9.53121707, 9.56803776, 9.59677089]) 
+                                    3.27231931, 9.53121707, 9.56803776, 9.59677089])
         self.P = 3
         self.T = 50.
 

@@ -1,19 +1,21 @@
-import numpy as np
+import os
 from unittest import TestCase, mock
+
+import numpy as np
+
 from HawkesPyLib.inference import ExpHawkesProcessInference
 from HawkesPyLib.processes import generate_eval_grid
-import os 
 
 file_path = fpath = os.path.join(os.path.dirname(__file__), "timestamp_fixture.csv")
 timestamps =  np.loadtxt(file_path, delimiter=",", dtype=float)
 
 class TestExpo_estimate(TestCase):
-    """ 
+    """
     Test the .estimate method.
     """
     def setUp(self):
         self.timestamps = np.array([2.3083755,  2.32075025, 2.45105384, 2.70743681, 3.26019467,
-                                    3.27231931, 9.53121707, 9.56803776, 9.59677089]) 
+                                    3.27231931, 9.53121707, 9.56803776, 9.59677089])
         self.T = 50.0
         self.rng = np.random.default_rng(242)
         self.param_vec0 = np.array([0.6, 0.5, 0.4, 0.9])
@@ -70,7 +72,7 @@ class TestExpo_estimate_grid(TestCase):
     """ Class for testing the estimate_grid method """
     def setUp(self):
         self.timestamps = np.array([2.3083755,  2.32075025, 2.45105384, 2.70743681, 3.26019467,
-                                    3.27231931, 9.53121707, 9.56803776, 9.59677089]) 
+                                    3.27231931, 9.53121707, 9.56803776, 9.59677089])
         self.P = 3
         self.T = 50.0
         self.rng = np.random.default_rng(242)
@@ -132,7 +134,7 @@ class TestExpo_compensator(TestCase):
     """ Tests the method compensator """
     def setUp(self):
         self.timestamps = np.array([2.3083755,  2.32075025, 2.45105384, 2.70743681, 3.26019467,
-                                    3.27231931, 9.53121707, 9.56803776, 9.59677089]) 
+                                    3.27231931, 9.53121707, 9.56803776, 9.59677089])
         self.P = 3
         self.T = 50.0
         self.rng = np.random.default_rng(242)
@@ -142,7 +144,7 @@ class TestExpo_compensator(TestCase):
         ExpoEst = ExpHawkesProcessInference()
         with self.assertRaises(Exception):
             ExpoEst.compensator()
-    
+
     def test_calls_correct_comp(self):
         """ Check if compensator function called correct and the correct with correct params """
         with mock.patch("HawkesPyLib.processes.uvhp_expo_compensator") as patched_function:
@@ -156,7 +158,7 @@ class TestExpo_intensity(TestCase):
     """ Tests the method intensity """
     def setUp(self):
         self.timestamps = np.array([2.3083755,  2.32075025, 2.45105384, 2.70743681, 3.26019467,
-                                    3.27231931, 9.53121707, 9.56803776, 9.59677089]) 
+                                    3.27231931, 9.53121707, 9.56803776, 9.59677089])
         self.T = 50.0
         self.step_size = 0.1
 
@@ -165,14 +167,14 @@ class TestExpo_intensity(TestCase):
         ExpoEst = ExpHawkesProcessInference()
         with self.assertRaises(Exception):
             ExpoEst.intensity()
-    
+
     def test_calls_correct_comp(self):
         """ Check if intensity function called correct and the correct with correct params """
         with mock.patch("HawkesPyLib.processes.uvhp_expo_intensity") as patched_function:
             ExpoEst = ExpHawkesProcessInference()
             ExpoEst.estimate(self.timestamps, self.T)
             ExpoEst.intensity(self.step_size)
-        
+
         grid = generate_eval_grid(self.step_size, self.T)
         patched_function.assert_called_once()
         np.testing.assert_array_equal(self.timestamps, patched_function.call_args[0][0])
@@ -185,7 +187,7 @@ class TestExpo_kernel_values(TestCase):
     """ Tests the kernel_values method"""
     def setUp(self):
         self.timestamps = np.array([2.3083755,  2.32075025, 2.45105384, 2.70743681, 3.26019467,
-                                    3.27231931, 9.53121707, 9.56803776, 9.59677089]) 
+                                    3.27231931, 9.53121707, 9.56803776, 9.59677089])
         self.T = 50.0
         self.times = np.linspace(0, 2, 100)
 
@@ -212,7 +214,7 @@ class TestExpo_compute_logL(TestCase):
     """ Tests the compute logL method"""
     def setUp(self):
         self.timestamps = np.array([2.3083755,  2.32075025, 2.45105384, 2.70743681, 3.26019467,
-                                    3.27231931, 9.53121707, 9.56803776, 9.59677089]) 
+                                    3.27231931, 9.53121707, 9.56803776, 9.59677089])
         self.T = 50.
 
     def test_params_set_check(self):

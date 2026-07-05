@@ -1,9 +1,9 @@
 import numpy as np
-from numba import jit, float64
+from numba import float64, njit
 from numba.types import int32
 
 
-@jit(float64[:](float64[:], float64, float64, float64), nopython=True, cache=False, nogil=True)
+@njit(float64[:](float64[:], float64, float64, float64), cache=False, nogil=True)
 def uvhp_expo_compensator(sample_vec: np.ndarray, mu: float, eta: float, theta: float) -> np.ndarray:
     """Computes the compensator for a Hawkes procss with single exponential kernel.
 
@@ -32,8 +32,8 @@ def uvhp_expo_compensator(sample_vec: np.ndarray, mu: float, eta: float, theta: 
     return it
 
 
-@jit(float64[:](float64[:], float64, float64, float64, float64, float64, int32),
-     nopython=True, cache=False, nogil=True)
+@njit(float64[:](float64[:], float64, float64, float64, float64, float64, int32),
+     cache=False, nogil=True)
 def uvhp_approx_powl_compensator(sample_vec: np.ndarray, mu: float, eta: float, alpha: float,
                                  tau: float, m: float, M: int) -> np.ndarray:
     """Computes the compensator for a Hawkes procss with approximate power-law kernel.
@@ -78,7 +78,7 @@ def uvhp_approx_powl_compensator(sample_vec: np.ndarray, mu: float, eta: float, 
     return it
 
 
-@jit(float64[:](float64[:], float64, float64, float64, float64, float64, int32), nopython=True, cache=False, nogil=True)
+@njit(float64[:](float64[:], float64, float64, float64, float64, float64, int32), cache=False, nogil=True)
 def uvhp_approx_powl_cut_compensator(sample_vec, mu, eta, alpha, tau, m, M) -> np.ndarray:
     """Computes the compensator for a Hawkes procss with approximate power-law kernel with cutoff.
 
@@ -128,7 +128,7 @@ def uvhp_approx_powl_cut_compensator(sample_vec, mu, eta, alpha, tau, m, M) -> n
     return it
 
 
-@jit(float64[:](float64[:], float64, float64, float64[:]), nopython=True, cache=False, nogil=True)
+@njit(float64[:](float64[:], float64, float64, float64[:]), cache=False, nogil=True)
 def uvhp_sum_expo_compensator(sample_vec: np.ndarray, mu: float, eta: float, theta_vec: np.ndarray) -> np.ndarray:
     """Computes the compensator for a Hawkes procss with P-sum exponential kernel.
 

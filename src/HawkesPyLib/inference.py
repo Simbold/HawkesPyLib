@@ -1,14 +1,17 @@
 import numpy as np
 from scipy.optimize import fmin_l_bfgs_b
-from HawkesPyLib.processes import UnivariateHawkesProcess
+
 from HawkesPyLib.core.intensity import generate_eval_grid
-from HawkesPyLib.core.logll import (uvhp_approx_powl_logL,
-                                    uvhp_approx_powl_cut_logL,
-                                    uvhp_expo_logL,
-                                    uvhp_expo_logL_grad,
-                                    uvhp_sum_expo_logL,
-                                    uvhp_sum_expo_logL_grad)
-from HawkesPyLib.util import OneOf, IntInExRange, PositiveOrderedFloatNdarray
+from HawkesPyLib.core.logll import (
+    uvhp_approx_powl_cut_logL,
+    uvhp_approx_powl_logL,
+    uvhp_expo_logL,
+    uvhp_expo_logL_grad,
+    uvhp_sum_expo_logL,
+    uvhp_sum_expo_logL_grad,
+)
+from HawkesPyLib.processes import UnivariateHawkesProcess
+from HawkesPyLib.util import IntInExRange, OneOf, PositiveOrderedFloatNdarray
 
 rng = np.random.default_rng()
 __all__ = ["ExpHawkesProcessInference", "SumExpHawkesProcessInference",
@@ -53,7 +56,7 @@ def uvhp_sum_expo_mle(timestamps: np.ndarray, T: float, P: int, param_vec0: np.n
             (also see scipy.optimize.fmin_l_bfgs_b for more info)
     """
     bnds = [(1e-10, np.inf), (1e-10, 9.9999999e-1)]
-    for k in range(0, P):
+    for _ in range(P):
         bnds.append((1e-10, np.inf))
     opt_result = fmin_l_bfgs_b(func=uvhp_sum_expo_logL, x0=param_vec0, fprime=uvhp_sum_expo_logL_grad,
                                args=(timestamps, T), approx_grad=False, bounds=bnds,
@@ -764,7 +767,7 @@ class ApproxPowerlawHawkesProcessInference(UnivariateHawkesProcess):
         return self.mu, self.eta, self.alpha, self.tau0, self._m, self._M
 
 
-class PoissonProcessInference():
+class PoissonProcessInference:
     r""" Class for fitting of a homogenous Poisson process with constant rate parameter `mu`.
          The Poisson process is fitted given arrival times in the half open intervall (0, T].
          In contrast to Hawkes processes, the intensity function \( \lambda(t) \),

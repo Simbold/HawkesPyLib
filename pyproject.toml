@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=65.0", "wheel"]
+requires = ["setuptools>=77.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,8 +7,9 @@ name = "HawkesPyLib"
 version = "0.2.2"
 description = "Python library for simulation and inference of Hawkes processes"
 readme = "README.md"
-license = {text = "MIT"}
-requires-python = ">=3.8"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
 authors = [
     { name = "Simon Grimm" },
 ]
@@ -18,30 +19,28 @@ keywords = [
     "point-process",
 ]
 classifiers = [
-    "License :: OSI Approved :: MIT License",
     "Natural Language :: English",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Intended Audience :: Developers",
-    "Intended Audience :: Science/Research"
+    "Intended Audience :: Science/Research",
 ]
 dependencies = [
-
-    "numba>=0.56",
-    "numpy>=1.23",
-    "scipy>=1.9",
+    "numba>=0.61",
+    "numpy>=1.24",
+    "scipy>=1.10",
 ]
 
 [project.optional-dependencies]
 testing = [
-    "pytest>=7.2",
-    "flake8>=3.9",
-    "tox>=3.24",
+    "pytest>=7.4",
+    "ruff>=0.5",
+    "tox>=4.0",
 ]
 
 [project.urls]
@@ -51,5 +50,13 @@ Source = "https://github.com/Simbold/HawkesPyLib"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
-[tool.flake8]
-    max-line-length = 140
+[tool.ruff]
+line-length = 140
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+# Tests intentionally assert that *some* exception is raised for invalid input.
+"tests/*" = ["B017"]

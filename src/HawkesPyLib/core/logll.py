@@ -1,9 +1,9 @@
 import numpy as np
-from numba import jit, float64
+from numba import float64, njit
 from numba.types import int32
 
 
-@jit(float64(float64[:], float64[:], float64), nopython=True, cache=False, nogil=True)
+@njit(float64(float64[:], float64[:], float64), cache=False, nogil=True)
 def uvhp_expo_logL(param_vec: np.ndarray, sample_vec: np.ndarray, tn: float) -> float:
     """ Log-likelihood function for a Hawkes Process with single exponential kernel
 
@@ -41,7 +41,7 @@ def uvhp_expo_logL(param_vec: np.ndarray, sample_vec: np.ndarray, tn: float) -> 
     return -logL
 
 
-@jit(float64[:](float64[:], float64[:], float64), nopython=True, cache=False, nogil=True)
+@njit(float64[:](float64[:], float64[:], float64), cache=False, nogil=True)
 def uvhp_expo_logL_grad(param_vec: np.ndarray, sample_vec: np.ndarray, tn: float) -> np.ndarray:
     """ Gradient of the log-likelihood function for a Hawkes Process with single exponential kernel
 
@@ -99,7 +99,7 @@ def uvhp_expo_logL_grad(param_vec: np.ndarray, sample_vec: np.ndarray, tn: float
     return np.array([-mu_grad, -eta_grad, -theta_grad])
 
 
-@jit(float64(float64[:], float64[:], float64), nopython=True, cache=False, nogil=True)
+@njit(float64(float64[:], float64[:], float64), cache=False, nogil=True)
 def uvhp_sum_expo_logL(param_vec: np.ndarray, sample_vec: np.ndarray, tn: float) -> float:
     """ Log-likelihood function for a Hawkes Process with P-sum exponential kernel
 
@@ -148,7 +148,7 @@ def uvhp_sum_expo_logL(param_vec: np.ndarray, sample_vec: np.ndarray, tn: float)
     return -logL
 
 
-@jit(float64[:](float64[:], float64[:], float64), nopython=True, cache=False, nogil=True)
+@njit(float64[:](float64[:], float64[:], float64), cache=False, nogil=True)
 def uvhp_sum_expo_logL_grad(param_vec: np.ndarray, sample_vec: np.ndarray, tn: float) -> np.ndarray:
     """ Gradient of the log-likelihood function for a Hawkes Process with P-sum exponential kernel
 
@@ -225,7 +225,7 @@ def uvhp_sum_expo_logL_grad(param_vec: np.ndarray, sample_vec: np.ndarray, tn: f
     return np.append(np.append(-mu_grad, -eta_grad), -theta_grad)
 
 
-@jit(float64(float64[:], float64[:], float64, float64, int32), nopython=True, cache=False, nogil=True)
+@njit(float64(float64[:], float64[:], float64, float64, int32), cache=False, nogil=True)
 def uvhp_approx_powl_cut_logL(param_vec: np.ndarray, sample_vec: np.ndarray, tn: float, m: float, M: int) -> float:
     """Log-likelihood function for a Hawkes Process with approximate power-law kernel with cutoff component
 
@@ -305,7 +305,7 @@ def uvhp_approx_powl_cut_logL(param_vec: np.ndarray, sample_vec: np.ndarray, tn:
     return -logL
 
 
-@jit(float64(float64[:], float64[:], float64, float64, int32), nopython=True, cache=False, nogil=True)
+@njit(float64(float64[:], float64[:], float64, float64, int32), cache=False, nogil=True)
 def uvhp_approx_powl_logL(param_vec: np.ndarray, sample_vec: np.ndarray, tn: float, m: float, M: int) -> float:
     """Log-likelihood function for a Hawkes Process with approximate power-law kernel without cutoff component
 

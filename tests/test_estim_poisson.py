@@ -1,7 +1,10 @@
-import numpy as np
 from unittest import TestCase
+
+import numpy as np
+
 from HawkesPyLib.inference import PoissonProcessInference
 from HawkesPyLib.simulation import PoissonProcessSimulation
+
 
 class TestPoissonInference(TestCase):
     """
@@ -37,7 +40,7 @@ class TestPoissonInference(TestCase):
         """ test Poisson estimate method """
         PoisEst = PoissonProcessInference()
         mu_actual, logL = PoisEst.estimate(self.timestamps, self.T, return_result=True)
-        
+
         self.assertTrue((abs(mu_actual - self.mu) / self.mu) < 0.01)
 
         # test attributes set correctly

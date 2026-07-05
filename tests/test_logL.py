@@ -1,30 +1,34 @@
-import numpy as np
-import os 
+import os
 from unittest import TestCase
-from HawkesPyLib.inference import (uvhp_approx_powl_logL,
-                                    uvhp_approx_powl_cut_logL,
-                                    uvhp_expo_logL,
-                                    uvhp_expo_logL_grad,
-                                    uvhp_sum_expo_logL,
-                                    uvhp_sum_expo_logL_grad)
+
+import numpy as np
+
+from HawkesPyLib.inference import (
+    uvhp_approx_powl_cut_logL,
+    uvhp_approx_powl_logL,
+    uvhp_expo_logL,
+    uvhp_expo_logL_grad,
+    uvhp_sum_expo_logL,
+    uvhp_sum_expo_logL_grad,
+)
 
 file_path = fpath = os.path.join(os.path.dirname(__file__), "timestamp_fixture.csv")
 
 class TestExpo_logL(TestCase):
-    """ 
+    """
     Test the negative logL of single exponential Hawkes processes
     """
     def setUp(self):
-        self.timestamps = np.loadtxt(file_path, delimiter=",", dtype=float)  
+        self.timestamps = np.loadtxt(file_path, delimiter=",", dtype=float)
         self.T = 50.0
         self.param_vec = np.array([0.5, 0.7, 0.001])
 
     def test_nlogL(self):
-        
+
         actual = uvhp_expo_logL(self.param_vec, self.timestamps, self.T)
         desired = -113.6532979778095295841922052204608917236328125000000000000000000000
         self.assertEqual(actual, desired)
-    
+
     def test_nlogL_empty(self):
         actual = uvhp_expo_logL(self.param_vec, np.array([]), self.T)
         desired = self.param_vec[0] * self.T
@@ -45,16 +49,16 @@ class TestExpo_logL(TestCase):
 class TestSumExpo_logL(TestCase):
     """ Test the negative logL of sum-expo Hawkes process """
     def setUp(self):
-        self.timestamps = np.loadtxt(file_path, delimiter=",", dtype=float)  
+        self.timestamps = np.loadtxt(file_path, delimiter=",", dtype=float)
         self.T = 50.0
         self.param_vec = np.array([0.5, 0.7, 0.001, 1.0, 0.5])
 
     def test_nlogL(self):
-        
+
         actual = uvhp_sum_expo_logL(self.param_vec, self.timestamps, self.T)
         desired = -88.2822143534869496761530172079801559448242187500000000000000000000
         self.assertEqual(actual, desired)
-    
+
     def test_nlogL_empty(self):
         actual = uvhp_sum_expo_logL(self.param_vec, np.array([]), self.T)
         desired = self.param_vec[0] * self.T
@@ -77,18 +81,18 @@ class TestSumExpo_logL(TestCase):
 class TestPowlaw_logL(TestCase):
     """ Test the negative logL of powlaw Hawkes process """
     def setUp(self):
-        self.timestamps = np.loadtxt(file_path, delimiter=",", dtype=float)  
+        self.timestamps = np.loadtxt(file_path, delimiter=",", dtype=float)
         self.T = 50.0
         self.param_vec = np.array([0.5, 0.7, 0.3, 0.01])
         self.m = 5.
         self.M = 4
 
     def test_nlogL(self):
-        
+
         actual = uvhp_approx_powl_logL(self.param_vec, self.timestamps, self.T, self.m, self.M)
         desired = -68.7895819934511223436857108026742935180664062500000000000000000000
         self.assertEqual(actual, desired)
-    
+
     def test_nlogL_empty(self):
         actual = uvhp_approx_powl_logL(self.param_vec, np.array([]), self.T, self.m, self.M)
         desired = self.param_vec[0] * self.T
@@ -97,18 +101,18 @@ class TestPowlaw_logL(TestCase):
 class TestPowlaw_cutoff_logL(TestCase):
     """ Test the negative logL of powlaw-cutoff Hawkes process """
     def setUp(self):
-        self.timestamps = np.loadtxt(file_path, delimiter=",", dtype=float)  
+        self.timestamps = np.loadtxt(file_path, delimiter=",", dtype=float)
         self.T = 50.0
         self.param_vec = np.array([0.5, 0.7, 0.3, 0.01])
         self.m = 5.
         self.M = 4
 
     def test_nlogL(self):
-        
+
         actual = uvhp_approx_powl_cut_logL(self.param_vec, self.timestamps, self.T, self.m, self.M)
         desired = -41.1549331471721302477817516773939132690429687500000000000000000000
         self.assertEqual(actual, desired)
-    
+
     def test_nlogL_empty(self):
         actual = uvhp_approx_powl_cut_logL(self.param_vec, np.array([]), self.T, self.m, self.M)
         desired = self.param_vec[0] * self.T
