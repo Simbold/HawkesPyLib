@@ -35,8 +35,8 @@ def uvhp_expo_mle(timestamps: np.ndarray, T: float, param_vec0: np.ndarray) -> l
     bnds = [(1e-10, np.inf), (1e-10, 9.9999999e-1), (1e-10, np.inf)]
     opt_result = fmin_l_bfgs_b(func=uvhp_expo_logL, x0=param_vec0, fprime=uvhp_expo_logL_grad,
                                args=(timestamps, T), approx_grad=False, bounds=bnds,
-                               m=10, factr=100, pgtol=1e-05, iprint=-1, maxfun=15000,
-                               maxiter=15000, disp=None, callback=None, maxls=20)
+                               m=10, factr=100, pgtol=1e-05, maxfun=15000,
+                               maxiter=15000, callback=None, maxls=20)
     return opt_result
 
 
@@ -60,8 +60,8 @@ def uvhp_sum_expo_mle(timestamps: np.ndarray, T: float, P: int, param_vec0: np.n
         bnds.append((1e-10, np.inf))
     opt_result = fmin_l_bfgs_b(func=uvhp_sum_expo_logL, x0=param_vec0, fprime=uvhp_sum_expo_logL_grad,
                                args=(timestamps, T), approx_grad=False, bounds=bnds,
-                               m=10, factr=100, pgtol=1e-05, iprint=- 1, maxfun=15000,
-                               maxiter=15000, disp=None, callback=None, maxls=20)
+                               m=10, factr=100, pgtol=1e-05, maxfun=15000,
+                               maxiter=15000, callback=None, maxls=20)
     return opt_result
 
 
@@ -84,8 +84,8 @@ def uvhp_powlaw_mle(timestamps: np.ndarray, T: float, m: float, M: int, param_ve
     bnds = [(1e-10, np.inf), (1e-10, 9.9999999e-1), (1e-10, 10), (1e-10, np.inf)]
     opt_result = fmin_l_bfgs_b(func=uvhp_approx_powl_logL, x0=param_vec0, fprime=None,
                                args=(timestamps, T, m, M), approx_grad=True, bounds=bnds,
-                               m=10, factr=100, epsilon=1e-07, pgtol=1e-05, iprint=- 1,
-                               maxfun=15000, maxiter=15000, disp=None, callback=None, maxls=20)
+                               m=10, factr=100, epsilon=1e-07, pgtol=1e-05,
+                               maxfun=15000, maxiter=15000, callback=None, maxls=20)
     return opt_result
 
 
@@ -108,8 +108,8 @@ def uvhp_powlaw_cut_mle(timestamps: np.ndarray, T: float, m: float, M: int, para
     bnds = [(1e-10, np.inf), (1e-8, 9.9999999e-1), (1e-10, 10), (1e-10, np.inf)]
     opt_result = fmin_l_bfgs_b(func=uvhp_approx_powl_cut_logL, x0=param_vec0, fprime=None,
                                args=(timestamps, T, m, M), approx_grad=True, bounds=bnds,
-                               m=10, factr=100, epsilon=1e-07, pgtol=1e-05, iprint=- 1,
-                               maxfun=15000, maxiter=15000, disp=None, callback=None, maxls=20)
+                               m=10, factr=100, epsilon=1e-07, pgtol=1e-05,
+                               maxfun=15000, maxiter=15000, callback=None, maxls=20)
     return opt_result
 
 
