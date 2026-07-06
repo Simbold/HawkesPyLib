@@ -24,6 +24,13 @@ JIT-compiled with numba.
 - **Supported Python:** ≥ 3.10. Runtime deps: `numpy`, `scipy`, `numba`
   (numpy 2.x compatible).
 
+## Releasing
+Publishing is tag-driven via GitHub Actions with PyPI Trusted Publishing (OIDC —
+no tokens). Bump `version` in `pyproject.toml`, then push a matching tag; CI checks
+the tag equals the package version before publishing.
+- **Test release → TestPyPI:** version `X.Y.ZrcN`, tag `vX.Y.ZrcN` (e.g. `v0.3.0rc1`).
+- **Final release → PyPI:** version `X.Y.Z`, tag `vX.Y.Z` (e.g. `v0.3.0`).
+
 ## Conventions that matter
 - Functions in `src/HawkesPyLib/core/` are compiled with numba `@njit` using
   **explicit type signatures**, e.g.
