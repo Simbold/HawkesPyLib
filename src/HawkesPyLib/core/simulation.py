@@ -1,9 +1,9 @@
 import numpy as np
-from numba import jit, float64
+from numba import float64, njit
 from numba.types import int32
 
 
-@jit(float64[:](float64, float64, int32), nopython=False, cache=False, nogil=True)
+@njit(float64[:](float64, float64, int32), cache=False, nogil=True)
 def homogenous_poisson_simulator(T: float, mu: float, seed: int = 0) -> np.ndarray:
     """Simulates a homogenous Poisson process with constant intensity mu.
 
@@ -41,8 +41,8 @@ def homogenous_poisson_simulator(T: float, mu: float, seed: int = 0) -> np.ndarr
         return t_arr[0:(n+1)]
 
 
-@jit(float64[:](float64, float64, float64, float64, float64, float64, int32, int32),
-     nopython=False, cache=False, nogil=True, fastmath=True)
+@njit(float64[:](float64, float64, float64, float64, float64, float64, int32, int32),
+     cache=False, nogil=True, fastmath=True)
 def uvhp_approx_powl_cutoff_simulator(T: float, mu: float, eta: float, alpha: float,
                                       tau: float, m: float, M: int, seed: int = 0) -> np.ndarray:
     """Simulates a Hawkes process with approximate power-law memory kernel.
@@ -131,7 +131,7 @@ def uvhp_approx_powl_cutoff_simulator(T: float, mu: float, eta: float, alpha: fl
     return t_arr[0:(i+1)]
 
 
-@jit(float64[:](float64, float64, float64, float64, int32), nopython=True, cache=False, nogil=True, fastmath=True)
+@njit(float64[:](float64, float64, float64, float64, int32), cache=False, nogil=True, fastmath=True)
 def uvhp_expo_simulator(T: float, mu: float, eta: float, theta: float, seed: int = 0) -> np.ndarray:
     """Simulates a Hawkes process with single exponential memory kernel.
         Implements Ogata's modified thinning algorithm as described in algorithm 2 in (Ogata 1981).
@@ -194,8 +194,8 @@ def uvhp_expo_simulator(T: float, mu: float, eta: float, theta: float, seed: int
     return t_arr[0:(i+1)]
 
 
-@jit(float64[:](float64, float64, float64, float64, float64, float64, int32, int32),
-     nopython=True, cache=False, nogil=True, fastmath=True)
+@njit(float64[:](float64, float64, float64, float64, float64, float64, int32, int32),
+     cache=False, nogil=True, fastmath=True)
 def uvhp_approx_powl_simulator(T: float, mu: float, eta: float, alpha: float,
                                tau: float, m: float, M: int, seed: int = 0) -> np.ndarray:
     """Simulates a Hawkes process with approximate power-law memory kernel.
@@ -276,7 +276,7 @@ def uvhp_approx_powl_simulator(T: float, mu: float, eta: float, alpha: float,
     return t_arr[0:(i+1)]
 
 
-@jit(float64[:](float64, float64, float64, float64[:], int32), nopython=True, cache=False, nogil=True, fastmath=True)
+@njit(float64[:](float64, float64, float64, float64[:], int32), cache=False, nogil=True, fastmath=True)
 def uvhp_sum_expo_simulator(T: float, mu: float, eta: float, theta_vec: np.ndarray, seed: int = 0) -> np.ndarray:
     """Simulates a Hawkes process with P-sum expoential memory kernel.
         Implements Ogata's modified thinning algorithmas described in algorithm 2 in (Ogata 1981).

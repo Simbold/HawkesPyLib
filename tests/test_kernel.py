@@ -1,9 +1,12 @@
-import numpy as np
 from unittest import TestCase
-from HawkesPyLib.core.kernel import uvhp_expo_kernel, uvhp_sum_expo_kernel, uvhp_approx_powl_kernel, uvhp_approx_powl_cutoff_kernel
+
+import numpy as np
+
+from HawkesPyLib.core.kernel import uvhp_approx_powl_cutoff_kernel, uvhp_approx_powl_kernel, uvhp_expo_kernel, uvhp_sum_expo_kernel
+
 
 class TestHawkesKernels(TestCase):
-    """ 
+    """
     Test the the memory kernel functions
     """
     def setUp(self):
@@ -53,6 +56,6 @@ class TestHawkesKernels(TestCase):
         actual = uvhp_approx_powl_cutoff_kernel(0., self.eta, alpha, tau0, m, M)
         desired = 0.
         self.assertEqual(actual, desired)
-        
+
 
 

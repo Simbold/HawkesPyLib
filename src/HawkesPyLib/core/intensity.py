@@ -1,9 +1,9 @@
 import numpy as np
-from numba import jit, float64
+from numba import float64, njit
 from numba.types import int32
 
 
-@jit(float64[:](float64, float64), nopython=True, cache=False, nogil=True)
+@njit(float64[:](float64, float64), cache=False, nogil=True)
 def generate_eval_grid(step_size: float, T: float) -> np.ndarray:
     """Generates an equidistant grid in the closed interval [0, T]
     with step size given by step_size.
@@ -20,8 +20,8 @@ def generate_eval_grid(step_size: float, T: float) -> np.ndarray:
     return grid
 
 
-@jit(float64[:, :](float64[:], float64[:], float64, float64, float64),
-     nopython=True, cache=False, nogil=True)
+@njit(float64[:, :](float64[:], float64[:], float64, float64, float64),
+     cache=False, nogil=True)
 def uvhp_expo_intensity(sample_vec: np.ndarray, grid: np.ndarray, mu: float,
                         eta: float, theta: float) -> np.ndarray:
     """ Evaluation of the intensity function of a univariate Hawkes process with single exponential kernel
@@ -73,8 +73,8 @@ def uvhp_expo_intensity(sample_vec: np.ndarray, grid: np.ndarray, mu: float,
     return intensity
 
 
-@jit(float64[:, :](float64[:], float64[:], float64, float64, float64[:]),
-     nopython=True, cache=False, nogil=True)
+@njit(float64[:, :](float64[:], float64[:], float64, float64, float64[:]),
+     cache=False, nogil=True)
 def uvhp_sum_expo_intensity(sample_vec: np.ndarray, grid: np.ndarray, mu: float,
                             eta: float, theta_vec: np.ndarray) -> np.ndarray:
     """ Evaluation of the intensity function of a univariate Hawkes process
@@ -139,8 +139,8 @@ def uvhp_sum_expo_intensity(sample_vec: np.ndarray, grid: np.ndarray, mu: float,
     return intensity
 
 
-@jit(float64[:, :](float64[:], float64[:], float64, float64, float64, float64, float64, int32),
-     nopython=True, cache=False, nogil=True)
+@njit(float64[:, :](float64[:], float64[:], float64, float64, float64, float64, float64, int32),
+     cache=False, nogil=True)
 def uvhp_approx_powl_cutoff_intensity(sample_vec: np.ndarray, grid: np.ndarray, mu: float, eta: float,
                                       alpha: float, tau: float, m: float, M: int) -> np.ndarray:
     """ Evaluation of the intensity function of a univariate Hawkes process
@@ -217,8 +217,8 @@ def uvhp_approx_powl_cutoff_intensity(sample_vec: np.ndarray, grid: np.ndarray, 
     return intensity
 
 
-@jit(float64[:, :](float64[:], float64[:], float64, float64, float64, float64, float64, int32),
-     nopython=True, cache=False, nogil=True)
+@njit(float64[:, :](float64[:], float64[:], float64, float64, float64, float64, float64, int32),
+     cache=False, nogil=True)
 def uvhp_approx_powl_intensity(sample_vec: np.ndarray, grid: np.ndarray, mu: float, eta: float,
                                alpha: float, tau: float, m: float, M: int) -> np.ndarray:
     """ Evaluation of the intensity function of a univariate Hawkes process with approximate power-law kernel.

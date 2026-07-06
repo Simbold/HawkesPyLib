@@ -1,31 +1,22 @@
 
 import numpy as np
-from HawkesPyLib.core.intensity import (uvhp_approx_powl_cutoff_intensity,
-                                        uvhp_approx_powl_intensity,
-                                        uvhp_expo_intensity,
-                                        uvhp_sum_expo_intensity,
-                                        generate_eval_grid)
 
-from HawkesPyLib.core.kernel import (uvhp_approx_powl_cutoff_kernel,
-                                     uvhp_approx_powl_kernel,
-                                     uvhp_expo_kernel,
-                                     uvhp_sum_expo_kernel)
-
-from HawkesPyLib.core.compensator import (uvhp_approx_powl_compensator,
-                                          uvhp_approx_powl_cut_compensator,
-                                          uvhp_expo_compensator,
-                                          uvhp_sum_expo_compensator)
-
-from HawkesPyLib.core.logll import (uvhp_approx_powl_logL,
-                                    uvhp_approx_powl_cut_logL,
-                                    uvhp_expo_logL,
-                                    uvhp_sum_expo_logL)
-
-from HawkesPyLib.util import (OneOf,
-                              FloatInExRange,
-                              IntInExRange,
-                              PositiveOrderedFloatNdarray,
-                              PositiveFloatNdarray)
+from HawkesPyLib.core.compensator import (
+    uvhp_approx_powl_compensator,
+    uvhp_approx_powl_cut_compensator,
+    uvhp_expo_compensator,
+    uvhp_sum_expo_compensator,
+)
+from HawkesPyLib.core.intensity import (
+    generate_eval_grid,
+    uvhp_approx_powl_cutoff_intensity,
+    uvhp_approx_powl_intensity,
+    uvhp_expo_intensity,
+    uvhp_sum_expo_intensity,
+)
+from HawkesPyLib.core.kernel import uvhp_approx_powl_cutoff_kernel, uvhp_approx_powl_kernel, uvhp_expo_kernel, uvhp_sum_expo_kernel
+from HawkesPyLib.core.logll import uvhp_approx_powl_cut_logL, uvhp_approx_powl_logL, uvhp_expo_logL, uvhp_sum_expo_logL
+from HawkesPyLib.util import FloatInExRange, IntInExRange, OneOf, PositiveFloatNdarray, PositiveOrderedFloatNdarray
 
 __all__ = ["UnivariateHawkesProcess"]
 
@@ -147,8 +138,8 @@ class UnivariateHawkesProcess:
                 self.theta = kwargs.pop("theta")
                 self._num_par = 3
 
-            except KeyError:
-                raise TypeError("For kernel 'expo' input for parameter 'theta' is requiered")
+            except KeyError as err:
+                raise TypeError("For kernel 'expo' input for parameter 'theta' is requiered") from err
 
         elif self._kernel == "sum-expo":
 
@@ -156,8 +147,8 @@ class UnivariateHawkesProcess:
                 self.theta_vec = kwargs.pop("theta_vec")
                 self._num_par = 2 + len(self.theta_vec)
 
-            except KeyError:
-                raise TypeError("For kernel 'sum-expo' input for parameter 'theta_vec' is requiered")
+            except KeyError as err:
+                raise TypeError("For kernel 'sum-expo' input for parameter 'theta_vec' is requiered") from err
 
         elif self._kernel in ["powlaw", "powlaw-cutoff"]:
 
@@ -168,8 +159,9 @@ class UnivariateHawkesProcess:
                 self.M = kwargs.pop("M")
                 self._num_par = 4
 
-            except KeyError:
-                raise TypeError("For kernels 'powlaw' and 'powlaw-cutoff' input for parameters 'alpha', 'tau0', 'm' and 'M' is requiered")
+            except KeyError as err:
+                raise TypeError("For kernels 'powlaw' and 'powlaw-cutoff' input for parameters "
+                                "'alpha', 'tau0', 'm' and 'M' is requiered") from err
 
         self._params_set = True
 

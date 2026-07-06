@@ -1,28 +1,27 @@
 import numpy as np
-from HawkesPyLib.core.simulation import (uvhp_approx_powl_cutoff_simulator,
-                                         uvhp_expo_simulator,
-                                         uvhp_approx_powl_simulator,
-                                         uvhp_sum_expo_simulator,
-                                         homogenous_poisson_simulator)
-from HawkesPyLib.core.intensity import (uvhp_approx_powl_cutoff_intensity,
-                                        uvhp_approx_powl_intensity,
-                                        uvhp_expo_intensity,
-                                        uvhp_sum_expo_intensity,
-                                        generate_eval_grid)
-from HawkesPyLib.util import (OneOf,
-                              FloatInExRange,
-                              IntInExRange,
-                              PositiveFloatNdarray)
-from HawkesPyLib.core.kernel import (uvhp_approx_powl_cutoff_kernel,
-                                     uvhp_approx_powl_kernel,
-                                     uvhp_expo_kernel,
-                                     uvhp_sum_expo_kernel)
+
+from HawkesPyLib.core.intensity import (
+    generate_eval_grid,
+    uvhp_approx_powl_cutoff_intensity,
+    uvhp_approx_powl_intensity,
+    uvhp_expo_intensity,
+    uvhp_sum_expo_intensity,
+)
+from HawkesPyLib.core.kernel import uvhp_approx_powl_cutoff_kernel, uvhp_approx_powl_kernel, uvhp_expo_kernel, uvhp_sum_expo_kernel
+from HawkesPyLib.core.simulation import (
+    homogenous_poisson_simulator,
+    uvhp_approx_powl_cutoff_simulator,
+    uvhp_approx_powl_simulator,
+    uvhp_expo_simulator,
+    uvhp_sum_expo_simulator,
+)
+from HawkesPyLib.util import FloatInExRange, IntInExRange, OneOf, PositiveFloatNdarray
 
 __all__ = ["ExpHawkesProcessSimulation", "SumExpHawkesProcessSimulation",
            "ApproxPowerlawHawkesProcessSimulation", "PoissonProcessSimulation"]
 
 
-class PoissonProcessSimulation():
+class PoissonProcessSimulation:
     r""" Class for simulation a homogenous Poisson process with rate parameter `mu`.
          The Poisson process is simulated over the half open intervall (0, T].
          In contrast to Hawkes processes, the intensity function \( \lambda(t) \),
@@ -59,7 +58,7 @@ class PoissonProcessSimulation():
         return self.timestamps
 
 
-class ExpHawkesProcessSimulation():
+class ExpHawkesProcessSimulation:
     r""" Class for simulation of univariate Hawkes processes with single exponential memory kernel.
         The conditional intensity function is defined as:
         $$ \lambda(t) = \mu + \dfrac{\eta}{\theta} \sum_{t_i < t} e^{(-(t - t_i)/\theta)} $$
@@ -150,7 +149,7 @@ class ExpHawkesProcessSimulation():
         return kernel_values
 
 
-class SumExpHawkesProcessSimulation():
+class SumExpHawkesProcessSimulation:
     r""" Class for simulation of univariate Hawkes processes with P-sum exponential memory kernel.
         The conditional intensity function is defined as:
         $$ \lambda(t) = \mu + \dfrac{\eta}{P} \sum_{t_i < t} \sum_{k=1}^{P} \dfrac{1}{\theta_k} e^{(-(t - t_i)/\theta_k)} $$
@@ -241,7 +240,7 @@ class SumExpHawkesProcessSimulation():
         return kernel_values
 
 
-class ApproxPowerlawHawkesProcessSimulation():
+class ApproxPowerlawHawkesProcessSimulation:
     r""" Class for simulation of univariate Hawkes processes with approximate power-law memory kernel.
         The conditional intensity function for the approximate power-law kernel is defined as:
 
